@@ -8,7 +8,7 @@
             <h3 style="margin-top:50px; margin-bottom: 50px;">Author Search Results</h3>
             {% for item in items %}
                 <p>
-                    <span style="font-size: 18px;"><a href="/author/{{ item['id'] }}">{{ item['title'] }}</a></span>
+                    <span style="font-size: 18px;"><a href="/author/{{ item }}">{{ item }}</a></span>
                 </p>
                 <hr>
             {% endfor %}

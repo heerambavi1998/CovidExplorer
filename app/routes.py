@@ -3,7 +3,7 @@ from app import app
 
 from pymongo import MongoClient
 import pandas as pd
-from .elasticSearch import conf_es, author_es, paper_es, fulltextsearch
+from .elasticSearch import author_es, paper_es, fulltextsearch
 
 #mongoClient = MongoClient('localhost', 20000)
 #db = mongoClient.new_papers
@@ -35,16 +35,16 @@ def index():
 def overall_search():
     field = request.form.get("field")
     text = request.form.get("search-text")
-    # if field == 'Author':
-    #     p = []
-    #     authors = author_es(text)
-    #     for t in authors:
-    #         temp = {"title" : t[1], "id" : t[0]}
-    #         p.append(temp)
-    #     return  render_template('search_author.html', items = p)
-    # if field == 'Paper':
-    #     papers = paper_es(text)
-    #     return  render_template('search_paper.html', items = papers)
+    if field == 'Author':
+        # p = []
+        authors = author_es(text)
+        # for t in authors:
+        #     temp = {"a_name" : t[1], "a_id" : t[0]}
+        #     p.append(temp)
+        return  render_template('search_author.html', items = authors, keyword=text)
+    if field == 'Paper':
+        papers = paper_es(text)
+        return  render_template('search_paper.html', items = papers, keyword=text)
     if field == 'Full-Text':
         papers = fulltextsearch(text)
         return render_template('fulltextsearch.html', items=papers, keyword=text)
