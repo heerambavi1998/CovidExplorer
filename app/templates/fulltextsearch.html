@@ -1,0 +1,21 @@
+<html>
+        {% include 'head.html' %}
+
+    <body>
+        {% include 'navbar.html' %}
+        {% include 'second-nav.html' %}
+        <section>
+
+        </section>
+        <div class="container" style="margin-top:10px">
+            <h3 style="margin-top:50px; margin-bottom: 50px;">FullText Search Results</h3>
+            {% for item in items %}
+                <div>
+                    <h5>{{item}}</h5>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </body>
+
+</html>

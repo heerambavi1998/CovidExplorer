@@ -1,0 +1,375 @@
+<html>
+    <head>
+        {% include 'head.html' %}
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        <section>
+            <div class="container-fluid">
+                <div class="row" style="margin-top:50px">
+                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <h2 style="padding:20px;">{{conf_title}}</h2>
+
+                        <!-- <div class="d-none d-lg-block">
+                            <div id="timelineNonDate"></div>
+                        </div> -->
+                        <h5 style="padding:20px">Yearwise Venues:-</h5>
+                        
+                        {% for year in conf_years %}
+                        <div class="inline" style="margin-top: 10px">
+                            <span style="padding: 20px; padding-top: 10px"><a href="/conference/{{ conf_title }}-{{ year }}" type="btn" class="btn btn-outline-secondary">{{ conf_title }}-{{ year }}</a></span>
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+
+                    <!-- <div class="col-lg-5">
+                        
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-graph1" role="tab" aria-controls="nav-home" aria-selected="true">Linguistic</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-graph2" role="tab" aria-controls="nav-profile" aria-selected="false">Task</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-graph3" role="tab" aria-controls="nav-contact" aria-selected="false">Approach</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-graph4" role="tab" aria-controls="nav-contact" aria-selected="false">Language</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-graph5" role="tab" aria-controls="nav-contact" aria-selected="false">Dataset Type</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-graph1" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div id="top1-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph2" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                <div id="top2-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph3" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div id="top3-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph4" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div id="top4-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph5" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div id="top5-year"></div>
+                            </div>
+                        </div>
+
+                    </div> -->
+                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="card stats" style="margin-top:100px;">
+                            <div id="PaperYearly"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="card stats">
+                            <div id="CitYearly"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="card stats">
+                            <div id="myDiv"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-lg-6">
+                        <div id="paper-year"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="citation"></div>
+                    </div>
+                </div> -->
+                <!-- <div class="col-lg-8 offset-lg-2">
+                    <div id="cumulative-citation"></div>
+                </div> -->
+            </div>
+        </section>
+
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+            var data1 = [
+                        {
+                            x: {{ graph_data_conf_years | safe }},
+                            y: {{ graph_data_conf_counts | safe }},
+                            type: 'bar'
+                        }
+                    ];
+           
+            Plotly.newPlot('PaperYearly', data1, {"title" : {"text" : "Yearly Paper Distribution"}, "xaxis": {range:[1979,2019]}},{showSendToCloud:false});  
+            
+             var data2 = [
+                        {
+                            x: {{ graph_data_cit_years | safe }},
+                            y: {{ graph_data_cit_counts | safe }},
+                            type: 'bar'
+                        }
+                    ];
+           
+            Plotly.newPlot('CitYearly', data2, {"title" : {"text" : "Yearly Citation Distribution"}, "xaxis": {range:[1979,2019]}},{showSendToCloud:false});
+
+            var trace1 = {
+              x: {{graph_data_ling_id_year[0]}},
+              y: {{graph_data_ling_id_counts[0]}},
+              name: 'Psycho Linguistics',
+              type: 'scatter'
+                        };
+            var trace2 = {
+                          x: {{graph_data_ling_id_year[1]}},
+                          y: {{graph_data_ling_id_counts[1]}},
+                          name: 'Syntax',
+                          type: 'scatter'
+                        };
+            var trace3 = {
+                          x: {{graph_data_ling_id_year[2]}},
+                          y: {{graph_data_ling_id_counts[2]}},
+                          name: 'Cognitive Linguistics',
+                          type: 'scatter'
+                        };
+            var trace4 = {
+                          x: {{graph_data_ling_id_year[3]}},
+                          y: {{graph_data_ling_id_counts[3]}},
+                          name: 'Morphology',
+                          type: 'scatter'
+                        };
+            var trace5 = {
+                          x: {{graph_data_ling_id_year[4]}},
+                          y: {{graph_data_ling_id_counts[4]}},
+                          name: 'Prosody',
+                          type: 'scatter'
+                        };
+            var trace6 = {
+                          x: {{graph_data_ling_id_year[5]}},
+                          y: {{graph_data_ling_id_counts[5]}},
+                          name: 'Phonetics',
+                          type: 'scatter'
+                        };
+            var trace7 = {
+                          x: {{graph_data_ling_id_year[6]}},
+                          y: {{graph_data_ling_id_counts[6]}},
+                          name: 'Typology',
+                          type: 'scatter'
+                        };
+            var trace8 = {
+                          x: {{graph_data_ling_id_year[7]}},
+                          y: {{graph_data_ling_id_counts[7]}},
+                          name: 'Discourse',
+                          type: 'scatter'
+                        };
+            var trace9 = {
+                          x: {{graph_data_ling_id_year[8]}},
+                          y: {{graph_data_ling_id_counts[8]}},
+                          name: 'Multilingualism',
+                          type: 'scatter'
+                        };
+            var trace10 = {
+                          x: {{graph_data_ling_id_year[9]}},
+                          y: {{graph_data_ling_id_counts[9]}},
+                          name: 'Distributional Semantics',
+                          type: 'scatter'
+                        };
+            var trace11 = {
+                          x: {{graph_data_ling_id_year[10]}},
+                          y: {{graph_data_ling_id_counts[10]}},
+                          name: 'Ontologies',
+                          type: 'scatter'
+                        };
+            var trace12 = {
+                          x: {{graph_data_ling_id_year[11]}},
+                          y: {{graph_data_ling_id_counts[11]}},
+                          name: 'Embeddings',
+                          type: 'scatter'
+                        };
+            var trace13 = {
+                          x: {{graph_data_ling_id_year[12]}},
+                          y: {{graph_data_ling_id_counts[12]}},
+                          name: 'Grounded Semantics',
+                          type: 'scatter'
+                        };
+            var trace14 = {
+                          x: {{graph_data_ling_id_year[13]}},
+                          y: {{graph_data_ling_id_counts[13]}},
+                          name: 'Lexical Semantics',
+                          type: 'scatter'
+                        };
+            var trace15 = {
+                          x: {{graph_data_ling_id_year[14]}},
+                          y: {{graph_data_ling_id_counts[14]}},
+                          name: 'Language Change',
+                          type: 'scatter'
+                        };
+            var trace16 = {
+                          x: {{graph_data_ling_id_year[15]}},
+                          y: {{graph_data_ling_id_counts[15]}},
+                          name: 'Code Switching',
+                          type: 'scatter'
+                        };
+            var trace17 = {
+                          x: {{graph_data_ling_id_year[16]}},
+                          y: {{graph_data_ling_id_counts[16]}},
+                          name: 'Pragmatics',
+                          type: 'scatter'
+                        };
+            var trace18 = {
+                          x: {{graph_data_ling_id_year[17]}},
+                          y: {{graph_data_ling_id_counts[17]}},
+                          name: 'Code Mixing',
+                          type: 'scatter'
+                        };
+            var trace19 = {
+                          x: {{graph_data_ling_id_year[18]}},
+                          y: {{graph_data_ling_id_counts[18]}},
+                          name: 'Event Semantics',
+                          type: 'scatter'
+                        };
+            var trace20 = {
+                          x: {{graph_data_ling_id_year[19]}},
+                          y: {{graph_data_ling_id_counts[19]}},
+                          name: 'Formal Semantics',
+                          type: 'scatter'
+                        };
+            var trace21 = {
+                          x: {{graph_data_ling_id_year[20]}},
+                          y: {{graph_data_ling_id_counts[20]}},
+                          name: 'Neuro-Linguistics',
+                          type: 'scatter'
+                        };
+            var trace22 = {
+                          x: {{graph_data_ling_id_year[21]}},
+                          y: {{graph_data_ling_id_counts[21]}},
+                          name: 'Phonology',
+                          type: 'scatter'
+                        };
+            var trace23 = {
+                          x: {{graph_data_ling_id_year[22]}},
+                          y: {{graph_data_ling_id_counts[22]}},
+                          name: 'Gesture',
+                          type: 'scatter'
+                        };
+
+            var data = [trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10, trace11, trace12, trace13, trace14, trace15, trace16, trace17, trace18, trace19, trace20, trace21, trace22, trace23];
+
+            Plotly.newPlot('myDiv', data, {"title" : {"text" : "Yearly Linguistic Topic Distribution"}, 'height': 900});
+
+        </script>
+
+        <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+
+                $.ajax({
+                    type: "POST",
+                    url: "/get_data/conference",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        conf_title: "{{ conf_title }}",
+                    }),
+                    success: function(resp) {
+                        var data = [
+                            {
+                                x: resp.x,
+                                y: resp.y,
+                                type: 'bar'
+                            }
+                        ];
+                        Plotly.newPlot('paper-year', data, {"title" : {"text" : "Paper distribution over the years"}}, {showSendToCloud:true});   
+    
+                        var data1 = [
+                            {
+                                labels: resp.linguistic.label,
+                                values: resp.linguistic.count,
+                                type: 'pie'
+                            }
+                        ];
+                        Plotly.newPlot('top1-year', data1, {"title" : {"text" : "Linguistic based papers distribution over the years"}}, {showSendToCloud:true});   
+    
+                        var data2 = [
+                            {
+                                labels: resp.task.label,
+                                values: resp.task.count,
+                                type: 'pie'
+                            }
+                        ];
+                        Plotly.newPlot('top2-year', data2, {"title" : {"text" : "Task based papers distribution over the years"}}, {showSendToCloud:true});   
+    
+                        var data3 = [
+                            {
+                                labels: resp.approach.label,
+                                values: resp.approach.count,
+                                type: 'pie'
+                            }
+                        ];
+                        Plotly.newPlot('top3-year', data3, {"title" : {"text" : "Approach based papers distribution over teh years"}}, {showSendToCloud:true});   
+    
+    
+                        var data4 = [
+                            {
+                                labels: resp.language.label,
+                                values: resp.language.count,
+                                type: 'pie'
+                            }
+                        ];
+                        Plotly.newPlot('top4-year', data4, {"title" : {"text" : "Language based papers distribution over the years"}}, {showSendToCloud:true});   
+    
+    
+                        var data5 = [
+                            {
+                                labels: resp.dataset_type.label,
+                                values: resp.dataset_type.count,
+                                type: 'pie'
+                            }
+                        ];
+                        Plotly.newPlot('top5-year', data5, {"title" : {"text" : "Dataset set based papers distribution over the years"}}, {showSendToCloud:true});   
+    
+    
+                        // var data6 = [
+                        //     {
+                        //         x: resp.last_n_years,
+                        //         y: resp.citation_last_n_years,
+                        //         type: 'line'
+                        //     }
+                        // ];
+                        // Plotly.newPlot('cumulative-citation', data6, {"title" : {"text" : "Cumulative Citation Distribution"}}, {showSendToCloud:true});   
+    
+                        var data7 = [
+                            {
+                                x: resp.last_n_years,
+                                y: resp.citation_distribution,
+                                type: 'line'
+                            }
+                        ];
+                        Plotly.newPlot('citation', data7, {"title" : {"text" : "Citation Distribution"}}, {showSendToCloud:true});   
+    
+                    }
+                });
+    
+            </script>      -->
+            <script src="{{ url_for('static',filename='d3.v2.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='timeknots-min.js') }}"></script>
+
+            <script>
+                // var nonDatedata = [
+                //     {"value": 224, "name": "Player 1" },
+                //     {"value": 249, "name": "Player 2" },
+                //     {"value": 297, "name": "Player 3" },
+                //     {"value": 388, "name": "Player 4" },
+                //     {"value": 397, "name": "Player 5" },
+                //     {"value": 418, "name": "Player 6" }
+                //     ];
+                var nonDatedata = {{ timeline_data | safe }};
+                    TimeKnots.draw("#timelineNonDate", nonDatedata, {dateDimension:false, color: "teal", width:1100, showLabels: true, labelFormat: "%Y"});
+            
+            </script>
+
+
+        <br>
+        {% include 'footerbar.html' %}
+    </body>
+</html>

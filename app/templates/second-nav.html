@@ -1,0 +1,41 @@
+<form action="/search" method="post" novalidate="novalidate">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row" style="padding:30px; background-color: gainsboro">
+                <div class="col-lg-2 offset-lg-1 ">
+                    <div class="form-group">
+                        <select class="form-control" id="sel1" name="field">
+                            <option>All</option>
+                            <option>Author</option>
+                            <option>Paper</option>
+                            <option>Venues</option>
+                            <option>URL Domain</option>
+                            <option>Field of Study</option>
+                            <option>Full-Text</option>
+                        </select>
+                    </div> 
+                </div>
+                <div class="col-lg-7">
+                    <input type="text" class="form-control search-slt" id="all-search" name="search-text" placeholder="search..." style="height: 40px !important">
+                </div>
+                <div class="col-lg-1">
+                    <button class="btn btn-secondary button" id="all-submit" type="submit" style="height: 40px !important" disabled><i class="fa fa-search" ></i></button>  
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    $('#all-search').on('keyup', function() {
+        var text_length = $(this).val().replace(/\s/g, "").length;
+        if(text_length > 0){
+            $('#all-submit').removeAttr("disabled");
+        }
+        else {
+            $('#all-submit').attr("disabled", true);
+        }
+    });    
+</script>

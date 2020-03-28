@@ -1,0 +1,151 @@
+<html>
+        {% include 'head.html' %}
+
+    <body>
+        {% include 'navbar.html' %}
+
+        <section>
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-10 author-info offset-lg-1">
+                        <h2 style="margin-left: 0px; margin-top: 50px; text-align: center">Venues</h2>                     
+
+
+                      
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-sec" id="main">
+            <div class="container" style="padding-left: 100px">
+                <div class="row" style="margin-bottom:30px;">
+                    <div class="col-lg-11">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        {% for count in range(conf_dict_keys | length) %}
+                        {% if count == 0%}
+                        <a class="nav-item nav-link active" id="nav-{{ conf_dict_keys[count] }}-tab" data-toggle="tab" href="#nav-{{ conf_dict_keys[count] }}" role="tab" aria-controls="nav-{{ conf_dict_keys[count] }}" aria-selected="true">{{ conf_dict_keys[count] }}</a>
+                        {% else %}
+                        <a class="nav-item nav-link" id="nav-{{ conf_dict_keys[count] }}-tab" data-toggle="tab" href="#nav-{{ conf_dict_keys[count] }}" role="tab" aria-controls="nav-{{ conf_dict_keys[count] }}" aria-selected="false">{{ conf_dict_keys[count] }}</a>
+                        {% endif %}
+                        {% endfor %}
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <br>
+                        {% for count in range(conf_dict_keys | length) %}
+                        {% if count == 0%}
+                        <div class="tab-pane fade show active" id="nav-{{ conf_dict_keys[count] }}" role="tabpanel" aria-labelledby="nav-{{ conf_dict_keys[count] }}-tab">
+                            <div style="margin-top:10px;"></div>
+                            {% for conf in conf_dict[conf_dict_keys[count]] %}
+                                <a href="/conference_page/{{ conf }}" class="btn btn-light">{{ conf }}</a>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="tab-pane fade" id="nav-{{ conf_dict_keys[count] }}" role="tabpanel" aria-labelledby="nav-{{ conf_dict_keys[count] }}-tab">
+                            <div style="margin-top:10px;">
+                            </div>
+                            {% for conf in conf_dict[conf_dict_keys[count]] %}
+                                <a href="/conference_page/{{ conf }}" class="btn btn-light">{{ conf }}</a>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        <!-- <img src="/static/back.jpg"> -->
+    </div>
+            <div class="container" style="padding-top: -20px;">
+                <form action="/conference_search" method="post" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row" style="padding:10px;">
+                                <div class="col-lg-6 offset-lg-2 col-md-9 col-sm-12 p-0" >
+                                    <input type="text" class="form-control search-slt" id="conf-search" name="conference" placeholder="Where do you want to publish?">
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-sm-12 p-0">
+                                    <button class="btn btn-secondary button" id="conf-submit" type="submit">Search</button>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+
+        <section>
+            <div class="container" style="padding-left: 100px">
+
+                <div class="row" style="margin-top:50px;">
+                    <div class="col-lg-4 author-info">
+                        <div class="card stats" >
+                            <h5>Latest Venues</h5>
+                            {% for conf in latest_confs %}
+                                <li><a href="/conference/{{ conf }}-2019">{{ conf }} - 2019</a></li>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-4 author-info">
+                        <div class="card stats">
+                            <h5>Venues with Most Papers</h5>
+                            {% for conf in all_time_top %}
+                                <li><a href="/conference/{{ conf[0] }}-{{ conf[1] }}">{{ conf[0] }} - {{ conf[1] }}</a></li>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-4 author-info">
+                        <div class="card stats">
+                            <h5>Top Cited Venues</h5>
+                            {% for conf in all_time_top_cite %}
+                                <li><a href="/conference/{{ conf[0] }}-{{ conf[1] }}">{{ conf[0] }} - {{ conf[1] }}</a></li>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <script>
+                $('#conf-search').on('keyup', function() {
+                    var text_length = $(this).val().replace(/\s/g, "").length;
+                    if(text_length > 0){
+                        $('#conf-submit').removeAttr("disabled");
+                    }
+                    else {
+                        $('#conf-submit').attr("disabled", true);
+                    }
+                });    
+            
+        </script>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+            var data = [
+                        {
+                            x: ["WS - 2017","ACL - 2019","WS - 2018","WS - 2016","WS - 2019"],
+                            y: [1406, 1393, 1313, 1269, 1199],
+                            type: 'bar'
+                        }
+                    ];
+                    Plotly.newPlot('top-number', data, {"title" : {"text" : "Most Number of Papers"}, xaxis: {"tickangle": -90},}, {showSendToCloud:true});   
+
+            var data1 = [
+                {
+                    x: ["EMNLP - 2014","ACL - 2002","ACL - 2007","WS - 2004","ACL - 2006"],
+                    y: [4531, 4472, 4404, 4373, 4139],
+                    type: 'bar'
+                }
+            ];
+            Plotly.newPlot('top-cite', data1, {"title" : {"text" : "Top Cited Conference"}, xaxis: {"tickangle": -90},}, {showSendToCloud:true});   
+            
+        </script>
+    <br>
+    {% include 'footerbar.html' %}   
+    </body>
+</html>

@@ -1,0 +1,80 @@
+<html>
+    <head>
+        {% include 'head.html' %}
+    </head>
+    <body style="background-color: #e0e0e0">
+        {% include 'navbar.html' %}
+        <section>
+            <div class="container">
+                <div class="row" style="margin-top:100px">
+                    <div class="col-lg-6 author-info" >
+                            <h2>{{url_id}}
+                            </h2>
+                            <p>{{summary}}<a href = "{{wiki_link}}">{{more_info}}</a></p></p>
+
+                        <div class="card">           
+                            <div class="card-body">
+                                <h6> Total links:- {{len_link_list}}</h6>
+                                <h6> Total paper mentions:- {{len_code_list}} </h6>
+                                <br>
+                                <h6 style="margin-top: 10px">First ACL Paper:- {{min_year}}</h6>
+                                <h6>Latest ACL Paper:- {{max_year}}</h6>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 author-info" >
+                        <div id="newlink"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="container">
+                <div class="citations" style="padding:20px;margin-top:50px; background-color: white">
+                    
+                    <div class="row" style="padding:20px;">
+                        <div class="col-lg-12">
+                            <h3>Links</h3>
+                            <p>Alongwith its Literature Mentions</p>
+                            <hr>
+                        
+                            {% for link in link_list %}
+
+                            <a href="{{ link }}">{{link}}</a><br>
+
+                                {% for list_code in link_dict[link] %}
+                                    <span style="font-size: 14px; padding-left: 10px;"><a href="/paper/{{list_code[0]}}" style="color: black !important;">{{ list_code[1] }}  </a></span>
+                                        
+                                    <a href="/paper/{{list_code[0]}}/"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a><br>
+                                {% endfor %} 
+                                <br>
+
+
+                            {% endfor %} 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+            var data = [
+                        {
+                            x: {{ year_dict_key | safe }},
+                            y: {{ year_dict_value | safe }},
+                            type: 'bar'
+                        }
+                    ];
+                    Plotly.newPlot('newlink', data, {"title" : {"text" : "Yearly Link Distribution"}, "xaxis": {range:[1995,2019]}}, {showSendToCloud:false});  
+            
+        </script>
+
+
+
+        <br>
+        {% include 'footerbar.html' %}
+    </body>
+</html>

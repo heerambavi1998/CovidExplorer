@@ -1,0 +1,319 @@
+<html>
+    <head>
+        {% include 'head.html' %}
+    </head>
+    <body style="background-color: #e0e0e0">
+        {% include 'navbar.html' %}
+        <section>
+            <div class="container-fluid">
+                <div class="row" style="margin-top:50px">
+                    <div class="col-lg-5 offset-lg-1">
+                        <h2>{{  author }}</h2>    
+                    </div>
+                </div>
+                <div class="row">       
+                    <div class="col-lg-6 author-info offset-lg-1" style="margin-top: 20px">  
+                        <div class="card">           
+                            <div class="card-body">
+                                <h6>Number of Papers:- {{ auth_paper_count }}</h6>
+                                <h6>Number of Citations:-   {{ auth_citations }}  </h6>
+                                <h6 style="margin-top: 30px">First ACL Paper:- {{first_acl_paper}}</h6>
+                                <h6>Latest ACL Paper:- {{last_acl_paper}}</h6>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top: 20px">           
+                            <div class="card-body">
+                                <h6 style="margin-top: 10px">Venues:-</h6>
+                                {% for conf in auth_conf_names %}
+                                <div class="inline" style="margin-top: 5px">
+                                    <span style="margin-left: 10px;"><a href="/conference_page/{{ conf }}" type="btn" class="btn btn-outline-secondary">{{ conf }}</a></span>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card" style="margin-top: 20px">           
+                            <div class="card-body">
+                                <h6>Co-Authors:-</h6>
+                                <!-- <div class="less"> -->
+                                {% for count in range(auth_coauthors | length) %}
+                                    <li style="padding-left: 5px"><a href="/author/{{ auth_coauthors[count] }}">{{ coauth_names[count]}}</a></li>
+                                {% endfor %}
+                          </div>
+                      </div>
+                            </div>
+                            <div class="col-md-6">
+                             <div class="card" style="margin-top: 20px">           
+
+                                <div class="card-body">
+                              <h6>Similar Authors:-</h6>
+                                <!-- <div class="less"> -->
+                                {% for author in similar_authors %}
+                                    <li style="padding-left: 5px"><a href="/author/{{ author[0] }}">{{ author[1] }}</a></li>
+                                {% endfor %}
+                          </div>
+                            </div>
+                        </div>
+                        </div>
+<!-- 
+                        <div class="card" style="margin-top: 20px">           
+                            <div class="card-body">
+                                <h6>Co-Authors :-</h6>
+                            
+                                {% for count in range(auth_coauthors | length) %}
+                                    <li style="padding-left: 5px"><a href="/author/{{ auth_coauthors[count] }}">{{ coauth_names[count]}}</a></li>
+                                {% endfor %}
+                          </div>
+                          <div class="card-body">
+                              <h6>Similar Authors :-</h6>
+                                
+                                {% for author in similar_authors %}
+                                    <li style="padding-left: 5px"><a href="/author/{{ author }}">{{ author}}</a></li>
+                                {% endfor %}
+                          </div>
+                        </div> -->
+
+                        <div style="margin-top: 20px">           
+                            <div class="card">           
+                                <div class="card-body">
+
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    {% for year in range(auth_paper_data | length) %}
+                                    {% if year == 0%}
+                                    <a class="nav-item nav-link active" id="nav-{{ auth_paper_data[year][0] }}-tab" data-toggle="tab" href="#nav-{{ auth_paper_data[year][0] }}" role="tab" aria-controls="nav-{{ auth_paper_data[year][0] }}" aria-selected="true">{{ auth_paper_data[year][0] }}</a>
+                                    {% else %}
+                                    <a class="nav-item nav-link" id="nav-{{ auth_paper_data[year][0] }}-tab" data-toggle="tab" href="#nav-{{ auth_paper_data[year][0] }}" role="tab" aria-controls="nav-{{ auth_paper_data[year][0] }}" aria-selected="false">{{ auth_paper_data[year][0] }}</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent">
+                                    {% for year in range(auth_paper_data | length) %}
+                                    {% if year == 0%}
+                                    <div class="tab-pane fade show active" id="nav-{{ auth_paper_data[year][0] }}" role="tabpanel" aria-labelledby="nav-{{ auth_paper_data[year][0] }}-tab">
+                                        <div style="margin-top:20px;"></div>
+                                        {% for paper in auth_paper_data[year][1] %}
+                                            <div>
+                                                <h6><a href="/paper/{{ paper['id'] }}" style="color: black">{{ paper['title'] }} </a>
+                                                {% for v_count in range(paper["venue"] | length) %}
+                                                    <a href="/conference/{{ paper['venue'][v_count] }}-{{ paper['year'] }}" type="btn" class="btn btn-outline-secondary" style="float: right;">{{ paper['venue'][v_count] }}</a>
+                                                {% endfor %}
+                                                </h6>
+                                                {% for count in range(paper['authors'] | length) %}
+                                                    <span><a href="/author/{{ paper['authors_id'][count] }}" style="color: black !important">{{ paper['authors'][count] }} | </a></span>
+                                                {% endfor %}  
+                                            </div> 
+                                            <hr>
+                                        <br>  
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <div class="tab-pane fade" id="nav-{{ auth_paper_data[year][0] }}" role="tabpanel" aria-labelledby="nav-{{ auth_paper_data[year][0] }}-tab">
+                                        <div style="margin-top:20px;">
+                                        </div>
+                                        {% for paper in auth_paper_data[year][1] %}
+                                            <div>
+                                                <h6><a href="/paper/{{ paper['id'] }}" style="color: black">{{ paper['title'] }} </a>
+                                                {% for v_count in range(paper["venue"] | length) %}
+                                                    <a href="/conference/{{ paper['venue'][v_count] }}-{{ paper['year'] }}" type="btn" class="btn btn-outline-secondary" style="float: right;">{{ paper['venue'][v_count] }}</a>
+                                                {% endfor %}
+                                                </h6>
+                                                {% for count in range(paper['authors'] | length) %}
+                                                    <span><a href="/author/{{ paper['authors_id'][count] }}" style="color: black !important">{{ paper['authors'][count] }} | </a></span>
+                                                {% endfor %}  
+                                            </div> 
+                                            <hr>
+                                        <br>  
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            {% if count_author_linguistic > 0 %}
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="nav-graph1-tab" data-toggle="tab" href="#nav-graph1" role="tab" aria-controls="home" aria-selected="true">Linguistic</a>
+                                </li>
+                            {% endif %}
+                            {% if count_author_task > 0 %}                            
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav-graph2-tab" data-toggle="tab" href="#nav-graph2" role="tab" aria-controls="profile" aria-selected="false">Task</a>
+                            </li>
+                            {% endif %}
+                            {% if count_author_approach > 0 %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav-graph3-tab" data-toggle="tab" href="#nav-graph3" role="tab" aria-controls="contact" aria-selected="false">Approach</a>
+                            </li>
+                            {% endif %}
+                            {% if count_author_language > 0 %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav-graph4-tab" data-toggle="tab" href="#nav-graph4" role="tab" aria-controls="contact" aria-selected="false">Language</a>
+                            </li>
+                            {% endif %}
+                            {% if count_author_dataset_type > 0 %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav-graph5-tab" data-toggle="tab" href="#nav-graph5" role="tab" aria-controls="contact" aria-selected="false">Dataset Type</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="nav-graph1" role="tabpanel" aria-labelledby="home-tab">.
+                                <div id="top1-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph2" role="tabpanel" aria-labelledby="profile-tab">
+                                <div id="top2-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph3" role="tabpanel" aria-labelledby="profile-tab">
+                                <div id="top3-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph4" role="tabpanel" aria-labelledby="profile-tab">
+                                <div id="top4-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph5" role="tabpanel" aria-labelledby="profile-tab">
+                                <div id="top5-year"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:20px" id="paper-year"></div>
+
+                        {% if auth_citations > 0 %}
+                        <div style="margin-top:20px" id="citation"></div>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <script>
+            $('#see-coauthors').on('click', function(){
+                if($(this).html() == 'See more'){
+                    $(this).html('See less');
+                    $('.more').css("display", "inline");
+                    $('.less').css("display", "none");
+                }
+                else {
+                    $(this).html('See more');
+                    $('.less').css("display", "inline");
+                    $('.more').css("display", "none");
+                }
+            });
+        
+        </script>
+
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+
+            $.ajax({
+                type: "POST",
+                url: "/get_data/author",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    author_id: "{{ author_id }}"
+                }),
+                success: function(resp) {
+                    var data = [
+                        {
+                            x: resp.last_n_years,
+                            y: resp.paper_distribution,
+                            type: 'bar'
+                        }
+                    ];
+
+                    Plotly.newPlot('paper-year', data,{"title" : {"text" : "Paper Distribution Over Years"}, "xaxis": {range:[1995,2020]}}, {showSendToCloud:true});   
+
+                    var data0 = [
+                        {
+                            x: resp.last_n_years,
+                            y: resp.citation_distribution,
+                            type: 'bar'
+                        }
+                    ];
+                    Plotly.newPlot('citation', data0, {"title" : {"text" : "Citation Distribution Over Years"}, "xaxis": {range:[1995,2020]}}, {showSendToCloud:true});  
+
+                    var data1 = [
+                        {
+                            labels: resp.linguistic.label,
+                            values: resp.linguistic.count,
+                            type: 'pie'
+                        }
+                    ];
+
+                    var layout = { height: 300, width: 300 };
+
+                    Plotly.newPlot('top1-year', data1, {"title" : {"text" : "Linguistic Based Work Distribution"}, showlegend:false},  {showSendToCloud:true});   
+
+                    var data2 = [
+                        {
+                            labels: resp.task.label,
+                            values: resp.task.count,
+                            type: 'pie'
+                        }
+                    ];
+
+                    // var layout = { height: 300, width: 300 };
+
+                    Plotly.newPlot('top2-year', data2, {"title" : {"text" : "Task Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});   
+
+                    var data3 = [
+                        {
+                            labels: resp.approach.label,
+                            values: resp.approach.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('top3-year', data3, {"title" : {"text" : "Approach Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});   
+
+
+                    var data4 = [
+                        {
+                            labels: resp.language.label,
+                            values: resp.language.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('top4-year', data4, {"title" : {"text" : "Language Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});   
+
+
+                    var data5 = [
+                        {
+                            labels: resp.dataset_type.label,
+                            values: resp.dataset_type.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('top5-year', data5, {"title" : {"text" : "Dataset Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});   
+
+
+                    // var data6 = [
+                    //     {
+                    //         x: resp.last_n_years,
+                    //         y: resp.citation_last_n_years,
+                    //         type: 'line'
+                    //     }
+                    // ];
+                    // Plotly.newPlot('cumulative-citation', data6, {"title" : {"text" : "Cumulative Citation Distribution"}}, {showSendToCloud:true});   
+
+                     
+
+                }
+            });
+
+        </script>     
+
+        <br>
+        {% include 'footerbar.html' %}
+    </body>
+</html>

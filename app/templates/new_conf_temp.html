@@ -1,0 +1,389 @@
+<html>
+    <head>
+        {% include 'head.html' %}
+    </head>
+     <body style="background-color: #e0e0e0">
+        {% include 'navbar.html' %}
+        <section>
+            <div class="container">
+                <!-- <div class="row" style="margin-top:50px">
+
+                    
+                </div> -->
+                <!-- <div class="row"> -->
+                
+                
+                <div class="row" style="margin-top:100px">
+                    <div class="col-lg-7">
+                        <h2 style="padding:20px;">{{conf_title}} - {{conf_year}}</h2>
+
+                        <div class="card">
+                            <div class="card-body">
+                                {% for year in range(conf_paper_data | length) %}
+                                    <h6> Total Papers:- {{conf_paper_count}}</h6>
+                                    <h6> Total Papers accross all years:- {{ conf_papers }}</h6>
+                                    <h6> Total Citations :- {{ conf_citations }}</h6>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    <div class="citations" style="padding:20px;margin-top:20px;background-color: white">
+                        
+                       <!--  <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            {% for year in range(conf_paper_data | length) %}
+                            {% if year == 0%}
+                            <a class="nav-item nav-link active" id="nav-{{ conf_paper_data[year][0] }}-tab" data-toggle="tab" href="#nav-{{ conf_paper_data[year][0] }}" role="tab" aria-controls="nav-{{ conf_paper_data[year][0] }}" aria-selected="true">{{ conf_paper_data[year][0] }}</a>
+                            {% endif %}
+                            {% endfor %}
+                            </div>
+                        </nav> -->
+
+                        <div>
+                            <div class="pagination">
+                                {% if page_number > 1%}
+                                    <a href="/conference/{{conf_title}}-{{conf_year}}?page={{page_number - 1}}">&laquo;</a>
+                                {% endif %}
+                                {% for page in pages %}
+                                    {% if page == page_number %}
+                                        <a class='active' href="/conference/{{conf_title}}-{{conf_year}}?page={{page}}"> {{page}} </a>
+                                    {% else %}
+                                        {% if page > 0 and page <= total_pages %}
+                                        <a href="/conference/{{conf_title}}-{{conf_year}}?page={{page}}"> {{page}} </a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_number < total_pages %}
+                                    <a href="/conference/{{conf_title}}-{{conf_year}}?page={{page_number + 1}}">&raquo;</a>
+                                {% endif %}
+                            </div>                            
+                        </div>
+
+                        <div class="tab-content" id="nav-tabContent">
+                            {% for year in range(conf_paper_data | length) %}
+                            {% if year == 0%}
+                            <div class="tab-pane fade show active" id="nav-{{ conf_paper_data[year][0] }}" role="tabpanel" aria-labelledby="nav-{{ conf_paper_data[year][0] }}-tab">
+                                <div style="margin-top:20px;"></div>
+                                {% for paper in conf_paper_data[year][1] %}
+                                    <div>
+                                        <h6><a href="/paper/{{ paper['id'] }}" style="color: black">{{ paper['title'] }}</a></h6>
+                                        {% for count in range(paper['authors'] | length) %}
+                                            <span><a href="/author/{{ paper['authors_id'][count] }}" style="color: black !important">{{ paper['authors'][count] }} | </a></span>
+                                        {% endfor %}  
+                                    </div> 
+                                    <hr>
+                                <br>  
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="tab-pane fade" id="nav-{{ auth_paper_data[year][0] }}" role="tabpanel" aria-labelledby="nav-{{ auth_paper_data[year][0] }}-tab">
+                                <div style="margin-top:20px;"></div>
+                                {% for paper in conf_paper_data[year][1] %}
+                                    <div>
+                                        <h6><a href="/paper/{{ paper['id'] }}" style="color: black">{{ paper['title'] }}</a></h6>
+                                        {% for count in range(paper['authors'] | length) %}
+                                            <span><a href="/author/{{ paper['authors_id'][count] }}" style="color: black !important">{{ paper['authors'][count] }} | </a></span>
+                                        {% endfor %}  
+                                    </div> 
+                                    <hr>
+                                <br>  
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    </div>
+
+
+                    <div class="col-lg-5">
+                        
+                        <h3 style="margin-top: 20px;">Conference Topic Distribution</h3>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-graph1" role="tab" aria-controls="nav-home" aria-selected="true">Linguistic</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-graph2" role="tab" aria-controls="nav-profile" aria-selected="false">Task</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-graph3" role="tab" aria-controls="nav-contact" aria-selected="false">Approach</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-graph4" role="tab" aria-controls="nav-contact" aria-selected="false">Language</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-graph5" role="tab" aria-controls="nav-contact" aria-selected="false">Dataset</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-graph1" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div id="top1-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph2" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                <div id="top2-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph3" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div id="top3-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph4" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div id="top4-year"></div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-graph5" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div id="top5-year"></div>
+                            </div>
+                        </div>
+                        <!-- <div id="paper-year" style="margin-top:20px;"></div> -->
+                        <!-- <div id="citation" style="margin-top:20px;"></div> -->
+
+                        <hr>
+                        <h3 style="margin-top: 20px;">Conference Citation Distribution</h3>
+                        {% if conf_citation_count>0 %}
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab-3" role="tablist">
+                                    <a class="nav-item nav-link active" id="nav-home-tab-3" data-toggle="tab" href="#nav-graph8" role="tab" aria-controls="nav-home" aria-selected="true">Conference Citations</a>
+                                    <a class="nav-item nav-link" id="nav-profile-tab-3" data-toggle="tab" href="#nav-graph9" role="tab" aria-controls="nav-profile" aria-selected="false">Yearwise Conference Citations</a>
+                                    
+                                </div>
+                            </nav>
+                        
+                            <div class="tab-content" id="nav-tabContent-3">
+                                <div class="tab-pane fade show active" id="nav-graph8" role="tabpanel" aria-labelledby="nav-home-tab-3">
+                                    <div id="conference-citations"></div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-graph9" role="tabpanel" aria-labelledby="nav-profile-tab-3">
+                                    <div id="conference-yearwise-citations"></div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="tab-content"><h5>Conference Papers have no Citations yet</h5></div>
+                        {% endif %}  
+                        
+
+                        <hr>
+                        {% if conf_reference_count>0 %}
+                            <h3 style="margin-top: 20px;">Conference Reference Distribution</h3>
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab-2" role="tablist">
+                                        <a class="nav-item nav-link active" id="nav-home-tab-2" data-toggle="tab" href="#nav-graph6" role="tab" aria-controls="nav-home" aria-selected="true">Conference References</a>
+                                        <a class="nav-item nav-link" id="nav-profile-tab-2" data-toggle="tab" href="#nav-graph7" role="tab" aria-controls="nav-profile" aria-selected="false">Yearwise Conference References</a>
+                                        
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent-2">
+                                    <div class="tab-pane fade show active" id="nav-graph6" role="tabpanel" aria-labelledby="nav-home-tab-2">
+                                        <div id="conference-references"></div>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-graph7" role="tabpanel" aria-labelledby="nav-profile-tab-2">
+                                        <div id="conference-yearwise-references"></div>
+                                    </div>
+                                </div>
+                        {% endif %}  
+                            
+
+
+                        <!-- <div>
+                            <h3 style="margin-top:20px;">Conference References</h3>
+                            <h6>This conference papers referred papers from the following conferences</h6>
+                            <div id="conference-references" style="margin-top:20px;"></div>
+                        </div>
+
+                        <div>
+                            <h3 style="margin-top:20px;">Year Wise Conference References</h3>
+                            <h6>This conference papers referred papers from the following conference instances</h6>
+                            <div id="conference-yearwise-references" style="margin-top:20px;"></div>
+                        </div> -->
+
+                        <div>
+                            <h3 style="margin-top: 20px;">Topics</h3>
+                            {% if topic_names['linguistic'] %}
+                                <h5 style="margin-top:15px; margin-bottom:10px;">Linguistic Trends</h5>
+                                {% for idx in range(topic_names['linguistic'] | length) %}
+                                    <a href="/fos_all/linguistic/{{ topics['linguistic'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ topic_names['linguistic'][idx] }}</a>
+                                {% endfor %}
+                            {% endif %}
+                            {% if topic_names['task'] %}
+                                <h5 style="margin-top:15px; margin-bottom:10px;">Task</h5>
+                                {% for idx in range(topic_names['task'] | length) %}
+                                    <a href="/fos_all/task/{{ topics['task'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ topic_names['task'][idx] }}</a>
+                                {% endfor %}
+                            {% endif %}
+                            {% if topic_names['approach'] %}
+                                <h5 style="margin-top:15px; margin-bottom:10px;">Approach</h5>
+                                {% for idx in range(topic_names['approach'] | length) %}
+                                    <a href="/fos_all/approach/{{ topics['approach'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ topic_names['approach'][idx]}}</a>
+                                {% endfor %}
+                            {% endif %}
+                            {% if topic_names['language'] %}
+                                <h5 style="margin-top:15px; margin-bottom:10px;">Language</h5>
+                                {% for idx in range(topic_names['language'] | length) %}
+                                    <a href="/fos_all/language/{{ topics['language'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ topic_names['language'][idx] }}</a>
+                                {% endfor %}
+                            {% endif %}
+                            {% if topic_names['dataset_type'] %}
+                                <h5 style="margin-top:15px; margin-bottom:10px;">Dataset</h5>
+                                {% for idx in range(topic_names['dataset_type'] | length) %}
+                                    <a href="/fos_all/dataset/{{ topics['dataset_type'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ topic_names['dataset_type'][idx] }}</a>
+                                {% endfor %}
+                            {% endif %}
+                            <!-- <h5><li>Linguistic</li></h5>
+                            {% for t in topics['linguistic'] %}
+                                <a href="/fos_all/linguistic/{{ t }}" class="btn btn-light" style="margin-top:10px;">{{ t }}</a>
+                            {% endfor %}
+                            <h5 style="margin-top: 20px;"><li>Task</li></h5>
+                            {% for t in topics['task'] %}
+                                <a href="/fos_all/task/{{ t }}" class="btn btn-light" style="margin-top:10px;">{{ t }}</a>
+                            {% endfor %}
+                            <h5 style="margin-top: 20px;"><li>Approach</li></h5>
+                            {% for t in topics['approach'] %}
+                                <a href="/fos_all/approach/{{ t }}" class="btn btn-light" style="margin-top:10px;">{{ t }}</a>
+                            {% endfor %}
+                            <h5 style="margin-top: 20px;"><li>Language</li></h5>
+                            {% for t in topics['language'] %}
+                                <a href="/fos_all/language/{{ t }}" class="btn btn-light" style="margin-top:10px;">{{ t }}</a>
+                            {% endfor %}
+                            <h5 style="margin-top: 20px;"><li>Dataset Type</li></h5>
+                            {% for t in topics['dataset_type'] %}
+                                <a href="/fos_all/dataset/{{ t }}" class="btn btn-light" style="margin-top:10px;">{{ t }}</a>
+                            {% endfor %} -->
+                        </div>
+                    </div>
+            
+
+                </div>
+               <!--  <div class="row">
+                    <div class="col-lg-6">
+                        <div id="paper-year"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="citation"></div>
+                    </div>
+                </div> -->
+                <!-- <div class="col-lg-8 offset-lg-2">
+                    <div id="cumulative-citation"></div>
+                </div> -->
+            </div>
+        </section>
+
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+
+                $.ajax({
+                    type: "POST",
+                    url: "/get_data/conference",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        conf_title: "{{ conf_title }}",
+                        conf_year: "{{ conf_year }}"
+                    }),
+                    success: function(resp) {
+    
+                    var data1 = [
+                        {
+                            labels: resp.linguistic.label,
+                            values: resp.linguistic.count,
+                            type: 'pie'
+                        }
+                    ];
+
+                    var layout = { height: 300, width: 300 };
+
+                    Plotly.newPlot('top1-year', data1, {"title" : {"text" : "Linguistic Based Work Distribution"}, showlegend:false},  {showSendToCloud:true});   
+
+                    var data2 = [
+                        {
+                            labels: resp.task.label,
+                            values: resp.task.count,
+                            type: 'pie'
+                        }
+                    ];
+
+                    // var layout = { height: 300, width: 300 };
+
+                    Plotly.newPlot('top2-year', data2, {"title" : {"text" : "Task Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});   
+
+                    var data3 = [
+                        {
+                            labels: resp.approach.label,
+                            values: resp.approach.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('top3-year', data3, {"title" : {"text" : "Approach Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});   
+
+
+                    var data4 = [
+                        {
+                            labels: resp.language.label,
+                            values: resp.language.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('top4-year', data4, {"title" : {"text" : "Language Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});   
+
+
+                    var data5 = [
+                        {
+                            labels: resp.dataset_type.label,
+                            values: resp.dataset_type.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('top5-year', data5, {"title" : {"text" : "Dataset Based Work Distribution"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true});
+
+                    var data6 = [
+                        {
+                            labels: resp.reference_conf.conf,
+                            values: resp.reference_conf.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('conference-references', data6, {"title" : {"text" : "Conferences Referred"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true}); 
+
+                    
+                    var trace1 = []
+                    for (const [key, value] of Object.entries(resp.reference_yearwise_conf_bar)) 
+                    {
+                        trace1.push(
+                                {
+                                    x:value.year,
+                                    y:value.count,
+                                    name:key,
+                                    type:'bar'
+                                }
+
+                            )   
+                    }
+                    var data7 = trace1;
+                    Plotly.newPlot('conference-yearwise-references', data7, {"title" : {"text" : "Yearwise Conferences Referred"}, showlegend:false, height: 450, width: 450, barmode: 'stack'}, {showSendToCloud:true}); 
+
+                    var data8 = [
+                        {
+                            labels: resp.citation_conf.conf,
+                            values: resp.citation_conf.count,
+                            type: 'pie'
+                        }
+                    ];
+                    Plotly.newPlot('conference-citations', data8, {"title" : {"text" : "Conferences Citations"}, showlegend:false, height: 450, width: 450},  {showSendToCloud:true}); 
+
+
+                    var trace2 = []
+                    for (const [key, value] of Object.entries(resp.citation_yearwise_conf_bar)) 
+                    {
+                        console.log(key,value)
+                        trace2.push(
+                                {
+                                    x:value.year,
+                                    y:value.count,
+                                    name:key,
+                                    type:'bar'
+                                }
+
+                            )   
+                    }
+                    var data9 = trace2;
+                    Plotly.newPlot('conference-yearwise-citations', data9, {"title" : {"text" : "Yearwise Conferences Citations"}, showlegend:false, height: 450, width: 450, barmode: 'stack'}, {showSendToCloud:true}); 
+
+    
+                    }
+                });
+    
+            </script>     
+
+        <br>
+        {% include 'footerbar.html' %}
+    </body>
+</html>

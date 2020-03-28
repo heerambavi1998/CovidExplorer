@@ -1,0 +1,18 @@
+<html>
+        {% include 'head.html' %}
+
+    <body>
+        {% include 'navbar.html' %}
+        {% include 'second-nav.html' %}
+        <div class="container" style="margin-top:10px">
+            <h3 style="margin-top:50px; margin-bottom: 50px;">Conference Search Results</h3>
+            {% for item in items %}
+                <p>
+                    <span style="font-size: 18px;"><a href="/conference/{{ item[0] }}-{{ item[1] }}">{{ item[0] }}-{{ item[1] }}</a></span>
+                </p>
+                <hr>
+            {% endfor %}
+        </div>
+    </body>
+
+</html>

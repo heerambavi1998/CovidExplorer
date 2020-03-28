@@ -1,0 +1,224 @@
+<html>
+    <head>
+        {% include 'head.html' %}
+    </head>
+    <body style="background-color: #e0e0e0">
+        {% include 'navbar.html' %}
+        <section>
+            <div class="container">
+                <div class="row" style="margin-top:100px">
+                    <div class="col-lg-6 author-info" >
+                            <h2>{{  paper_data['title'] }}
+                                <a href="https://aclweb.org/anthology/{{ paper_id }}.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                            </h2>
+                            {% for author in paper_data['authors'] %}
+                                <span><a href="/author/{{ author[0] }}">{{author[1]}}</a></span> | 
+                            {% endfor %}
+                            
+                            <!-- <iframe src={{paper_data['pdf_link']}} width="100%" height="700px"></iframe> -->
+                            <br>
+                            <br>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Paper Details:</h4>
+                                {% if 'month' in paper_data %}
+                                    <span>Month: {{paper_data['month']}}</span>
+                                {% endif %}
+                                <br>
+                                {% if 'year' in paper_data %}
+                                    <span>Year: {{paper_data['year']}}</span>
+                                {% endif %}
+                                <br>
+                                {% if 'address' in paper_data %}
+                                    <span>Location: {{paper_data['address']}}</span>
+                                {% endif %}
+                                <br>
+                                {% if 'venue' in paper_data %}
+                                    <span>Venue:</span>
+                                    {% for venue in paper_data['venue'] %}
+                                    <span><a href="/conference_page/{{ venue }}">{{venue}} |</a></span>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <br>
+                                {% if 'sig' in paper_data %}
+                                    <span>SIG: {{paper_data['sig']}} </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% if cited_papers|length > 0 %}
+                    <div class="col-lg-6 author-info">
+                            <div id="cite-year"></div>
+                    </div>
+                    {% endif %}
+                   <!--  <div class="col-lg-4 offset-lg-1" style="margin-top:50px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Paper Details:</h4>
+                                {% if 'month' in paper_data %}
+                                    <span>Month: {{paper_data['month']}}</span>
+                                {% endif %}
+                                <br>
+                                {% if 'year' in paper_data %}
+                                    <span>Year: {{paper_data['year']}}</span>
+                                {% endif %}
+                                <br>
+                                {% if 'address' in paper_data %}
+                                    <span>Location: {{paper_data['address']}}</span>
+                                {% endif %}
+                                <br>
+                                {% if 'venue' in paper_data %}
+                                    <span>Venue:</span>
+                                    {% for venue in paper_data['venue'] %}
+                                    <span><a href="/conference_page/{{ venue }}">{{venue}} |</a></span>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <br>
+                                {% if 'sig' in paper_data %}
+                                    <span>SIG: {{paper_data['sig']}} </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div> -->
+                </div>
+            </div>
+            <div class="container">
+                <div class="citations" style="padding:20px;margin-top:50px; background-color: white">
+                    <div class="row" style="padding:20px;">
+                        <div class="col-lg-7">
+                            <h3>Citations</h3>
+                            <!-- <p>Mentions in other Literature</p> -->
+                        </div>
+                        <div class="col-lg-5">
+                            <h3>URL</h3>
+                            <!-- <p>Mentions in other Literature</p> -->
+                        </div>
+
+                    </div>
+                    <!-- <hr> -->
+                    <div class="row" style="margin-top:5px; padding: 20px;">
+                        <div class="col-lg-7">
+                            {% if cited_papers|length > 0 %}
+                            <div>
+                                {% for paper in cited_papers %}
+                                    <div>
+                                        <span style="font-size: 18px"><a href="/paper/{{ paper['_id'] }}" style="color: black">{{ paper['paper_title'] }}  </a><a href="https://aclweb.org/anthology/{{ paper['_id'] }}.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></span style="font-size: 21px"><br>
+                                        {% for author_ in paper['author'] %}
+                                            <span><a href="/author/{{ author_[0] }}" style="color: black !important;">{{ author_[1] }}</a></span> | 
+                                        {% endfor %} 
+
+                                    </div> 
+                                    <hr>
+                                <br>  
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p>No Citations Yet</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-5">
+                            {% if 'url' in paper_data %}
+                                <ul style="list-style-type:square;">
+                                    {% for url in paper_data['url'] %}
+                                        <li><a href={{url}}>{{url}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No URLs Found</p>  
+                            
+                            {% endif %}
+
+                            <div style="margin-top:50px;">
+                                <h3 style="margin-bottom:20px;">Field Of Study</h3>
+                                {% if paper_data['linguistic_link'] %}
+                                    <h5 style="margin-top:15px; margin-bottom:10px;">Linguistic Trends</h5>
+                                    {% for idx in range(paper_data['linguistic_link'] | length) %}
+                                        <a href="/fos_all/linguistic/{{ paper_data['linguistic_link'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ paper_data['linguistic_title'][idx] }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if paper_data['task_link'] %}
+                                    <h5 style="margin-top:15px; margin-bottom:10px;">Task</h5>
+                                    {% for idx in range(paper_data['task_link'] | length) %}
+                                        <a href="/fos_all/task/{{ paper_data['task_link'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ paper_data['task_title'][idx] }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if paper_data['approach_link'] %}
+                                    <h5 style="margin-top:15px; margin-bottom:10px;">Approach</h5>
+                                    {% for idx in range(paper_data['approach_link'] | length) %}
+                                        <a href="/fos_all/approach/{{ paper_data['approach_link'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ paper_data['approach_title'][idx]}}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if paper_data['languages_link'] %}
+                                    <h5 style="margin-top:15px; margin-bottom:10px;">Language</h5>
+                                    {% for idx in range(paper_data['languages_link'] | length) %}
+                                        <a href="/fos_all/language/{{ paper_data['languages_link'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ paper_data['languages_title'][idx] }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if paper_data['dataset_type_link'] %}
+                                    <h5 style="margin-top:15px; margin-bottom:10px;">Dataset</h5>
+                                    {% for idx in range(paper_data['dataset_type_link'] | length) %}
+                                        <a href="/fos_all/dataset/{{ paper_data['dataset_type_link'][idx] }}" class="btn btn-light" style="margin-top: 10px;">{{ paper_data['dataset_type_title'][idx] }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div style="margin-top:50px;">
+                                {% if paper_data['similar_papers'] %}
+                                <h3 style="margin-bottom:20px;">Similar Papers</h3>
+
+                                    {% for paper_id in paper_data['similar_papers'] %}
+
+                                        <li style="margin-top: 20px;"><a href="/paper/{{ paper_id }}" style="margin-top: 10px;">{{ paper_data['similar_papers'][paper_id]['Title'] }}</a>
+                                                <!-- {% for v_count in range(paper_data['similar_papers'][paper_id]['venue'] | length) %}
+                                                    <a href="/conference/{{ paper_data['similar_papers'][paper_id]['venue'][v_count] }}-{{ paper_data['similar_papers'][paper_id]['year'] }}" type="btn" class="btn btn-outline-secondary" style="float: right;">{{ paper_data['similar_papers'][paper_id]['venue'][v_count] }}</a>
+                                                {% endfor %} -->
+                                        </li>
+
+                                        {% for author in paper_data['similar_papers'][paper_id]['Author'] %}
+                                            <span><a href="/author/{{ author[0] }}" style="color: black !important;">{{author[1]}}</a></span> | 
+                                        {% endfor %} 
+
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+         <script>
+
+            $.ajax({
+                type: "POST",
+                url: "/get_data/paper_citation",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    paper_id: "{{ paper_id }}"
+                }),
+                success: function(resp) {
+                    var data = [
+                        {
+                            x: resp.year,
+                            y: resp.citation_count,
+                            type: 'bar'
+                        }
+                    ];
+                    Plotly.newPlot('cite-year', data, {"title" : {"text" : "Yearly Citation Distribution"}, "xaxis": {range:[1995,2019]}}, {showSendToCloud:false});   
+                }
+            });
+
+        </script>
+                
+
+
+        <br>
+        {% include 'footerbar.html' %}
+    </body>
+</html>
