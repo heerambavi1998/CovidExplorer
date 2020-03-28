@@ -47,7 +47,7 @@ def overall_search():
     #     return  render_template('search_paper.html', items = papers)
     if field == 'Full-Text':
         papers = fulltextsearch(text)
-        return  render_template('fulltextsearch.html', items = papers)
+        return render_template('fulltextsearch.html', items=papers, keyword=text)
     # if field == 'Venues':
     #     confs = conf_es(text)
     #     l = set()

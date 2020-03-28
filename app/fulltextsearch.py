@@ -5,8 +5,7 @@ def index_fulltext_search(es_client, path, index):
 
     for file in glob.glob(path):
         doc = json.load(open(file, 'r'))
-
-        b = dict
+        b = {}
         b['paper_id'] = doc['paper_id']
         b['title'] = doc["metadata"]["title"]
 
