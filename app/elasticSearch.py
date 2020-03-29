@@ -25,7 +25,7 @@ def paper_es(paper_name):
     return papers
 
 def author_es(author):
-    res = es.search(index="covid19_authorz",body={
+    res = es.search(index="covid19_authors",body={
         "from":0,
         "size":50,
         "query":{
@@ -47,7 +47,7 @@ def author_es(author):
 
 def author_findpapers(author):
     # print("1")
-    res = es.search(index="covid19_authorz",body={
+    res = es.search(index="covid19_authors",body={
         "query":{
             "match_phrase":{
                 "author_name":author

@@ -17,7 +17,7 @@ if not ES_CLIENT.indices.exists(index='covid19_fulltext'):
     for path in DATAPATHS:
         index_data.index_fulltext(ES_CLIENT, path, 'covid19_fulltext')
 
-if not ES_CLIENT.indices.exists(index='covid19_authorz'):
-    index_data.index_authors(ES_CLIENT, DATAPATHS, 'covid19_authorz')
+if not ES_CLIENT.indices.exists(index='covid19_authors'):
+    index_data.index_authorsfromMD(ES_CLIENT, METADATAPATH, 'covid19_authors')
 
 from app import routes, author_routes

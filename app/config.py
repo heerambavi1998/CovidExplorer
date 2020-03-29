@@ -5,3 +5,4 @@ DATAPATHS = ["data/comm_use_subset/comm_use_subset/*.json",
             "data/custom_license/custom_license/*.json",
             "data/noncomm_use_subset/noncomm_use_subset/*.json",
             ]
+METADATAPATH = "data/metadata.csv"

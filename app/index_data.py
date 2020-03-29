@@ -1,5 +1,6 @@
 import glob
 import json
+import csv
 
 def index_fulltext(es_client, path, index):
     print("adding full-text index...")
@@ -26,6 +27,34 @@ def index_fulltext(es_client, path, index):
                        id=doc['paper_id'],
                        body=b)
     return
+
+def index_authorsfromMD(es_client, filepath, index):
+    all_authors = {}
+    with open(filepath, newline='') as csvfile:
+        f = csv.DictReader(csvfile)
+        print("csv opened")
+        for row in f:
+            if row['has_full_text']=='True':
+                print("found file")
+                authors = row['authors'].split(";")
+                for a_name in authors:
+                    if a_name not in all_authors:
+                        b={}
+                        b['author_name'] = a_name
+                        b['paper_ids'] = [row['sha']]
+                        all_authors[a_name] = b
+                    else:
+                        all_authors[a_name]['paper_ids'].append(row['sha'])
+    i=0            
+    for author in all_authors.keys():
+        i+=1
+        b = all_authors[author]        
+        es_client.index(index=index,
+                        id=i,
+                        doc_type='authors',
+                        body=b)
+    return
+                    
 
 def index_authors(es_client, paths, index):
     
