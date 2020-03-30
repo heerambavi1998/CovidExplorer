@@ -68,7 +68,7 @@ def paper_namefromid(pid):
     })
     try:
         #print(res)
-        r = res['hits']['hits']['_source']['title']
+        r = res['hits']['hits'][0]['_source']['title']
     except:
         r = None
     return r
