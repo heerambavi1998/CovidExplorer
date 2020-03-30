@@ -25,11 +25,14 @@ def index():
     session.clear()
     # Todo : Make search
     
-    return render_template('index.html', title='CSE DB')
+    return render_template('index.html', title='Covid-19')
 
 # @app.route('/team', methods=['GET'])
 # def team():
 #     return render_template('team.html')
+@app.route('/search_all')
+def search_all():
+    return render_template('search_main.html')
 
 @app.route('/search', methods=["GET", "POST"])
 def overall_search():
