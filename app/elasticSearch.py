@@ -19,7 +19,8 @@ def paper_es(paper_name):
     try:
         for i in range(len(res['hits']['hits'])):
             ptitle=res['hits']['hits'][i]['_source']['title']
-            papers.append(ptitle)
+            url = res['hits']['hits'][i]['_source']['url']
+            papers.append((ptitle, url))
     except:
         None
     return papers
@@ -58,8 +59,19 @@ def author_findpapers(author):
     return papers
 
 def paper_namefromid(pid):
-    res = es.get(index="covid19_fulltext", id=pid, doc_type="papers")
-    return res['_source']['title']
+    res = es.search(index="covid19_fulltext", body={
+        "query": {
+            "match_phrase": {
+                "paper_id": pid
+            }
+        }
+    })
+    try:
+        #print(res)
+        r = res['hits']['hits']['_source']['title']
+    except:
+        r = None
+    return r
 
 # def conf_es(conf_name):
 #     es=Elasticsearch(port=9210)
@@ -83,7 +95,7 @@ def paper_namefromid(pid):
 
 
 def fulltextsearch(search_item):
-    res = es.search(index='covid19_fulltext', doc_type='papers', body={
+    res = es.search(index='covid19_fulltext', body={
         'from': 0,
         'size': 50,
         'query': {
@@ -98,9 +110,8 @@ def fulltextsearch(search_item):
     try:
         for i in range(len(res['hits']['hits'])):
             ptitle=res['hits']['hits'][i]['_source']['title']
-            # x=list(db.new_papers.find({'_id':pid},{'paper_title':1,'_id':0}))
-            # papers.append([res['hits']['hits'][i]['_source']['id'],x[0]['paper_title']])
-            papers.append(ptitle)
+            url = res['hits']['hits'][i]['_source']['url']
+            papers.append((ptitle,url))
     except:
         None
     return papers

@@ -1,10 +1,36 @@
 import glob
 import json
 import csv
+from datetime import datetime
 
-def index_fulltext(es_client, path, index):
+def index_fulltext(es_client, metadatapath, path, index):
+    print("creating full-text index mapping...")
+    mapping = json.load(open('app/static/json/es_fulltext_mapping.json','r'))
+    response = es_client.indices.create(
+        index=index,
+        body=mapping,
+        ignore=400  # ignore 400 already exists code
+    )
+    if 'acknowledged' in response:
+        if response['acknowledged'] == True:
+            print("INDEX MAPPING SUCCESS FOR INDEX:", response['index'])
+    # catch API error response
+    elif 'error' in response:
+        print("ERROR:", response['error']['root_cause'])
+        print("TYPE:", response['error']['type'])
+
     print("adding full-text index...")
+    metadata_dict = {}
+    with open(metadatapath, newline='') as csvfile:
+        f = csv.DictReader(csvfile)
+        for row in f:
+            if row['sha'] != '':
+                for sha in _format_sha(row['sha']):
+                    metadata_dict[sha] = row
+
+    i = 0
     for file in glob.glob(path):
+        i+=1
         doc = json.load(open(file, 'r'))
         b = {}
         b['paper_id'] = doc['paper_id']
@@ -22,33 +48,42 @@ def index_fulltext(es_client, path, index):
             body += '\n'
         b['body_text'] = body
 
+        # adding metadata
+        metadata = metadata_dict[doc['paper_id']]
+        b['doi'] = metadata['doi']
+        b['url'] = metadata['url']
+        b['publish_time'] = metadata['publish_time']
+        b['journal'] = metadata['journal']
+        b['authors'] = metadata['authors']
+
         es_client.index(index=index,
-                       doc_type='papers',
-                       id=doc['paper_id'],
+                       id=i,
                        body=b)
     return
 
 def index_authorsfromMD(es_client, filepath, index):
+    print("adding author index...")
+
     all_authors = {}
     with open(filepath, newline='') as csvfile:
         f = csv.DictReader(csvfile)
-        print("csv opened")
+        #print("csv opened")
         for row in f:
             if row['has_full_text']=='True':
-                print("found file")
+                #print("found file")
                 authors = row['authors'].split(";")
                 for a_name in authors:
                     if a_name not in all_authors:
                         b={}
                         b['author_name'] = a_name
-                        b['paper_ids'] = [row['sha']]
+                        b['paper_ids'] = _format_sha(row['sha'])
                         all_authors[a_name] = b
                     else:
-                        all_authors[a_name]['paper_ids'].append(row['sha'])
-    i=0            
-    for author in all_authors.keys():
+                        all_authors[a_name]['paper_ids'].extend(_format_sha(row['sha']))
+    i=0
+    for author in all_authors:
         i+=1
-        b = all_authors[author]        
+        b = all_authors[author]
         es_client.index(index=index,
                         id=i,
                         doc_type='authors',
@@ -85,3 +120,8 @@ def index_authors(es_client, paths, index):
                         doc_type='authors',
                         body=b)
     return
+
+def _format_sha(sha):
+    l = sha.split(';')
+    l_1 = [i.strip() for i in l]
+    return l_1

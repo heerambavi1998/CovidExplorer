@@ -11,7 +11,7 @@
             <h3 style="margin-top:50px; margin-bottom: 50px;">FullText Search Results: {{keyword}}</h3>
             {% for item in items %}
                 <div>
-                    <h5>{{item}}</h5>
+                    <h5><a style="font-size: 18px; color: black" href="{{item[1]}}" target="_blank">{{item[0]}}</a></h5>
                 </div>
                 <hr>
             {% endfor %}

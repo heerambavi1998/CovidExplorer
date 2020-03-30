@@ -1,0 +1,32 @@
+{"mappings": {
+        "properties": {
+            "paper_id": {
+                "type": "text"
+            },
+            "title": {
+                "type": "text"
+            },
+            "abstract": {
+                "type": "text"
+            },
+            "body_text": {
+                "type": "text"
+            },
+            "doi": {
+                "type": "text"
+            },
+            "publish_time": {
+                "type": "date"
+            },
+            "journal": {
+                "type": "text"
+            },
+            "authors": {
+                "type": "text"
+            },
+            "url": {
+                "type": "text"
+            }
+        }
+  }
+}
