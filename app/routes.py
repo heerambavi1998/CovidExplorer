@@ -3,7 +3,7 @@ from app import app
 
 from pymongo import MongoClient
 import pandas as pd
-from .elasticSearch import author_es, paper_es, fulltextsearch
+from .elasticSearch import author_es, paper_es, fulltextsearch, filtered_by_year_fulltext, filtered_by_year_paper
 
 #mongoClient = MongoClient('localhost', 20000)
 #db = mongoClient.new_papers
@@ -34,6 +34,39 @@ def index():
 def search_all():
     return render_template('search_main.html')
 
+@app.route('/filteredsearch/<search_type>', methods = ['GET', 'POST'])
+def filterbyyear(search_type):
+    inp = request.form.get("filter")
+    l = inp.split(";")
+    keyword = l[0]
+    year = l[1]
+
+
+    if search_type == 'paper':
+        papers_f = filtered_by_year_paper(keyword,year)
+
+        papers = paper_es(keyword)
+        all_years = []
+        for paper in papers:
+            all_years.append(paper[3][:4])
+
+        all_years = sorted(list(set(all_years)))
+
+        return  render_template('search_paper.html', items = papers_f, keyword=keyword, all_years = all_years)
+
+
+    if search_type == 'fulltext':
+        papers_f = filtered_by_year_fulltext(keyword,year)
+
+        papers = fulltextsearch(keyword)
+        all_years = []
+        for paper in papers:
+            all_years.append(paper[3][:4])
+
+        all_years = sorted(list(set(all_years)))
+
+        return render_template('fulltextsearch.html', items=papers_f, keyword=keyword, all_years=all_years)
+
 @app.route('/search', methods=["GET", "POST"])
 def overall_search():
     field = request.form.get("field")
@@ -47,10 +80,20 @@ def overall_search():
         return  render_template('search_author.html', items = authors, keyword=text)
     if field == 'Paper':
         papers = paper_es(text)
-        return  render_template('search_paper.html', items = papers, keyword=text)
+        all_years = []
+        for paper in papers:
+            all_years.append(paper[3][:4])
+
+        all_years = sorted(list(set(all_years)))
+        return  render_template('search_paper.html', items = papers, keyword=text, all_years=all_years)
     if field == 'Full-Text':
         papers = fulltextsearch(text)
-        return render_template('fulltextsearch.html', items=papers, keyword=text)
+        all_years = []
+        for paper in papers:
+            all_years.append(paper[3][:4])
+        all_years = sorted(list(set(all_years)))
+
+        return render_template('fulltextsearch.html', items=papers, keyword=text, all_years=all_years)
     # if field == 'Venues':
     #     confs = conf_es(text)
     #     l = set()

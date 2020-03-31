@@ -10,7 +10,7 @@ def paper_es(paper_name):
             "match":{
                 "title":{
                     "query": paper_name,
-                    "fuzziness": 50
+                    "fuzziness": 2
                 }
                 }
             }
@@ -26,6 +26,46 @@ def paper_es(paper_name):
     except:
         None
     return papers
+
+
+def filtered_by_year_paper(keyword, year):
+    res = es.search(index='covid19_fulltext', body={
+        'size':50,
+        'query': {
+            'bool': {
+                'must':
+                    {
+                    "range" : {
+                        "publish_time" : {
+                            "gte" : year,
+                            "lte" : year
+                        }
+                    }},
+                'should':{
+                    'match': {
+                            "title":{
+                                "query": keyword,
+                                "fuzziness": 2
+                            }
+                        }
+                }
+            }
+        }
+    })
+    papers=[]
+    try:
+        for i in range(len(res['hits']['hits'])):
+            ptitle=res['hits']['hits'][i]['_source']['title']
+            url = res['hits']['hits'][i]['_source']['url']
+            ptime = res['hits']['hits'][i]['_source']['publish_time']
+            journ = res['hits']['hits'][i]['_source']['journal']
+            papers.append((ptitle, url, journ, ptime))
+    except:
+        print(res)
+        None
+    return papers
+
+
 
 def author_es(author):
     res = es.search(index="covid19_authors",body={
@@ -113,6 +153,44 @@ def fulltextsearch(search_item):
     })
     papers=[]
     try:
+        for i in range(len(res['hits']['hits'])):
+            ptitle=res['hits']['hits'][i]['_source']['title']
+            url = res['hits']['hits'][i]['_source']['url']
+            ptime = res['hits']['hits'][i]['_source']['publish_time']
+            journ = res['hits']['hits'][i]['_source']['journal']
+            papers.append((ptitle,url,journ,ptime))
+    except:
+        None
+    return papers
+
+
+def filtered_by_year_fulltext(keyword, year):
+    res = es.search(index='covid19_fulltext', body={
+        'size':50,
+        'query': {
+            'bool': {
+                'must':
+                    {
+                    "range" : {
+                        "publish_time" : {
+                            "gte" : year,
+                            "lte" : year
+                        }
+                    }},
+                'should':{
+                    'multi_match': {
+                                'query': keyword,
+                                'fields': ['title', 'abstract', 'body_text'],
+                                'fuzziness': 2
+                            }
+                }
+            }
+        }
+    })
+
+    papers=[]
+    try:
+    # print(res)
         for i in range(len(res['hits']['hits'])):
             ptitle=res['hits']['hits'][i]['_source']['title']
             url = res['hits']['hits'][i]['_source']['url']
