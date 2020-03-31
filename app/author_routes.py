@@ -95,11 +95,9 @@ def get_author_page_new(author_name):
 	# author_name = ' '.join(author_id.split('-')).title()
 	# print(author_name)
 	paper_data = list(author_findpapers(author_name))
-	print(paper_data)
 	paper_names=[]
 	for pid in paper_data:
 		paper_names.append(paper_namefromid(pid))
-	print(paper_names)
 	return  render_template('author_pg.html', items = paper_names, keyword=author_name)
 
 	# data = {}

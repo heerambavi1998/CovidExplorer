@@ -20,7 +20,9 @@ def paper_es(paper_name):
         for i in range(len(res['hits']['hits'])):
             ptitle=res['hits']['hits'][i]['_source']['title']
             url = res['hits']['hits'][i]['_source']['url']
-            papers.append((ptitle, url))
+            ptime = res['hits']['hits'][i]['_source']['publish_time']
+            journ = res['hits']['hits'][i]['_source']['journal']
+            papers.append((ptitle, url, journ, ptime))
     except:
         None
     return papers
@@ -68,7 +70,10 @@ def paper_namefromid(pid):
     })
     try:
         #print(res)
-        r = res['hits']['hits'][0]['_source']['title']
+        r = (res['hits']['hits'][0]['_source']['title'],
+             res['hits']['hits'][0]['_source']['url'],
+             res['hits']['hits'][0]['_source']['journal'],
+             res['hits']['hits'][0]['_source']['publish_time'])
     except:
         r = None
     return r
@@ -111,7 +116,9 @@ def fulltextsearch(search_item):
         for i in range(len(res['hits']['hits'])):
             ptitle=res['hits']['hits'][i]['_source']['title']
             url = res['hits']['hits'][i]['_source']['url']
-            papers.append((ptitle,url))
+            ptime = res['hits']['hits'][i]['_source']['publish_time']
+            journ = res['hits']['hits'][i]['_source']['journal']
+            papers.append((ptitle,url,journ,ptime))
     except:
         None
     return papers
