@@ -1,40 +1,332 @@
 <html>
-    
+   
     {% include 'head.html' %}
 
+<head>
+    <style>
 
-    <body>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-        {% include 'navbar.html' %}
-    
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
+
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
     <section class="search-sec" id="main">
-            <div class="container" style="text-align:center;padding:140px; color: white;">
-                <h1 style="font-size: 70px">Covid-19</h1>
-                <h3> Stats, Search and more...</h3>
+        <div class="container" style="text-align:center;padding:100px; color: white;">
+            <h1 style="font-size: 70px">Covid</h1>
 
+        </div>
+        <!-- <img src="/static/back.jpg"> -->
+        <div class="container" style="padding-top: -20px;">
+            <form action="/search" method="post" novalidate="novalidate">
+                
+                    <div class="col-lg-12">
+                        <div class="row" style="padding:10px;">
+                            <div class="col-lg-2 offset-lg-1 ">
+                                <div class="form-group">
+                                    <select class="form-control" id="sel1" name="field">
+                                        <!--option>All</--option>
+                                        <option>Author</option>
+                                        <option>Paper</option>
+                                        <option>Venues</option>
+                                        <option>URL Domain</option>
+                                        <option>Field of Study</option-->
+                                        <option>Full-Text</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <input type="text" id="search-text" class="form-control search-slt" name="search-text" placeholder="search..." style="height: 40px !important">
+                            </div>
+                            <div class="col-lg-1">
+                                <button id="search-submit" class="btn btn-secondary button" type="submit" style="height: 40px !important" disabled><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div>
+                <form action="/search_nlp" method="post" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row" style="padding:10px;">
+                                <!-- <div class="col-lg-4 offset-lg-3" >
+                                    <input type="text" class="form-control search-slt" name="nlp" placeholder="NL query">
+                                </div>
+                                <div class="col-lg-2 ">
+                                    <button class="btn btn-secondary button" type="submit">Search</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+        </div>
     </section>
 
-    {% include 'footerbar.html' %}
-    </body>
+
+    <section style="margin-top: 40px;">
+    </section>
+
+    <!--section>
+
+        <div class="container" style="margin-top: 100px; text-align: center">
+            <span class="d"><i class="fa fa-newspaper-o"></i> Papers 55,565</span>
+            <span class="d"><i class="fa fa-users"></i> Authors 39,555</span>
+            <span class="d"><i class="fa fa-quote-left"></i> <i class="fa fa-quote-right"></i> Citations 723,976</span>
+        </div>
+    </section-->
+
+    <br />
+
+    <section class="DatasetInfo" style="margin-top:60px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3" style="text-align: center;">
+                </div>
+                <div class="col-lg-6" style="text-align: center;">
+                    <h2> <b>CORD-19 Dataset:</b> </h2>
+                    <a type="btn" href="https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge" class="btn btn-light"><i class="fa fa-download" aria-hidden="true"></i> <b>Available here</b> </a>
+                </div>
+
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+    </section>
+
+
+    <br>
+    <!-- <div class="marketing">
+        <div class="d-lg-flex bd-highlight">
+            <div class="wrapper shadow p-3 mb-5 bg-white rounded" style="background-image: linear-gradient( white, #ABB0B2);">
+                <img src="../static/images/Goa.png" width="140" height="140">
+                <h4>Daily Cases in Bihar</h4>
+                <br>
+            </div>
+
+            <div class="wrapper shadow p-3 mb-5 bg-white rounded" style="background-image: linear-gradient( white, #ABB0B2);">
+                <img src="../static/images/Goa.png" width="140" height="140">
+
+                <h4>Daily Cases in Bihar</h4>
+            </div>
+            <div class="wrapper shadow p-3 mb-5 bg-white rounded" style="background-image: linear-gradient( white, #ABB0B2);">
+                <img src="../static/images/Goa.png" width="140" height="140">
+
+            </div>
+            <div class="wrapper shadow p-3 mb-5 bg-white rounded" style="background-image: linear-gradient( white, #ABB0B2);">
+                <img src="../static/images/Goa.png" width="140" height="140">
+
+            </div>
+        </div>
+    </div> -->
+    <h1> <center>Graphs of daily cases State-wise</center></h1>
+    <div class="container-fluid p-0">
+        
+        <div class="row no-gutters">
+          <div class="col-sm">
+            <img src="../static/images/Madhya Pradesh.png" width="340" height="340" style ="padding : 1em">
+          </div>
+          <div class="col-sm">
+            <img src="../static/images/Maharashtra.png" width="340" height="340" style ="padding : 1em">
+          </div>
+          <div class="col-sm">
+            <img src="../static/images/Kerala.png" width="340" height="340" style ="padding : 1em">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Andaman And Nicobar.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Andhra Pradesh.png" width="340" height="340" style ="padding : 1em" >
+        </div>
+        <div class="col">
+          <img src="../static/images/Arunachal Pradesh.png" width="340" height="270" style ="padding : 1em" >
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Assam.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Bihar.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Chandigarh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Chhattisgarh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Dadra And Nagar Haveli.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Delhi.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Goa.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Haryana.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Himachal Pradesh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Jammu and Kashmir.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Jharkhand.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Karnataka.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Kerala.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Lakshadweep.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Manipur.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Meghalaya.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Mizoram.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Nagaland.png" width="340" height="270" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Orissa.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Puducherry.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Punjab.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Rajasthan.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Sikkim.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Tamil Nadu.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Telangana.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Tripura.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Uttar Pradesh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Uttaranchal.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/West Bengal.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+
+        {% include 'footerbar.html' %}
+</body>
     <script src="{{ url_for('static',filename='three.r92.min.js') }}"></script>
     <script src="{{ url_for('static',filename='vanta.net.min.js') }}"></script>
 
     <script>
+        $('#search-text').on('keyup', function() {
+            var text_length = $(this).val().replace(/\s/g, "").length;
+            if(text_length > 0){
+                $('#search-submit').removeAttr("disabled");
+            }
+            else {
+                $('#search-submit').attr("disabled", true);
+            }
+        });    
+   
+    </script>
+
+    <script>
         VANTA.NET({
-              el: "#main",
-              mouseControls: true,
-              touchControls: true,
-              minHeight: 200.00,
-              minWidth: 200.00,
-              scale: 1.00,
-              scaleMobile: 1.00,
-              color: 0xffffff,
-              backgroundColor: 0x57b5bb,
-              points: 20.00,
-              maxDistance: 19.00,
-              spacing: 16.00
+            el: "#main",
+            color: 0xffffff,
+            backgroundColor: 0x648b9b
         })
+
+        $('.subscription').submit(function(event) {
+            event.preventDefault();
+            var email = $('#email').val()
+            console.log(email);
+            $.ajax({
+                    type: "POST",
+                    url: "/subscribe",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        email: email
+                    }),
+                    success: function(data) {
+                        console.log("ajax worked");
+                        $('#email').val("");
+                }
+            });
+        });
 
     </script>
 </html>
