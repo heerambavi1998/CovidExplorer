@@ -14,8 +14,7 @@ ES_CLIENT = Elasticsearch([{'host':'localhost','port':ES_PORT}])
 
 
 if not ES_CLIENT.indices.exists(index='covid19_fulltext'):
-    for path in DATAPATHS:
-        index_data.index_fulltext(ES_CLIENT, METADATAPATH, path, 'covid19_fulltext')
+    index_data.index_fulltext(ES_CLIENT, METADATAPATH, DATAPATHS, 'covid19_fulltext')
 
 if not ES_CLIENT.indices.exists(index='covid19_authors'):
     index_data.index_authorsfromMD(ES_CLIENT, METADATAPATH, 'covid19_authors')

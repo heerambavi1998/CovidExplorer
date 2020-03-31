@@ -3,7 +3,7 @@ import json
 import csv
 from datetime import datetime
 
-def index_fulltext(es_client, metadatapath, path, index):
+def index_fulltext(es_client, metadatapath, paths, index):
     print("creating full-text index mapping...")
     mapping = json.load(open('app/static/json/es_fulltext_mapping.json','r'))
     response = es_client.indices.create(
@@ -29,36 +29,37 @@ def index_fulltext(es_client, metadatapath, path, index):
                     metadata_dict[sha] = row
 
     i = 0
-    for file in glob.glob(path):
-        i+=1
-        doc = json.load(open(file, 'r'))
-        b = {}
-        b['paper_id'] = doc['paper_id']
-        b['title'] = doc["metadata"]["title"]
+    for path in paths:
+        for file in glob.glob(path):
+            i+=1
+            doc = json.load(open(file, 'r'))
+            b = {}
+            b['paper_id'] = doc['paper_id']
+            b['title'] = doc["metadata"]["title"]
 
-        abst = ""
-        for para in doc['abstract']:
-            abst += para['text']
-            abst += '\n'
-        b['abstract'] = abst
+            abst = ""
+            for para in doc['abstract']:
+                abst += para['text']
+                abst += '\n'
+            b['abstract'] = abst
 
-        body = ""
-        for para in doc['body_text']:
-            body += para['text']
-            body += '\n'
-        b['body_text'] = body
+            body = ""
+            for para in doc['body_text']:
+                body += para['text']
+                body += '\n'
+            b['body_text'] = body
 
-        # adding metadata
-        metadata = metadata_dict[doc['paper_id']]
-        b['doi'] = metadata['doi']
-        b['url'] = metadata['url']
-        b['publish_time'] = metadata['publish_time']
-        b['journal'] = metadata['journal']
-        b['authors'] = metadata['authors']
+            # adding metadata
+            metadata = metadata_dict[doc['paper_id']]
+            b['doi'] = metadata['doi']
+            b['url'] = metadata['url']
+            b['publish_time'] = metadata['publish_time']
+            b['journal'] = metadata['journal']
+            b['authors'] = metadata['authors']
 
-        es_client.index(index=index,
-                       id=i,
-                       body=b)
+            es_client.index(index=index,
+                           id=i,
+                           body=b)
     return
 
 def index_authorsfromMD(es_client, filepath, index):
