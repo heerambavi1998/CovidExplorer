@@ -10,11 +10,49 @@ def paper_es(paper_name):
             "match":{
                 "title":{
                     "query": paper_name,
-                    "fuzziness": 50
+                    "fuzziness": 2
                 }
                 }
             }
         })
+    papers=[]
+    try:
+        for i in range(len(res['hits']['hits'])):
+            ptitle=res['hits']['hits'][i]['_source']['title']
+            url = res['hits']['hits'][i]['_source']['url']
+            ptime = res['hits']['hits'][i]['_source']['publish_time']
+            journ = res['hits']['hits'][i]['_source']['journal']
+            papers.append((ptitle, url, journ, ptime))
+    except:
+        None
+    return papers
+
+def paper_filteryr(paper_name,yr_s,yr_e):
+    res = es.search(index="covid19_fulltext", body={
+        "from":0,
+        "size":50,
+        "query":{
+            "bool":{
+                "must":[{
+                    "range":{
+                        "publish_time":{
+                            "lte": yr_e,
+                            "gte": yr_s
+                        }
+                    }
+                },
+                {
+                    "match":{
+                        "title":{
+                            "query": paper_name,
+                            "fuzziness":2
+                        }
+                    }
+                }]
+            }
+        }
+    })
+
     papers=[]
     try:
         for i in range(len(res['hits']['hits'])):
@@ -62,6 +100,8 @@ def author_findpapers(author):
 
 def paper_namefromid(pid):
     res = es.search(index="covid19_fulltext", body={
+        'from':0,
+        'size':10000,
         "query": {
             "match_phrase": {
                 "paper_id": pid
@@ -77,6 +117,7 @@ def paper_namefromid(pid):
     except:
         r = None
     return r
+
 
 # def conf_es(conf_name):
 #     es=Elasticsearch(port=9210)
@@ -108,6 +149,44 @@ def fulltextsearch(search_item):
                 'query': search_item,
                 'fields': ['title', 'abstract', 'body_text'],
                 'fuzziness': 2
+            }
+        }
+    })
+    papers=[]
+    try:
+        for i in range(len(res['hits']['hits'])):
+            ptitle=res['hits']['hits'][i]['_source']['title']
+            url = res['hits']['hits'][i]['_source']['url']
+            ptime = res['hits']['hits'][i]['_source']['publish_time']
+            journ = res['hits']['hits'][i]['_source']['journal']
+            papers.append((ptitle,url,journ,ptime))
+    except:
+        None
+    return papers
+
+def fulltextsearch_filteryr(search_item, yr_s, yr_e):
+    res = es.search(index="covid19_fulltext", body={
+        'from':0,
+        'size':50,
+        'query':{
+            'bool':{
+                'must':[
+                    {
+                        'range':{
+                            'publish_time':{
+                                'lte':yr_e,
+                                'gte':yr_s
+                            }
+                        }
+                    },
+                    {
+                        'multi_match': {
+                            'query': search_item,
+                            'fields': ['title', 'abstract', 'body_text'],
+                            'fuzziness': 2
+                        }
+                    }
+                ]
             }
         }
     })

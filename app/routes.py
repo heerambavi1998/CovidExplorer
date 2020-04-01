@@ -1,9 +1,9 @@
-from flask import render_template, request, redirect, session, flash, jsonify
+from flask import render_template, request, redirect, session, flash, jsonify, make_response
 from app import app
 
 from pymongo import MongoClient
 import pandas as pd
-from .elasticSearch import author_es, paper_es, fulltextsearch
+from .elasticSearch import author_es, paper_es, fulltextsearch, paper_filteryr, fulltextsearch_filteryr
 
 #mongoClient = MongoClient('localhost', 20000)
 #db = mongoClient.new_papers
@@ -36,21 +36,38 @@ def search_all():
 
 @app.route('/search', methods=["GET", "POST"])
 def overall_search():
+    #this comes from main search box
     field = request.form.get("field")
     text = request.form.get("search-text")
+    #this comes when year filter is selected
+    field_f = request.args.get("field_f")
+    text_f = request.args.get("searchtext_f")
+    yr_s = request.args.get("yr_s")
+    yr_e = request.args.get("yr_e")
+
+
     if field == 'Author':
-        # p = []
         authors = author_es(text)
-        # for t in authors:
-        #     temp = {"a_name" : t[1], "a_id" : t[0]}
-        #     p.append(temp)
         return  render_template('search_author.html', items = authors, keyword=text)
+
     if field == 'Paper':
         papers = paper_es(text)
         return  render_template('search_paper.html', items = papers, keyword=text)
+    #Paper search with year filter
+    if field_f == 'Paper':
+        papers_filt = paper_filteryr(text_f, int(yr_s), int(yr_e))
+        return render_template('filter_results.html', items=papers_filt)
+
+
+
     if field == 'Full-Text':
         papers = fulltextsearch(text)
         return render_template('fulltextsearch.html', items=papers, keyword=text)
+    #fulltext search with year filter
+    if field_f == 'Full-Text':
+        papers_filt = fulltextsearch_filteryr(text_f, int(yr_s), int(yr_e))
+        return render_template('filter_results.html', items=papers_filt)
+
     # if field == 'Venues':
     #     confs = conf_es(text)
     #     l = set()
