@@ -1,8 +1,0 @@
-#system files
-.DS_Store
-app/__pycache__/
-*.pyc
-*.csv
-*.log
-data/
-logs/
