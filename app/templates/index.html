@@ -1,133 +1,185 @@
 <html>
-   
+    
     {% include 'head.html' %}
 
-<head>
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/static/main.css">
-</head>
-<body>
-    {% include 'navbar.html' %}
+
+    <body>
+
+        {% include 'navbar.html' %}
+    
     <section class="search-sec" id="main">
-        <div class="container" style="text-align:center;padding:100px; color: white;">
-            <h1 style="font-size: 70px">Covid-19</h1>
-        </div>
-        <div class="container" style="padding-top: -20px;">
-            
-            <div>
-                <form action="/search_nlp" method="post" novalidate="novalidate">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="row" style="padding:10px;">
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="container" style="text-align:center;padding:140px; color: white;">
+                <h1 style="font-size: 70px">Covid-19</h1>
+                <h3> Stats, Search and more...</h3>
+
             </div>
-        </div>
     </section>
-    <section style="margin-top: 40px;">
-    </section>
-
- 
-    <br>
-     
-    
-    <style>      
-      div.gre {
-        color: green;
-      }
-      </style>
-      <style>      
-        div.red {
-          color:red;
-        }
-        </style>
-      
-      <style>      
-        div.grey {
-          color:#B3A9B8;
-        }
-        </style>
-    <h1><center>Coronavirus Cases in India:</center></h1>
-    <div class="grey" style="font-size:80px" ><center>1651</center></div>
-    
-    <br>
-    <h1><center>Deaths in India:</center></h1>
-    <div class="red" style="font-size:80px" ><center>45</center></div>
-
-    <br>
-    <h1><center>Recovered:</center></h1>
-    <div class="gre" style="font-size:80px" ><center>112</center></div>
-    <br>
-    <div id="chart">
+     <h1> <center>Graphs of daily cases State-wise</center></h1>
+    <div class="container-fluid p-0">
         
-        <script>
-            var graphs = {{plot | safe}};
-            alert(graphs);
-            Plotly.plot('chart',graphs,{});
-        </script>
-    </div> 
-
-        {% include 'footerbar.html' %}
-</body>
+        <div class="row no-gutters">
+          <div class="col-sm">
+            <img src="../static/images/Madhya Pradesh.png" width="340" height="340" style ="padding : 1em">
+          </div>
+          <div class="col-sm">
+            <img src="../static/images/Maharashtra.png" width="340" height="340" style ="padding : 1em">
+          </div>
+          <div class="col-sm">
+            <img src="../static/images/Kerala.png" width="340" height="340" style ="padding : 1em">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Andaman And Nicobar.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Andhra Pradesh.png" width="340" height="340" style ="padding : 1em" >
+        </div>
+        <div class="col">
+          <img src="../static/images/Arunachal Pradesh.png" width="340" height="270" style ="padding : 1em" >
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Assam.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Bihar.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Chandigarh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Chhattisgarh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Dadra And Nagar Haveli.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Delhi.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Goa.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Haryana.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Himachal Pradesh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Jammu and Kashmir.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Jharkhand.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Karnataka.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Kerala.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Lakshadweep.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Manipur.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Meghalaya.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Mizoram.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Nagaland.png" width="340" height="270" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Orissa.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Puducherry.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Punjab.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Rajasthan.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Sikkim.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Tamil Nadu.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Telangana.png" width="340" height="340" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/Tripura.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col">
+          <img src="../static/images/Uttar Pradesh.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col">
+          <img src="../static/images/Uttaranchal.png" width="340" height="270" style ="padding : 1em">
+        </div>
+        <div class="col-4">
+          <img src="../static/images/West Bengal.png" width="340" height="340" style ="padding : 1em">
+        </div>
+      </div>
+    </div>
+    {% include 'footerbar.html' %}
+    </body>
     <script src="{{ url_for('static',filename='three.r92.min.js') }}"></script>
     <script src="{{ url_for('static',filename='vanta.net.min.js') }}"></script>
 
     <script>
-        $('#search-text').on('keyup', function() {
-            var text_length = $(this).val().replace(/\s/g, "").length;
-            if(text_length > 0){
-                $('#search-submit').removeAttr("disabled");
-            }
-            else {
-                $('#search-submit').attr("disabled", true);
-            }
-        });    
-   
-    </script>
-
-    <script>
         VANTA.NET({
-            el: "#main",
-            color: 0xffffff,
-            backgroundColor: 0x648b9b
+              el: "#main",
+              mouseControls: true,
+              touchControls: true,
+              minHeight: 200.00,
+              minWidth: 200.00,
+              scale: 1.00,
+              scaleMobile: 1.00,
+              color: 0xffffff,
+              backgroundColor: 0x57b5bb,
+              points: 20.00,
+              maxDistance: 19.00,
+              spacing: 16.00
         })
 
-        $('.subscription').submit(function(event) {
-            event.preventDefault();
-            var email = $('#email').val()
-            console.log(email);
-            $.ajax({
-                    type: "POST",
-                    url: "/subscribe",
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        email: email
-                    }),
-                    success: function(data) {
-                        console.log("ajax worked");
-                        $('#email').val("");
-                }
-            });
-        });
-
     </script>
+    
 </html>
