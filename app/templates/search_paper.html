@@ -9,12 +9,12 @@
         </section>
         
 
-        <link href="../static/rSlider.min.css" rel="stylesheet" type="text/css"> </link>
-        <script src="../static/rSlider.min.js"></script>
+        <link href="{{ url_for('static',filename='rSlider.min.css') }}" rel="stylesheet" type="text/css"> </link>
+        <script src="{{ url_for('static',filename='rSlider.min.js') }}"></script>
         <div class="container" style="margin-top:10px">
-            <h3 style="margin-top:50px; margin-bottom: 50px;">Paper Search Results: <span id="keyword">{{keyword}}</span></h3>
+            <h3 style="margin-top:50px; margin-bottom: 50px;">{{field}} Search Results: <span id="keyword">{{keyword}}</span></h3>
 
-            <span style='visibility: hidden;' id="field">Paper</span>
+            <span style='visibility: hidden;' id="field">{{field}}</span>
             <!-- <span style='visibility: hidden;' id="years">{{years}}</span> -->
             <input type="text" id="yr-slider" class="slider">
             <br>
@@ -30,6 +30,5 @@
         </div>
         {% include 'footerbar.html' %}
     </body>
-    
-    <script src="../static/year_slider.js"></script>
+    <script src="{{ url_for('static',filename='year_slider.js') }}"></script>
 </html>
