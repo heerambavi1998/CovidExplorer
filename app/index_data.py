@@ -28,6 +28,12 @@ def index_fulltext(es_client, metadatapath, paths, index):
                 for sha in _format_sha(row['sha']):
                     metadata_dict[sha] = row
 
+    named_ent_dict = {}
+    with open('prge_from_abs_comb.csv', newline='') as csvfile:
+        f = csv.reader(csvfile)
+        for row in f:
+            named_ent_dict[row[0]] = row[1]
+
     i = 0
     for path in paths:
         for file in glob.glob(path):
@@ -56,7 +62,7 @@ def index_fulltext(es_client, metadatapath, paths, index):
             b['publish_time'] = metadata['publish_time']
             b['journal'] = metadata['journal']
             b['authors'] = metadata['authors']
-
+            b['named_entities'] = _format_sha(named_ent_dict[doc['paper_id']])
             es_client.index(index=index,
                            id=i,
                            body=b)
@@ -121,6 +127,36 @@ def index_authors(es_client, paths, index):
                         doc_type='authors',
                         body=b)
     return
+
+
+def index_named_entities(es_client, path, index):
+    print("adding Named Entity index...")
+
+    named_ent_dict = {}
+    with open(path, newline='') as csvfile:
+        f = csv.reader(csvfile)
+        for row in f:
+            if row[1] == '':
+                continue
+            nes = row[1].split(';')
+            for ne in nes:
+                if ne in named_ent_dict:
+                    named_ent_dict[ne].append(row[0])
+                else:
+                    named_ent_dict[ne] = [row[0]]
+
+    i = 0
+    for item in named_ent_dict:
+        i = i + 1
+        b = {}
+        b['entity'] = item
+        b['pids'] = named_ent_dict[item]
+        b['doc_freq'] = len(named_ent_dict[item])
+
+        es_client.index(index=index, id=i, body=b)
+
+    return
+
 
 def _format_sha(sha):
     l = sha.split(';')
