@@ -6,7 +6,7 @@
             {% for item in ners %}
                 <div class="inline" style="margin-top: 5px">
                     <span style="margin-left: 10px;">
-                        <button type="button" name=gene value="{{item}}" class="btn btn-light">{{item}}</button></span>
+                        <button type=button id="gene-{{item}}" name="gene-{{item}}" value="{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
                 </div>
             {% endfor %}
 
@@ -15,7 +15,7 @@
 </div>
 <br>
 <br>
-<div>
+<div id="gene_filter_result">
     {% for item in items %}
         <div>
             <h5><a href="{{item[1]}}" target="_blank">{{item[0]}}</a></h5>

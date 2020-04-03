@@ -1,6 +1,8 @@
 <html>
         {% include 'head.html' %}
-
+    <head>
+        <script src="{{ url_for('static',filename='gene_filter.js') }}"></script>
+    </head>
     <body>
         {% include 'navbar.html' %}
         {% include 'second-nav.html' %}
@@ -34,7 +36,7 @@
                             {% for item in ners %}
                                 <div class="inline" style="margin-top: 5px">
                                     <span style="margin-left: 10px;">
-                                        <button id="gene-{{item}}" name="gene-{{item}}" value="{{item}}" class="btn btn-light">{{item}}</button></span>
+                                        <button type=button id="gene-{{item}}" name="gene-{{item}}" value="{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
                                 </div>
                             {% endfor %}
 
@@ -58,5 +60,5 @@
         {% include 'footerbar.html' %}
     </body>
     <script src="{{ url_for('static',filename='year_slider.js') }}"></script>
-    <script src="{{ url_for('static',filename='gene_filter.js') }}"></script>
+    
 </html>
