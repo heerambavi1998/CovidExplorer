@@ -3,7 +3,7 @@ from app import app
 
 from pymongo import MongoClient
 import pandas as pd
-from .elasticSearch import author_es, paper_es, fulltextsearch, paper_filteryr, fulltextsearch_filteryr
+from .elasticSearch import *
 
 #mongoClient = MongoClient('localhost', 20000)
 #db = mongoClient.new_papers
@@ -44,12 +44,16 @@ def overall_search():
 @app.route('/search/<field>/<text>', methods=["GET", "POST"])
 def search_field(field, text):
     if field == 'Paper':
-        papers = paper_es(text)
-        return render_template('search_paper.html', items = papers, keyword=text, field=field)
+        papers, pids = paper_es(text)
+        entities = named_entities_es(pids)
+        return render_template('search_paper.html', items = papers, keyword=text, field=field,
+                               ners=entities)
 
     if field == 'FullText':
-        papers = fulltextsearch(text)
-        return render_template('search_paper.html', items=papers, keyword=text, field=field)
+        papers, pids = fulltextsearch(text)
+        entities = named_entities_es(pids)
+        return render_template('search_paper.html', items=papers, keyword=text, field=field,
+                               ners=entities)
 
     if field == 'Author':
         authors = author_es(text)
@@ -64,8 +68,28 @@ def get_html_year_filter():
     field = request.args.get("field")
     text = request.args.get("searchtext")
     if field == 'Paper':
-        papers_filt = paper_filteryr(text, int(yr_s), int(yr_e))
-        return render_template('filter_results.html', items=papers_filt)
+        papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
+        entities = named_entities_es(pids)
+        return render_template('filter_results.html', items=papers_filt, ners=entities)
     if field == 'FullText':
-        papers_filt = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
-        return render_template('filter_results.html', items=papers_filt)
+        papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
+        entities = named_entities_es(pids)
+        return render_template('filter_results.html', items=papers_filt, ners=entities)
+
+@app.route('/gene_filter')
+def get_html_gene_filter():
+    yr_s = request.args.get("yr_s")
+    yr_e = request.args.get("yr_e")
+    field = request.args.get("field")
+    text = request.args.get("searchtext")
+    gene = request.args.get("gene")
+
+    if field == 'Paper':
+        _, pids = paper_filteryr(text, int(yr_s), int(yr_e))
+        pids_new = named_entity_filter(pids,gene)
+        return render_template('filter_results_gene.html', items=pids_new)
+    if field == 'FullText':
+        _, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
+        pids_new = named_entity_filter(pids, gene)
+        return render_template('filter_results_gene.html', items=pids_new)
+

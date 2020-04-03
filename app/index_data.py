@@ -32,7 +32,7 @@ def index_fulltext(es_client, metadatapath, paths, index):
     with open('prge_from_abs_comb.csv', newline='') as csvfile:
         f = csv.reader(csvfile)
         for row in f:
-            named_ent_dict[row[0]] = row[1]
+            named_ent_dict[row[0]] = _format_ne(row[1])
 
     i = 0
     for path in paths:
@@ -62,7 +62,7 @@ def index_fulltext(es_client, metadatapath, paths, index):
             b['publish_time'] = metadata['publish_time']
             b['journal'] = metadata['journal']
             b['authors'] = metadata['authors']
-            b['named_entities'] = _format_sha(named_ent_dict[doc['paper_id']])
+            b['named_entities'] = named_ent_dict[doc['paper_id']]
             es_client.index(index=index,
                            id=i,
                            body=b)
@@ -138,7 +138,7 @@ def index_named_entities(es_client, path, index):
         for row in f:
             if row[1] == '':
                 continue
-            nes = row[1].split(';')
+            nes = _format_ne(row[1])
             for ne in nes:
                 if ne in named_ent_dict:
                     named_ent_dict[ne].append(row[0])
@@ -161,4 +161,9 @@ def index_named_entities(es_client, path, index):
 def _format_sha(sha):
     l = sha.split(';')
     l_1 = [i.strip() for i in l]
+    return l_1
+
+def _format_ne(ne):
+    l = ne.split(';')
+    l_1 = [i.strip() for i in l if i != '']
     return l_1

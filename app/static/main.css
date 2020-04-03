@@ -184,6 +184,7 @@ Styling components
 
 a {
   color: #e27d60 !important;
+  word-break: break-all;
 }
 
 body {
@@ -212,3 +213,8 @@ body {
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.wrapped {
+  word-wrap: break-word;
+  word-break: break-all;
+}
