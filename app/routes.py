@@ -87,11 +87,20 @@ def get_html_gene_filter():
     gene = request.args.get("gene")
 
     if field == 'Paper':
-        _, pids = paper_filteryr(text, int(yr_s), int(yr_e))
+        papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
         pids_new = named_entity_filter(pids,gene)
-        return render_template('filter_results_gene.html', items=pids_new)
+        d = []
+        for i in range(len(pids)):
+            if pids[i] in pids_new:
+                d.append(papers_filt[i])
+        return render_template('filter_results_gene.html', items=d)
+
     if field == 'FullText':
-        _, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
+        papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
         pids_new = named_entity_filter(pids, gene)
-        return render_template('filter_results_gene.html', items=pids_new)
+        d = []
+        for i in range(len(pids)):
+            if pids[i] in pids_new:
+                d.append(papers_filt[i])
+        return render_template('filter_results_gene.html', items=d)
 

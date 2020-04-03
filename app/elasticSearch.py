@@ -32,7 +32,7 @@ def paper_es(paper_name):
 def paper_filteryr(paper_name,yr_s,yr_e):
     res = es.search(index="covid19_fulltext", body={
         "from":0,
-        "size":50,
+        "size":100,
         "query":{
             "bool":{
                 "must":[{
@@ -72,7 +72,7 @@ def paper_filteryr(paper_name,yr_s,yr_e):
 def author_es(author):
     res = es.search(index="covid19_authors",body={
         "from":0,
-        "size":50,
+        "size":100,
         "query":{
             "match":{
                 "author_name":{
@@ -147,7 +147,7 @@ def paper_namefromid(pid):
 def fulltextsearch(search_item):
     res = es.search(index='covid19_fulltext', body={
         'from': 0,
-        'size': 50,
+        'size': 100,
         'query': {
             'multi_match': {
                 'query': search_item,
@@ -173,7 +173,7 @@ def fulltextsearch(search_item):
 def fulltextsearch_filteryr(search_item, yr_s, yr_e):
     res = es.search(index="covid19_fulltext", body={
         'from':0,
-        'size':50,
+        'size':100,
         'query':{
             'bool':{
                 'must':[
@@ -244,10 +244,10 @@ def named_entities_es(pid_list):
             }
         })
         ne_list.extend(res['hits']['hits'][0]['_source']['named_entities'])
-
     ne_list = list(set(ne_list))
-    top_ne = top_doc_freq_ne(ne_list,16)
-    return top_ne
+    # TODO: currently not returning top genes, but all genes
+    #top_ne = top_doc_freq_ne(ne_list,16)
+    return ne_list
 
 
 def named_entity_filter(pid_list, entity):
