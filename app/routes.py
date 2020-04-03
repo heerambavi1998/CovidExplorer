@@ -27,9 +27,11 @@ def index():
     
     return render_template('index.html', title='Covid-19')
 
-# @app.route('/team', methods=['GET'])
-# def team():
-#     return render_template('team.html')
+@app.route('/team', methods=['GET'])
+def team():
+    return render_template('team.html')
+
+
 @app.route('/search_all')
 def search_all():
     return render_template('search_main.html')
