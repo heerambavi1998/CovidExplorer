@@ -1,10 +1,9 @@
-$(function(){
-    $("button").click(function() {
+function filterby(gene){
     var keyword = document.getElementById("keyword").innerHTML;
     var type = document.getElementById("field").innerHTML;
     var years = year_filter.getValue();
-    var fired_button = $(this).attr("value");
-    alert(fired_button);
+    var fired_button = gene.value
+    // alert(fired_button);
     $.get(
             url="/gene_filter",
             data={yr_s:years.slice(0,4),
@@ -16,6 +15,4 @@ $(function(){
                 $( "#gene_filter_result" ).html(data);
             }
     );
-    });
-});
-
+};
