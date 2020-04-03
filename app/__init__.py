@@ -22,4 +22,4 @@ if not ES_CLIENT.indices.exists(index='covid19_authors'):
 if not ES_CLIENT.indices.exists(index='covid19_ner'):
     index_data.index_named_entities(ES_CLIENT, NERDATAPATH, 'covid19_ner')
 
-from app import routes, author_routes
+from app import routes, author_routes,india_stats

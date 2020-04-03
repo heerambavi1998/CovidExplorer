@@ -1,0 +1,637 @@
+<html>
+{% include 'head.html' %}
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script src="static/func.js"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <br>
+</head>
+<style>
+  .content {
+    max-width: 960px;
+    margin: auto;
+  }
+  body {
+  background-color: #FBFCFC;
+  color: #635F5E;
+  }
+</style>
+<body>
+    {% include 'navbar.html' %}
+    <style>
+      div.gre {
+        color: rgb(28, 206, 28);
+      }
+    </style>
+    <style>
+        div.red {
+          color:red;
+        }
+    </style>
+
+    <style>
+        div.grey {
+          color:#B3A9B8;
+        }
+    </style>
+    <section style="padding:20px;"></section>
+
+    <div class="content">
+    <h2 style="background:gainsboro;"><center>INDIA COVID-19 TRACKER</center></h2>
+    </div>
+    <br>
+
+    <div class="content">
+        <h4><center>Coronavirus Cases in India:</center></h3>
+        <div class="grey" style="font-size:60px" ><center>{{totals}}<sub><small>+({{last}})</small></sub></center></div>
+        <br>
+        <h4><center>Deaths in India:</center></h3>
+        <div class="red" style="font-size:60px" ><center>{{dead}}</center></div>
+        <br>
+        <h4><center>Recovered:</center></h3>
+        <div class="gre" style="font-size:60px" ><center>{{recover}}</center></div>
+        <br>
+    </div>
+    <br>
+    <div class="content">
+        <h2> <center>Graph of daily cases in India</center></h2>
+        <br>
+        <div id="chart"></div>
+        <script>
+          var graphs = {{plot|safe}};
+          Plotly.plot('chart',graphs,{});
+        </script>
+    </div>
+
+
+    <br>
+    <br>
+    <h2> <center>Graph of daily cases: State-wise<sub><small>[4]</small></sub></center></h2>
+    <br>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b1');" style="background:gainsboro;" ><h4><center>Andaman and Nicobar Islands </center></h3></div>
+      </div>
+      <div id="b1" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart1"></div>
+          <script>
+             var graphs = {{plot1 | safe}};
+             Plotly.plot('chart1',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b2');" style="background:gainsboro;" ><h4><center>Andhra Pradesh</center></h3></div>
+      </div>
+      <div id="b2" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart2"></div>
+          <script>
+             var graphs = {{plot2 | safe}};
+             Plotly.plot('chart2',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b3');" style="background:gainsboro;" ><h4><center>Arunachal Pradesh</center></h3></div>
+      </div>
+      <div id="b3" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart3"></div>
+          <script>
+             var graphs = {{plot3 | safe}};
+             Plotly.plot('chart3',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b4');" style="background:gainsboro;" ><h4><center>Assam</center></h3></div>
+      </div>
+      <div id="b4" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart4"></div>
+          <script>
+             var graphs = {{plot4 | safe}};
+             Plotly.plot('chart4',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b5');" style="background:gainsboro;" ><h4><center>Bihar</center></h3></div>
+      </div>
+      <div id="b5" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart5"></div>
+          <script>
+             var graphs = {{plot5 | safe}};
+             Plotly.plot('chart5',graphs,{});
+          </script>
+      </div>
+    </div>
+
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b6');" style="background:gainsboro;" ><h4><center>Chandigarh</center></h3></div>
+      </div>
+      <div id="b6" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart6"></div>
+          <script>
+             var graphs = {{plot6 | safe}};
+             Plotly.plot('chart6',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b7');" style="background:gainsboro;" ><h4><center>Chhattisgarh</center></h3></div>
+      </div>
+      <div id="b7" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart7"></div>
+          <script>
+             var graphs = {{plot7 | safe}};
+             Plotly.plot('chart7',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b8');" style="background:gainsboro;" ><h4><center>Dadra and Nagar Haveli and Daman and Diu</center></h3></div>
+      </div>
+      <div id="b8" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart8"></div>
+          <script>
+             var graphs = {{plot8 | safe}};
+             Plotly.plot('chart8',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b9');" style="background:gainsboro;" ><h4><center>Delhi</center></h3></div>
+      </div>
+      <div id="b9" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart9"></div>
+          <script>
+             var graphs = {{plot9 | safe}};
+             Plotly.plot('chart9',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b10');" style="background:gainsboro;" ><h4><center>Goa</center></h3></div>
+      </div>
+      <div id="b10" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart10"></div>
+          <script>
+             var graphs = {{plot10 | safe}};
+             Plotly.plot('chart10',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b11');" style="background:gainsboro;" ><h4><center>Gujarat</center></h3></div>
+      </div>
+      <div id="b11" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart11"></div>
+          <script>
+             var graphs = {{plot11 | safe}};
+             Plotly.plot('chart11',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b12');" style="background:gainsboro;" ><h4><center>Haryana</center></h3></div>
+      </div>
+      <div id="b12" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart12"></div>
+          <script>
+             var graphs = {{plot12 | safe}};
+             Plotly.plot('chart12',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b13');" style="background:gainsboro;" ><h4><center>Himachal Pradesh</center></h3></div>
+      </div>
+      <div id="b13" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart13"></div>
+          <script>
+             var graphs = {{plot13 | safe}};
+             Plotly.plot('chart13',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b14');" style="background:gainsboro;" ><h4><center>Jammu and Kashmir </center></h3></div>
+      </div>
+      <div id="b14" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart14"></div>
+          <script>
+             var graphs = {{plot14 | safe}};
+             Plotly.plot('chart14',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b15');" style="background:gainsboro;" ><h4><center>Jharkhand</center></h3></div>
+      </div>
+      <div id="b15" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart15"></div>
+          <script>
+             var graphs = {{plot15 | safe}};
+             Plotly.plot('chart15',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b16');" style="background:gainsboro;" ><h4><center>Karnataka</center></h3></div>
+      </div>
+      <div id="b16" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart16"></div>
+          <script>
+             var graphs = {{plot16 | safe}};
+             Plotly.plot('chart16',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b17');" style="background:gainsboro;" ><h4><center>Kerala</center></h3></div>
+      </div>
+      <div id="b17" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart17"></div>
+          <script>
+             var graphs = {{plot17 | safe}};
+             Plotly.plot('chart17',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b18');" style="background:gainsboro;" ><h4><center>Ladakh</center></h3></div>
+      </div>
+      <div id="b18" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart18"></div>
+          <script>
+             var graphs = {{plot18 | safe}};
+             Plotly.plot('chart18',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b19');" style="background:gainsboro;" ><h4><center>Lakshadweep</center></h3></div>
+      </div>
+      <div id="b19" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart19"></div>
+          <script>
+             var graphs = {{plot19 | safe}};
+             Plotly.plot('chart19',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+
+
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b20');" style="background:gainsboro;" ><h4><center>Madhya Pradesh</center></h3></div>
+      </div>
+      <div id="b20" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart20">
+        <script>
+            var graphs = {{plot20 | safe}};
+            Plotly.plot('chart20',graphs,{});
+        </script>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b21');" style="background:gainsboro;" ><h4><center>Maharashtra</center></h3></div>
+      </div>
+      <div id="b21" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart21"></div>
+          <script>
+             var graphs = {{plot21 | safe}};
+             Plotly.plot('chart21',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b22');" style="background:gainsboro;" ><h4><center>Manipur</center></h3></div>
+      </div>
+      <div id="b22" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart22"></div>
+          <script>
+             var graphs = {{plot22 | safe}};
+             Plotly.plot('chart22',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b23');" style="background:gainsboro;" ><h4><center>Meghalaya</center></h3></div>
+      </div>
+      <div id="b23" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart23"></div>
+          <script>
+             var graphs = {{plot23 | safe}};
+             Plotly.plot('chart23',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b24');" style="background:gainsboro;" ><h4><center>Mizoram</center></h3></div>
+      </div>
+      <div id="b24" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart24"></div>
+          <script>
+             var graphs = {{plot24 | safe}};
+             Plotly.plot('chart24,graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b25');" style="background:gainsboro;" ><h4><center>Nagaland</center></h3></div>
+      </div>
+      <div id="b25" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart25"></div>
+          <script>
+             var graphs = {{plot25 | safe}};
+             Plotly.plot('chart25',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b26');" style="background:gainsboro;" ><h4><center>Odisha</center></h3></div>
+      </div>
+      <div id="b26" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart26"></div>
+          <script>
+             var graphs = {{plot26 | safe}};
+             Plotly.plot('chart26',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b27');" style="background:gainsboro;" ><h4><center>	Punjab</center></h3></div>
+      </div>
+      <div id="b27" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart27"></div>
+          <script>
+             var graphs = {{plot27 | safe}};
+             Plotly.plot('chart27',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b28');" style="background:gainsboro;" ><h4><center>Rajasthan</center></h3></div>
+      </div>
+      <div id="b28" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart28"></div>
+          <script>
+             var graphs = {{plot28 | safe}};
+             Plotly.plot('chart28',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b28');" style="background:gainsboro;" ><h4><center>Sikkim</center></h3></div>
+      </div>
+      <div id="b28" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart28"></div>
+          <script>
+             var graphs = {{plot28 | safe}};
+             Plotly.plot('chart28',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b29');" style="background:gainsboro;" ><h4><center>Tamil Nadu</center></h3></div>
+      </div>
+      <div id="b29" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart29"></div>
+          <script>
+             var graphs = {{plot29 | safe}};
+             Plotly.plot('chart29',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b30');" style="background:gainsboro;" ><h4><center>Telangana</center></h3></div>
+      </div>
+      <div id="b30" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart30"></div>
+          <script>
+             var graphs = {{plot30 | safe}};
+             Plotly.plot('chart30',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b31');" style="background:gainsboro;" ><h4><center>Tripura</center></h3></div>
+      </div>
+      <div id="b31" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart19"></div>
+          <script>
+             var graphs = {{plot31 | safe}};
+             Plotly.plot('chart31',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b32');" style="background:gainsboro;" ><h4><center>Uttar Pradesh</center></h3></div>
+      </div>
+      <div id="b32" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart32"></div>
+          <script>
+             var graphs = {{plot32 | safe}};
+             Plotly.plot('chart32',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <!-- <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b33');" style="background:gainsboro;" ><h4><center>Uttarakhand</center></h3></div>
+      </div>
+      <div id="b33" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart33"></div>
+          <script>
+             var graphs = {{plot33 | safe}};
+             Plotly.plot('chart33',graphs,{});
+          </script>
+      </div>
+    </div> -->
+
+    <div class="content">
+      <div class="row">
+        <div class="column" onclick="openTab('b34');" style="background:gainsboro;" ><h4><center>West Bengal</center></h3></div>
+      </div>
+      <div id="b34" class="containerTab" style="display:none">
+        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+        <div id="chart34"></div>
+          <script>
+             var graphs = {{plot34 | safe}};
+             Plotly.plot('chart34',graphs,{});
+          </script>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <div class="content">
+      <div class=page >
+        <h2><center>COVID-19 Statewise Status</center></h2>
+          {{ tables|safe }}
+      </div>
+        <br>
+    </div>
+    <div class="content">
+        <h2>About Coronavirus </h2>
+        <p>  Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.
+        The disease causes respiratory illness (like the flu) with symptoms such as a cough, fever, and in more severe cases, difficulty breathing. You can protect yourself by washing your hands frequently, avoiding touching your face, and avoiding close contact (1 meter or 3 feet) with people who are unwell</p>
+        <h2>HOW IT SPREADS </h2>
+        <p>
+          Coronavirus disease spreads primarily through contact with an infected person when they cough or sneeze. It also spreads when a person touches a surface or object that has the virus on it, then touches their eyes, nose, or mouth.</p>
+        <h2> What happens when you get the coronavirus disease?</h2>
+        <p>People with COVID-19 generally develop signs and symptoms, including mild respiratory symptoms and fever, on an average of 5-6 days after infection (mean incubation period 5-6 days, range 1-14 days). Most people infected with COVID-19 virus have mild disease and recover.</p>
+        <h2>What are the symptoms of the coronavirus disease?</h2>
+        <p>The COVID-19 virus affects different people in different ways.  COVID-19 is a respiratory disease and most infected people will develop mild to moderate symptoms and recover without requiring special treatment.  People who have underlying medical conditions and those over 60 years old have a higher risk of developing severe disease and death.</p>
+        <p>Common symptoms include:</p>
+        <ul>
+          <li>fever</li>
+          <li>tiredness</li>
+          <li>dry cough.</li>
+        </ul>
+        <p>Other symptoms include:</p>
+        <ul>
+          <li>shortness of breath</li>
+          <li>aches and pains</li>
+          <li>sore throat</li>
+          <li>and very few people will report diarrhoea, nausea or a runny nose.</li>
+        </ul>
+        <p>
+          People with mild symptoms who are otherwise healthy should self-isolate and contact their medical provider or a COVID-19 information line for advice on testing and referral.
+        </p>
+        <p>People with fever, cough or difficulty breathing should call their doctor and seek medical attention.</p>
+        <h2>Prevention</h2>
+        <p>To prevent infection and to slow transmission of COVID-19, do the following:</p>
+        <ul>
+            <li>Wash your hands regularly with soap and water, or clean them with alcohol-based hand rub.</li>
+            <li>Maintain at least 1 metre distance between you and people coughing or sneezing.</li>
+            <li>Avoid touching your face.</li>
+            <li>Cover your mouth and nose when coughing or sneezing.</li>
+            <li>Stay home if you feel unwell.</li>
+            <li>Refrain from smoking and other activities that weaken the lungs.</li>
+            <li>Practice physical distancing by avoiding unnecessary travel and staying away from large groups of people.</li>
+        </ul>
+        <h2>Sources</h2>
+        <ol>
+          <li>Novel Coronavirus (2019-nCoV) situation reports - World Health Organization (WHO)</li>
+          <li>https://www.mohfw.gov.in/</li>
+          <li>https://www.covid19india.org/</li>
+          <li><a href="https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSc_2y5N0I67wDU38DjDh35IZSIS30rQf7_NYZhtYYGU1jJYT6_kDx4YpF-qw0LSlGsBYP8pqM_a1Pd/pubhtml">VIEW THE PATIENTS DATABASE</a><p> (All graphs source)</p></li>
+          <li>https://www.who.int/health-topics/coronavirus#tab=tab_3</li>
+
+        </ol>
+    <br>
+    <br>
+    <br>
+
+    </div>
+
+</body>
+
+
+
+</html>
