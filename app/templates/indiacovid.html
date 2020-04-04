@@ -55,10 +55,11 @@
     </div>
     <br>
     <div class="content">
-        <h2> <center>Graph of daily cases in India</center></h2>
+        <h2> <center>Daily cases in India</center></h2>
         <br>
         <div id="chart"></div>
         <script>
+
           var graphs = {{plot|safe}};
           Plotly.plot('chart',graphs,{});
         </script>
@@ -67,7 +68,7 @@
 
     <br>
     <br>
-    <h2> <center>Graph of daily cases: State-wise<sub><small>[4]</small></sub></center></h2>
+    <h2> <center>Daily case count: State-wise<sub><small>[4]</small></sub></center></h2>
     <br>
 
     <!-- <div class="content">
