@@ -123,27 +123,6 @@ def paper_namefromid(pid):
     return r
 
 
-# def conf_es(conf_name):
-#     es=Elasticsearch(port=9210)
-#     res =es.search(index="newacl",body={"from":0, "size":100,"query":{"match":{"venue_name":conf_name}}})
-#     confs=[]
-#     try:
-#         for i in range(len(res['hits']['hits'])):
-#             confs.append([res['hits']['hits'][i]['_source']['venue_name'],res['hits']['hits'][i]['_source']['year']])
-#     except:
-#         None
-#     if len(confs)==0:
-#         res =es.search(index="newacl",body={"from":0, "size":100,"query":{"query_string":{"default_field" : "venue_name", "query" : "*"+conf_name+"*"}}})
-#         confs=[]
-#         try:
-#             for i in range(len(res['hits']['hits'])):
-#                 confs.append([res['hits']['hits'][i]['_source']['venue_name'],res['hits']['hits'][i]['_source']['year']])
-#         except:
-#             None
-
-#     return confs
-
-
 def fulltextsearch(search_item):
     res = es.search(index='covid19_fulltext', body={
         'from': 0,
@@ -267,4 +246,25 @@ def named_entity_filter(pid_list, entity):
         if id in pid_list:
             l.append(id)
     return l
+
+def get_prge_info(ent_name):
+    res = es.search(index="covid19_ner", body={
+        'from':0,
+        'size':100,
+        "query": {
+            "match_phrase": {
+                "entity": ent_name
+            }
+        }
+    })
+    try:
+        #print(res)
+        r = (res['hits']['hits'][0]['_source']['entity'],
+             res['hits']['hits'][0]['_source']['pids'],
+             res['hits']['hits'][0]['_source']['doc_freq'],
+             res['hits']['hits'][0]['_source']['first_mention'],
+             res['hits']['hits'][0]['_source']['co_mentions'])
+    except:
+        r = None
+    return r
 

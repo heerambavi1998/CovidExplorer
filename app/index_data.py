@@ -2,6 +2,7 @@ import glob
 import json
 import csv
 from datetime import datetime
+from .elasticSearch import paper_namefromid
 
 def index_fulltext(es_client, metadatapath, paths, index):
     print("creating full-text index mapping...")
@@ -133,6 +134,7 @@ def index_named_entities(es_client, path, index):
     print("adding Named Entity index...")
 
     named_ent_dict = {}
+    co_men_dict = {}
     with open(path, newline='') as csvfile:
         f = csv.reader(csvfile)
         for row in f:
@@ -140,10 +142,13 @@ def index_named_entities(es_client, path, index):
                 continue
             nes = _format_ne(row[1])
             for ne in nes:
+                co_men = [x for x in nes if x!=ne] #all nes except current ne
                 if ne in named_ent_dict:
                     named_ent_dict[ne].append(row[0])
+                    co_men_dict[ne].update(co_men)
                 else:
                     named_ent_dict[ne] = [row[0]]
+                    co_men_dict[ne] = set(co_men)
 
     i = 0
     for item in named_ent_dict:
@@ -151,7 +156,22 @@ def index_named_entities(es_client, path, index):
         b = {}
         b['entity'] = item
         b['pids'] = named_ent_dict[item]
+        y_min = datetime.now().date()
+        for pid in b['pids']:
+            p = paper_namefromid(pid)
+            try:
+                y = datetime.strptime(p[3], '%Y-%m-%d').date()
+            except:
+                try:
+                    y = datetime.strptime(p[3], '%Y').date()
+                except:
+                    print(pid)
+            if y <= y_min:
+                y_min = y
+                first_p = pid
         b['doc_freq'] = len(named_ent_dict[item])
+        b['first_mention'] = first_p
+        b['co_mentions'] = list(co_men_dict[item])
 
         es_client.index(index=index, id=i, body=b)
 

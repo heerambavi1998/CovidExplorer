@@ -5,6 +5,9 @@ from pymongo import MongoClient
 import pandas as pd
 from .elasticSearch import *
 
+from datetime import datetime
+current_year = int(datetime.now().year)
+
 #mongoClient = MongoClient('localhost', 20000)
 #db = mongoClient.new_papers
 
@@ -104,3 +107,49 @@ def get_html_gene_filter():
                 d.append(papers_filt[i])
         return render_template('filter_results_gene.html', items=d)
 
+@app.route('/prge/<ent_name>')
+def get_indv_page(ent_name):
+    ent = get_prge_info(ent_name)
+    pids = ent[1]
+    doc_freq = ent[2]
+    first_mention_pid = ent[3]
+    co_mentions = ent[4]
+
+    return render_template('prge_indv.html',
+    ent_name = ent_name,
+    paper_mentions = [paper_namefromid(pid) for pid in pids],
+    doc_freq = doc_freq,
+    first_mention = paper_namefromid(first_mention_pid),
+    co_mentions = co_mentions
+    )
+
+@app.route('/get_data/prge', methods=["GET", "POST"])
+def graph_data():
+    ent_name = request.json["ent_name"]
+    ent = get_prge_info(ent_name)
+    first_mention = paper_namefromid(ent[3])
+    first_yr = int(first_mention[3][:4])
+    gene_data = {}
+
+    mention_distribution = {}
+    for pid in ent[1]:
+        p = paper_namefromid(pid)
+        y = p[3][:4]
+        try:
+            mention_distribution[y]+=1
+        except:
+            mention_distribution[y]=1
+    
+    yearwise_mentions = []
+    for y in range(current_year,first_yr-5,-1):
+    # print(y)
+        try:
+            yearwise_mentions.append(mention_distribution[str(y)])
+        except:
+            yearwise_mentions.append(0)
+
+    gene_data['yearwise_mentions'] = yearwise_mentions
+    gene_data["years"] = list(range(current_year, first_yr - 5, -1))
+
+    resp = jsonify(gene_data)
+    return resp
