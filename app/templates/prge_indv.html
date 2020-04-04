@@ -1,0 +1,118 @@
+<html>
+    <head>
+        {% include 'head.html' %}
+    </head>
+
+    <body>
+        {% include 'navbar.html' %}
+        <section>
+            <div class='container-fluid'>
+                <div class="row" style="margin-top:50px">
+                    <div class="col-lg-5 offset-lg-1">
+                        <h1>{{ent_name}}</h1>    
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 author-info offset-lg-1" style="margin-top: 20px">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Document Frequency: {{ doc_freq }}</h5>
+                                <h5>First Mention:</h5>
+                                <div>
+                                    <h5><a href="{{first_mention[1]}}" target="_blank">{{first_mention[0]}}</a></h5>
+                                    <p style="font-size: 18px; color: grey"> Journal : {{first_mention[2]}} | {{first_mention[3]}}</p>
+                                </div>                                
+                            </div>
+                        </div>
+                        <!-- <div class="card" style="margin-top: 20px">           
+                            <div class="card-body">
+                                <h5 style="margin-top: 10px">Co-mentioned Proteins & Genes:</h5>
+                                <p style="font-size: 18px; color: grey"> 
+                                {% for gene in co_mentions %}
+                                | <a style="color:grey" href="/prge/{{gene}}" target="_blank">{{gene}}</a> |                                
+                                {% endfor %}
+                                </p>
+
+                            </div>
+                        </div> -->
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card" style="margin-top: 20px">           
+                            <div class="card-body">
+                                <h5>Co-mentioned Genes & Proteins:</h5>
+                                <p style="font-size: 18px; color: grey"> 
+                                    {% for gene in co_mentions %}
+                                    | <a style="color:grey" href="/prge/{{gene}}" target="_blank">{{gene}}</a> |                                
+                                    {% endfor %}
+                                </p>
+                          </div>
+                      </div>
+                            </div>
+                            <div class="col-md-6">
+                             <div class="card" style="margin-top: 20px">           
+
+                                <div class="card-body">
+                              <h5>Mentions:-</h5>
+                              {% for paper in paper_mentions %}
+                              <div>
+                                  <h5><a href="{{paper[1]}}" target="_blank">{{paper[0]}}</a></h5>
+                                  <p style="font-size: 18px; color: grey"> Journal : {{paper[2]}} | {{paper[3]}}</p>
+                              </div>
+                              {% endfor %}
+                          </div>
+                            </div>
+                        </div>
+                        </div>
+
+
+
+
+
+
+
+                        <!-- <div class="card" style="margin-top: 20px">           
+                            <div class="card-body">
+                                <h5 style="margin-top: 10px">Mentions:</h5>
+                                {% for paper in paper_mentions %}
+                                <div>
+                                    <h5><a href="{{paper[1]}}" target="_blank">{{paper[0]}}</a></h5>
+                                    <p style="font-size: 18px; color: grey"> Journal : {{paper[2]}} | {{paper[3]}}</p>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+        $.ajax({
+                type: "POST",
+                url: "/get_data/prge",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    ent_name: "{{ent_name}}"
+                }),
+                success: function(resp) {
+                    var data = [
+                        {
+                            x: resp.years,
+                            y: resp.yearwise_mentions,
+                            type: 'bar'
+                        }
+                    ];
+                    Plotly.newPlot('mention-year', data,{"title" : {"text" : "Mention Distribution Over Years"}, "xaxis": {range:[1995,2020]}}, {showSendToCloud:true});
+                }
+        })
+        </script>
+        <br>
+
+
+        {% include 'footerbar.html' %}
+    </body>
+</html>
