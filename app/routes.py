@@ -114,7 +114,6 @@ def get_indv_page(ent_name):
     doc_freq = ent[2]
     first_mention_pid = ent[3]
     co_mentions = ent[4]
-
     return render_template('prge_indv.html',
     ent_name = ent_name,
     paper_mentions = [paper_namefromid(pid) for pid in pids],

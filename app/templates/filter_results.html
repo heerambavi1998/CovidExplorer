@@ -19,7 +19,17 @@
     {% for item in items %}
         <div>
             <h5><a href="{{item[1]}}" target="_blank">{{item[0]}}</a></h5>
-            <p style="font-size: 18px; color: grey"> Journal : {{item[2]}} | {{item[3]}}</p>
+            <p style="font-size: 18px; color: grey"> Journal : {{item[2]}} | {{item[3]}}
+                <br>
+                <span style="font-size: 16px; color: grey"> Authors : </span>
+            {% for auth in item[5] %}
+                <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+            {% endfor %}
+            <br>
+            {% for ne in item[4] %}
+            <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/prge/{{ne}}">{{ne}}</a>
+            {% endfor %}
+            </p>
         </div>
         <br>
     {% endfor %}

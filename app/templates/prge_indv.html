@@ -9,62 +9,82 @@
             <div class='container-fluid'>
                 <div class="row" style="margin-top:50px">
                     <div class="col-lg-5 offset-lg-1">
-                        <h1>{{ent_name}}</h1>    
+                        <h3>{{ent_name}}</h3>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-6 author-info offset-lg-1" style="margin-top: 20px">
+                    <div class="col-md-4 author-info offset-lg-1" style="margin-top: 20px">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Document Frequency: {{ doc_freq }}</h5>
+                                <h5>Document Frequency: <span style="font-size:36px; color:00b3bc !important;">{{ doc_freq }}</span></h5>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-body">
                                 <h5>First Mention:</h5>
                                 <div>
                                     <h5><a href="{{first_mention[1]}}" target="_blank">{{first_mention[0]}}</a></h5>
-                                    <p style="font-size: 18px; color: grey"> Journal : {{first_mention[2]}} | {{first_mention[3]}}</p>
+                                    <p style="font-size: 18px; color: grey"> Journal : {{first_mention[2]}} | {{first_mention[3]}}
+                                        <br>
+                                        <span style="font-size: 16px; color: grey"> Authors : </span>
+                                        {% for auth in first_mention[5] %}
+                                            <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                        {% endfor %}
+                                    </p>
                                 </div>                                
                             </div>
                         </div>
-                        <!-- <div class="card" style="margin-top: 20px">           
-                            <div class="card-body">
-                                <h5 style="margin-top: 10px">Co-mentioned Proteins & Genes:</h5>
-                                <p style="font-size: 18px; color: grey"> 
-                                {% for gene in co_mentions %}
-                                | <a style="color:grey" href="/prge/{{gene}}" target="_blank">{{gene}}</a> |                                
-                                {% endfor %}
-                                </p>
-
-                            </div>
-                        </div> -->
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card" style="margin-top: 20px">           
+                        <div class="card" style="margin-top: 20px">
                             <div class="card-body">
                                 <h5>Co-mentioned Genes & Proteins:</h5>
-                                <p style="font-size: 18px; color: grey"> 
+                                <p style="font-size: 18px; color: grey">
                                     {% for gene in co_mentions %}
-                                    | <a style="color:grey" href="/prge/{{gene}}" target="_blank">{{gene}}</a> |                                
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/prge/{{gene}}">{{gene}}</a>
                                     {% endfor %}
                                 </p>
-                          </div>
-                      </div>
                             </div>
-                            <div class="col-md-6">
-                             <div class="card" style="margin-top: 20px">           
+                        </div>
+                    </div>
+                    <div class="col-md-6 author-info offset-md1" style="margin-top: 20px">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Mention distribution over years</h5>
+                                <div id="mention-year">
 
-                                <div class="card-body">
-                              <h5>Mentions:-</h5>
-                              {% for paper in paper_mentions %}
-                              <div>
-                                  <h5><a href="{{paper[1]}}" target="_blank">{{paper[0]}}</a></h5>
-                                  <p style="font-size: 18px; color: grey"> Journal : {{paper[2]}} | {{paper[3]}}</p>
-                              </div>
-                              {% endfor %}
-                          </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-10 author-info offset-lg-1">
+                        <div class="card" style="margin-top: 20px">
+
+                            <div class="card-body">
+                                <h5>Mentions:-</h5>
+                                  {% for paper in paper_mentions %}
+                                  <div>
+                                      <h5><a href="{{paper[1]}}" target="_blank">{{paper[0]}}</a></h5>
+                                      <p style="font-size: 18px; color: grey"> Journal : {{paper[2]}} | {{paper[3]}}
+                                            <br>
+                                            <span style="font-size: 16px; color: grey"> Authors : </span>
+                                            {% for auth in paper[5] %}
+                                                <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                            {% endfor %}
+                                      </p>
+                                  </div>
+                                  {% endfor %}
+                            </div>
                         </div>
+                    </div>
+
+
+
+                </div>
 
 
 
@@ -84,9 +104,8 @@
 
                             </div>
                         </div> -->
-                    </div>
-                </div>
             </div>
+
         </section>
 
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

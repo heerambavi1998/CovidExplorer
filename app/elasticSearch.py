@@ -23,7 +23,9 @@ def paper_es(paper_name):
             url = res['hits']['hits'][i]['_source']['url']
             ptime = res['hits']['hits'][i]['_source']['publish_time']
             journ = res['hits']['hits'][i]['_source']['journal']
-            papers.append((ptitle, url, journ, ptime))
+            prge = res['hits']['hits'][i]['_source']['named_entities']
+            auth = res['hits']['hits'][i]['_source']['authors']
+            papers.append((ptitle, url, journ, ptime, prge, auth))
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -63,7 +65,9 @@ def paper_filteryr(paper_name,yr_s,yr_e):
             url = res['hits']['hits'][i]['_source']['url']
             ptime = res['hits']['hits'][i]['_source']['publish_time']
             journ = res['hits']['hits'][i]['_source']['journal']
-            papers.append((ptitle, url, journ, ptime))
+            prge = res['hits']['hits'][i]['_source']['named_entities']
+            auth = res['hits']['hits'][i]['_source']['authors']
+            papers.append((ptitle, url, journ, ptime, prge, auth))
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -117,7 +121,10 @@ def paper_namefromid(pid):
         r = (res['hits']['hits'][0]['_source']['title'],
              res['hits']['hits'][0]['_source']['url'],
              res['hits']['hits'][0]['_source']['journal'],
-             res['hits']['hits'][0]['_source']['publish_time'])
+             res['hits']['hits'][0]['_source']['publish_time'],
+             res['hits']['hits'][0]['_source']['named_entities'],
+             res['hits']['hits'][0]['_source']['authors']
+             )
     except:
         r = None
     return r
@@ -143,7 +150,9 @@ def fulltextsearch(search_item):
             url = res['hits']['hits'][i]['_source']['url']
             ptime = res['hits']['hits'][i]['_source']['publish_time']
             journ = res['hits']['hits'][i]['_source']['journal']
-            papers.append((ptitle,url,journ,ptime))
+            prge = res['hits']['hits'][i]['_source']['named_entities']
+            auth = res['hits']['hits'][i]['_source']['authors']
+            papers.append((ptitle, url, journ, ptime, prge, auth))
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -183,8 +192,10 @@ def fulltextsearch_filteryr(search_item, yr_s, yr_e):
             url = res['hits']['hits'][i]['_source']['url']
             ptime = res['hits']['hits'][i]['_source']['publish_time']
             journ = res['hits']['hits'][i]['_source']['journal']
+            prge = res['hits']['hits'][i]['_source']['named_entities']
+            auth = res['hits']['hits'][i]['_source']['authors']
+            papers.append((ptitle, url, journ, ptime, prge, auth))
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
-            papers.append((ptitle,url,journ,ptime))
     except:
         None
     return (papers, pids)

@@ -62,7 +62,7 @@ def index_fulltext(es_client, metadatapath, paths, index):
             b['url'] = metadata['url']
             b['publish_time'] = metadata['publish_time']
             b['journal'] = metadata['journal']
-            b['authors'] = metadata['authors']
+            b['authors'] = _format_sha(metadata['authors'])
             b['named_entities'] = named_ent_dict[doc['paper_id']]
             es_client.index(index=index,
                            id=i,
