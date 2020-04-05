@@ -35,8 +35,8 @@ tr:hover            { background-color: #D6DBDF;}
 }
 
 .containerTab {
-  padding: 120px;
-  color: rgb(59, 52, 52);
+  padding: 15%;
+  color: rgb(20, 19, 19);
 }
 
 /* Clear floats after the columns */
@@ -49,7 +49,7 @@ tr:hover            { background-color: #D6DBDF;}
 /* Closable button inside the image */
 .closebtn {
   float: right;
-  color: white;
+  color: rgb(46,18,18);
   font-size: 45px;
   cursor: pointer;
 }
