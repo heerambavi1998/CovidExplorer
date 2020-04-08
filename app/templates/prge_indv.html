@@ -137,10 +137,20 @@
                         {
                             x: resp.years,
                             y: resp.yearwise_mentions,
-                            type: 'bar'
+                            type: 'bar',
+                            marker: {color: 'rgba(0, 179, 188, 1)'},
                         }
                     ];
-                    Plotly.newPlot('mention-year', data,{"title" : {"text" : "Mention Distribution Over Years"}, "xaxis": {range:[1995,2020]}}, {showSendToCloud:true});
+
+                    var layout = {
+                        title: {
+                            text: "Mention Distribution Over Years"
+                        },
+                        // marker: {
+                        //     color: rgba(0, 179, 188, 1)
+                        // }
+                    }
+                    Plotly.newPlot('mention-year', data,layout, {showSendToCloud:true});
                 }
         })
         </script>

@@ -1,4 +1,4 @@
-<div class="column-lg-9">
+<div class="column-lg-9" style="float:left; width:25%;padding-left: 5%;">
     <div class="card text-center">
         <div class="card-body">
             <h5 class="card-title">Filter year results by Proteins and Genes</h5>
@@ -10,12 +10,22 @@
                 </div>
             {% endfor %}
 
+            
+
         </div>
     </div>
 </div>
+
+
+<div style="margin-top:10px;">
+            
+
+    <div class="row" style="margin-top:50px; ">
+
+
 <br>
 <br>
-<div id="gene_filter_result">
+<div style="float:right; width:75%; padding-left: 10%;" id="gene_filter_result">
     {% for item in items %}
         <div>
             <h5><a href="{{item[1]}}" target="_blank">{{item[0]}}</a></h5>
@@ -34,3 +44,5 @@
         <br>
     {% endfor %}
 </div>
+</div></div>
+
