@@ -185,5 +185,5 @@ def _format_sha(sha):
 
 def _format_ne(ne):
     l = ne.split(';')
-    l_1 = [i.strip() for i in l if i != '']
+    l_1 = [i.strip() for i in l if len(i)>1]
     return l_1

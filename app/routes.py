@@ -140,7 +140,7 @@ def graph_data():
             mention_distribution[y]=1
     
     yearwise_mentions = []
-    for y in range(current_year,first_yr-5,-1):
+    for y in range(current_year,first_yr-1,-1):
     # print(y)
         try:
             yearwise_mentions.append(mention_distribution[str(y)])
@@ -148,7 +148,7 @@ def graph_data():
             yearwise_mentions.append(0)
 
     gene_data['yearwise_mentions'] = yearwise_mentions
-    gene_data["years"] = list(range(current_year, first_yr - 5, -1))
+    gene_data["years"] = list(range(current_year, first_yr - 1, -1))
 
     resp = jsonify(gene_data)
     return resp
