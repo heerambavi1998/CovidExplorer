@@ -21,6 +21,8 @@
                             </div>
                         </div>
                         <br>
+                        <br>
+                        <br>
                         <div class="card">
                             <div class="card-body">
                                 <h5>First Mention:</h5>
@@ -36,16 +38,6 @@
                                 </div>                                
                             </div>
                         </div>
-                        <div class="card" style="margin-top: 20px">
-                            <div class="card-body">
-                                <h5>Co-mentioned Genes & Proteins:</h5>
-                                <p style="font-size: 18px; color: grey">
-                                    {% for gene in co_mentions %}
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/prge/{{gene}}">{{gene}}</a>
-                                    {% endfor %}
-                                </p>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-md-6 author-info offset-md1" style="margin-top: 20px">
                         <div class="card">
@@ -59,6 +51,32 @@
                     </div>
 
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-10 author-info offset-lg-1">
+                        <div class="card" style="margin-top: 20px">
+                            <div class="card-body">
+                                <h5>Co-mentioned Genes & Proteins:</h5>
+                                <p style="font-size: 18px; color: grey">
+                                    {% for gene in co_mentions %}
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/prge/{{gene}}">{{gene}}</a>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                                <div class="dashboard_graph">
+                                    <div style="width: 100%; min-height:600px;" >
+                                        <iframe
+                                          noresize='noresize'
+                                          style='position: absolute; background: transparent; width: 95%; height:100%;'
+                                          src="/graphs/entity={{ent_name}}"
+                                          frameborder="0">
+                                        </iframe>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="row">
                     <div class="col-lg-10 author-info offset-lg-1">
@@ -81,9 +99,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
 
 
