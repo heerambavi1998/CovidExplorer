@@ -8,7 +8,7 @@ var type = document.getElementById("field").innerHTML;
 
 var year_filter = new rSlider({
     target: '#yr-slider',
-    values: {min:1950, max:curr_yr},
+    values: {min:1957, max:curr_yr},
     step: 1,
     range: true,
     tooltip: true,
