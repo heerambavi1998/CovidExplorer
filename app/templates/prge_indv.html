@@ -27,11 +27,11 @@
                             <div class="card-body">
                                 <h5>First Mention:</h5>
                                 <div>
-                                    <h5><a href="{{first_mention[1]}}" target="_blank">{{first_mention[0]}}</a></h5>
-                                    <p style="font-size: 18px; color: grey"> Journal : {{first_mention[2]}} | {{first_mention[3]}}
+                                    <h5><a href="{{first_mention['url']}}" target="_blank">{{first_mention['title']}}</a></h5>
+                                    <p style="font-size: 18px; color: grey"> Journal : {{first_mention['journ']}} | {{first_mention['ptime']}}
                                         <br>
                                         <span style="font-size: 16px; color: grey"> Authors : </span>
-                                        {% for auth in first_mention[5] %}
+                                        {% for auth in first_mention['auth'] %}
                                             <span style="font-size: 16px; color: grey"> {{auth}} |</span>
                                         {% endfor %}
                                     </p>
@@ -56,10 +56,10 @@
                     <div class="col-lg-10 author-info offset-lg-1">
                         <div class="card" style="margin-top: 20px">
                             <div class="card-body">
-                                <h5>Co-mentioned Genes & Proteins:</h5>
+                                <h5>Co-mentioned Entities:</h5>
                                 <p style="font-size: 18px; color: grey">
                                     {% for gene in co_mentions %}
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/prge/{{gene}}">{{gene}}</a>
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{gene}}">{{gene}}</a>
                                     {% endfor %}
                                 </p>
                             </div>
@@ -84,16 +84,16 @@
 
                             <div class="card-body">
                                 <h5>Mentions:-</h5>
-                                  {% for paper in paper_mentions %}
+                                  {% for item in paper_mentions %}
                                   <div>
-                                      <h5><a href="{{paper[1]}}" target="_blank">{{paper[0]}}</a></h5>
-                                      <p style="font-size: 18px; color: grey"> Journal : {{paper[2]}} | {{paper[3]}}
+                                        <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                                        <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
                                             <br>
                                             <span style="font-size: 16px; color: grey"> Authors : </span>
-                                            {% for auth in paper[5] %}
-                                                <span style="font-size: 16px; color: grey"> {{auth}} |</span>
-                                            {% endfor %}
-                                      </p>
+                                        {% for auth in item['auth'] %}
+                                            <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                        {% endfor %}
+                                        </p>
                                   </div>
                                   {% endfor %}
                             </div>
@@ -130,7 +130,8 @@
                 url: "/get_data/prge",
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    ent_name: "{{ent_name}}"
+                    ent_name: "{{ent_name}}",
+                    ent_type: "{{ent_type}}"
                 }),
                 success: function(resp) {
                     var data = [

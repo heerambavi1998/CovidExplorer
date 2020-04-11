@@ -35,14 +35,24 @@
                     <div class="card-body">
                         <h5 class="card-title">Filter year results by Proteins and Genes</h5>
     
-                        {% for item in ners %}
+                        {% for item in prge %}
                             <div class="inline" style="margin-top: 5px">
                                 <span style="margin-left: 10px;">
-                                    <button type=button id="gene-{{item}}" name="gene-{{item}}" value="{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
+                                    <button type=button id="prge:{{item}}" name="prge:{{item}}" value="prge:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
                             </div>
                         {% endfor %}
-                        
-    
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Filter year results by Chemical Entities</h5>
+
+                        {% for item in ched %}
+                            <div class="inline" style="margin-top: 5px">
+                                <span style="margin-left: 10px;">
+                                    <button type=button id="ched:{{item}}" name="ched:{{item}}" value="ched:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -57,16 +67,20 @@
                 <div style="float:right; width:75%; padding-left: 10%;" id="gene_filter_result">
                     {% for item in items %}
                         <div>
-                            <h5><a href="{{item[1]}}" target="_blank">{{item[0]}}</a></h5>
-                            <p style="font-size: 18px; color: grey"> Journal : {{item[2]}} | {{item[3]}}
+                            <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                            <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
                                 <br>
                                 <span style="font-size: 16px; color: grey"> Authors : </span>
-                            {% for auth in item[5] %}
+                            {% for auth in item['auth'] %}
                                 <span style="font-size: 16px; color: grey"> {{auth}} |</span>
                             {% endfor %}
                             <br>
-                            {% for ne in item[4] %}
-                            <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/prge/{{ne}}">{{ne}}</a>
+                            {% for ne in item['prge'] %}
+                            <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+                            <br>
+                            {% for ne in item['ched'] %}
+                            <a type="button" style="color: c38d9e !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
                             {% endfor %}
                             </p>
                         </div>

@@ -10,7 +10,7 @@ function filterby(gene){
                 yr_e:years.slice(5,9),
                 field:type,
                 searchtext : keyword,
-                gene: fired_button},
+                entity: fired_button},
             success = function(data) {
                 $( "#gene_filter_result" ).html(data);
             }

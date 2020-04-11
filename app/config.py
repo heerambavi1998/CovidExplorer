@@ -7,4 +7,5 @@ DATAPATHS = ["data/comm_use_subset/comm_use_subset/*.json",
             ]
 METADATAPATH = "data/metadata.csv"
 NERDATAPATH = "prge_from_abs_comb.csv"
+CHEDDATAPATH = "ched_from_abs_comb.csv"
 DASHURL = '/graphs/'

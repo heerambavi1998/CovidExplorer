@@ -5,3 +5,7 @@ flask_restplus==0.13.0
 pandas==0.25.3
 nltk==3.4.5
 Wikipedia_API==0.5.3
+networkx==2.4
+lxml==4.5.0
+dash==1.10.0
+dash-daq==0.4.0

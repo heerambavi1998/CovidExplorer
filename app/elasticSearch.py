@@ -19,13 +19,13 @@ def paper_es(paper_name):
     pids = []
     try:
         for i in range(len(res['hits']['hits'])):
-            ptitle=res['hits']['hits'][i]['_source']['title']
-            url = res['hits']['hits'][i]['_source']['url']
-            ptime = res['hits']['hits'][i]['_source']['publish_time']
-            journ = res['hits']['hits'][i]['_source']['journal']
-            prge = res['hits']['hits'][i]['_source']['named_entities']
-            auth = res['hits']['hits'][i]['_source']['authors']
-            papers.append((ptitle, url, journ, ptime, prge, auth))
+            papers.append({'title': res['hits']['hits'][i]['_source']['title'],
+            'url': res['hits']['hits'][i]['_source']['url'],
+            'ptime' : res['hits']['hits'][i]['_source']['publish_time'],
+            'journ' : res['hits']['hits'][i]['_source']['journal'],
+            'auth' : res['hits']['hits'][i]['_source']['authors'],
+            'prge' : res['hits']['hits'][i]['_source']['named_entities'],
+            'ched' : res['hits']['hits'][i]['_source']['ched_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -61,13 +61,13 @@ def paper_filteryr(paper_name,yr_s,yr_e):
     pids = []
     try:
         for i in range(len(res['hits']['hits'])):
-            ptitle=res['hits']['hits'][i]['_source']['title']
-            url = res['hits']['hits'][i]['_source']['url']
-            ptime = res['hits']['hits'][i]['_source']['publish_time']
-            journ = res['hits']['hits'][i]['_source']['journal']
-            prge = res['hits']['hits'][i]['_source']['named_entities']
-            auth = res['hits']['hits'][i]['_source']['authors']
-            papers.append((ptitle, url, journ, ptime, prge, auth))
+            papers.append({'title': res['hits']['hits'][i]['_source']['title'],
+                           'url': res['hits']['hits'][i]['_source']['url'],
+                           'ptime': res['hits']['hits'][i]['_source']['publish_time'],
+                           'journ': res['hits']['hits'][i]['_source']['journal'],
+                           'auth': res['hits']['hits'][i]['_source']['authors'],
+                           'prge': res['hits']['hits'][i]['_source']['named_entities'],
+                           'ched': res['hits']['hits'][i]['_source']['ched_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -118,13 +118,13 @@ def paper_namefromid(pid):
     })
     try:
         #print(res)
-        r = (res['hits']['hits'][0]['_source']['title'],
-             res['hits']['hits'][0]['_source']['url'],
-             res['hits']['hits'][0]['_source']['journal'],
-             res['hits']['hits'][0]['_source']['publish_time'],
-             res['hits']['hits'][0]['_source']['named_entities'],
-             res['hits']['hits'][0]['_source']['authors']
-             )
+        r = {'title': res['hits']['hits'][0]['_source']['title'],
+             'url' : res['hits']['hits'][0]['_source']['url'],
+             'journ': res['hits']['hits'][0]['_source']['journal'],
+             'ptime': res['hits']['hits'][0]['_source']['publish_time'],
+             'prge': res['hits']['hits'][0]['_source']['named_entities'],
+             'ched' : res['hits']['hits'][0]['_source']['ched_entities'],
+             'auth': res['hits']['hits'][0]['_source']['authors']}
     except:
         r = None
     return r
@@ -146,13 +146,13 @@ def fulltextsearch(search_item):
     pids = []
     try:
         for i in range(len(res['hits']['hits'])):
-            ptitle=res['hits']['hits'][i]['_source']['title']
-            url = res['hits']['hits'][i]['_source']['url']
-            ptime = res['hits']['hits'][i]['_source']['publish_time']
-            journ = res['hits']['hits'][i]['_source']['journal']
-            prge = res['hits']['hits'][i]['_source']['named_entities']
-            auth = res['hits']['hits'][i]['_source']['authors']
-            papers.append((ptitle, url, journ, ptime, prge, auth))
+            papers.append({'title': res['hits']['hits'][i]['_source']['title'],
+                           'url': res['hits']['hits'][i]['_source']['url'],
+                           'ptime': res['hits']['hits'][i]['_source']['publish_time'],
+                           'journ': res['hits']['hits'][i]['_source']['journal'],
+                           'auth': res['hits']['hits'][i]['_source']['authors'],
+                           'prge': res['hits']['hits'][i]['_source']['named_entities'],
+                           'ched': res['hits']['hits'][i]['_source']['ched_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -188,13 +188,13 @@ def fulltextsearch_filteryr(search_item, yr_s, yr_e):
     pids = []
     try:
         for i in range(len(res['hits']['hits'])):
-            ptitle=res['hits']['hits'][i]['_source']['title']
-            url = res['hits']['hits'][i]['_source']['url']
-            ptime = res['hits']['hits'][i]['_source']['publish_time']
-            journ = res['hits']['hits'][i]['_source']['journal']
-            prge = res['hits']['hits'][i]['_source']['named_entities']
-            auth = res['hits']['hits'][i]['_source']['authors']
-            papers.append((ptitle, url, journ, ptime, prge, auth))
+            papers.append({'title': res['hits']['hits'][i]['_source']['title'],
+                           'url': res['hits']['hits'][i]['_source']['url'],
+                           'ptime': res['hits']['hits'][i]['_source']['publish_time'],
+                           'journ': res['hits']['hits'][i]['_source']['journal'],
+                           'auth': res['hits']['hits'][i]['_source']['authors'],
+                           'prge': res['hits']['hits'][i]['_source']['named_entities'],
+                           'ched': res['hits']['hits'][i]['_source']['ched_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -222,7 +222,7 @@ def top_doc_freq_ne(entity_list, n):
 
 def named_entities_es(pid_list):
 
-    ne_list = []
+    ne_list = {'prge':[], 'ched':[]}
     for pid in pid_list:
         res = es.search(index="covid19_fulltext", body={
             'from': 0,
@@ -233,15 +233,21 @@ def named_entities_es(pid_list):
                 }
             }
         })
-        ne_list.extend(res['hits']['hits'][0]['_source']['named_entities'])
-    ne_list = list(set(ne_list))
+        ne_list['prge'].extend(res['hits']['hits'][0]['_source']['named_entities'])
+        ne_list['ched'].extend(res['hits']['hits'][0]['_source']['ched_entities'])
+    ne_list['prge'] = list(set(ne_list['prge']))
+    ne_list['ched'] = list(set(ne_list['ched']))
     # TODO: currently not returning top genes, but all genes
     #top_ne = top_doc_freq_ne(ne_list,16)
     return ne_list
 
 
-def named_entity_filter(pid_list, entity):
-    res = es.search(index="covid19_ner", body={
+def named_entity_filter(pid_list, entity, entity_type):
+    if entity_type == 'prge':
+        index = 'covid19_ner'
+    elif entity_type == 'ched':
+        index = 'covid19_ched'
+    res = es.search(index=index, body={
         'from': 0,
         'size': 10000,
         "query": {
@@ -258,13 +264,17 @@ def named_entity_filter(pid_list, entity):
             l.append(id)
     return l
 
-def get_prge_info(ent_name):
-    res = es.search(index="covid19_ner", body={
+def get_named_entity_info(entity, entity_type):
+    if entity_type == 'prge':
+        index = 'covid19_ner'
+    elif entity_type == 'ched':
+        index = 'covid19_ched'
+    res = es.search(index=index, body={
         'from':0,
         'size':100,
         "query": {
             "match_phrase": {
-                "entity": ent_name
+                "entity": entity
             }
         }
     })

@@ -34,6 +34,11 @@ def index_fulltext(es_client, metadatapath, paths, index):
         f = csv.reader(csvfile)
         for row in f:
             named_ent_dict[row[0]] = _format_ne(row[1])
+    ched_ent_dict = {}
+    with open('ched_from_abs_comb.csv', newline='') as csvfile:
+        f = csv.reader(csvfile)
+        for row in f:
+            ched_ent_dict[row[0]] = _format_ne(row[1])
 
     i = 0
     for path in paths:
@@ -64,6 +69,7 @@ def index_fulltext(es_client, metadatapath, paths, index):
             b['journal'] = metadata['journal']
             b['authors'] = _format_sha(metadata['authors'])
             b['named_entities'] = named_ent_dict[doc['paper_id']]
+            b['ched_entities'] = ched_ent_dict[doc['paper_id']]
             es_client.index(index=index,
                            id=i,
                            body=b)
@@ -131,7 +137,7 @@ def index_authors(es_client, paths, index):
 
 
 def index_named_entities(es_client, path, index):
-    print("adding Named Entity index...")
+    print("adding Named Entity index for %s..." %path)
 
     named_ent_dict = {}
     co_men_dict = {}

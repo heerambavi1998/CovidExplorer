@@ -52,13 +52,13 @@ def search_field(field, text):
         papers, pids = paper_es(text)
         entities = named_entities_es(pids)
         return render_template('search_paper.html', items = papers, keyword=text, field=field,
-                               ners=entities)
+                               prge=entities['prge'], ched=entities['ched'])
 
     if field == 'FullText':
         papers, pids = fulltextsearch(text)
         entities = named_entities_es(pids)
         return render_template('search_paper.html', items=papers, keyword=text, field=field,
-                               ners=entities)
+                               prge=entities['prge'], ched=entities['ched'])
 
     if field == 'Author':
         authors = author_es(text)
@@ -75,11 +75,14 @@ def get_html_year_filter():
     if field == 'Paper':
         papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
         entities = named_entities_es(pids)
-        return render_template('filter_results.html', items=papers_filt, ners=entities)
+        return render_template('filter_results.html', items=papers_filt,
+                               prge=entities['prge'], ched=entities['ched'])
     if field == 'FullText':
         papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
         entities = named_entities_es(pids)
-        return render_template('filter_results.html', items=papers_filt, ners=entities)
+        return render_template('filter_results.html', items=papers_filt,
+                               prge=entities['prge'], ched=entities['ched'])
+
 
 @app.route('/gene_filter')
 def get_html_gene_filter():
@@ -87,11 +90,13 @@ def get_html_gene_filter():
     yr_e = request.args.get("yr_e")
     field = request.args.get("field")
     text = request.args.get("searchtext")
-    gene = request.args.get("gene")
+    print(request.args.get("entity"))
+    ent_type = request.args.get("entity").split(':')[0]
+    entity = request.args.get("entity").split(':')[1]
 
     if field == 'Paper':
         papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
-        pids_new = named_entity_filter(pids,gene)
+        pids_new = named_entity_filter(pids,entity, ent_type)
         d = []
         for i in range(len(pids)):
             if pids[i] in pids_new:
@@ -100,40 +105,42 @@ def get_html_gene_filter():
 
     if field == 'FullText':
         papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
-        pids_new = named_entity_filter(pids, gene)
+        pids_new = named_entity_filter(pids, entity, ent_type)
         d = []
         for i in range(len(pids)):
             if pids[i] in pids_new:
                 d.append(papers_filt[i])
         return render_template('filter_results_gene.html', items=d)
 
-@app.route('/prge/<ent_name>')
-def get_indv_page(ent_name):
-    ent = get_prge_info(ent_name)
+@app.route('/entity/<ent_type>/<ent_name>')
+def get_indv_page(ent_type, ent_name):
+    ent = get_named_entity_info(ent_name, ent_type)
     pids = ent[1]
     doc_freq = ent[2]
     first_mention_pid = ent[3]
     co_mentions = ent[4]
     return render_template('prge_indv.html',
-    ent_name = ent_name,
-    paper_mentions = [paper_namefromid(pid) for pid in pids],
-    doc_freq = doc_freq,
-    first_mention = paper_namefromid(first_mention_pid),
-    co_mentions = co_mentions
-    )
+        ent_type = ent_type,
+        ent_name = ent_name,
+        paper_mentions = [paper_namefromid(pid) for pid in pids],
+        doc_freq = doc_freq,
+        first_mention = paper_namefromid(first_mention_pid),
+        co_mentions = co_mentions
+        )
 
 @app.route('/get_data/prge', methods=["GET", "POST"])
 def graph_data():
     ent_name = request.json["ent_name"]
-    ent = get_prge_info(ent_name)
+    ent_type = request.json["ent_type"]
+    ent = get_named_entity_info(ent_name, ent_type)
     first_mention = paper_namefromid(ent[3])
-    first_yr = int(first_mention[3][:4])
+    first_yr = int(first_mention['ptime'][:4])
     gene_data = {}
 
     mention_distribution = {}
     for pid in ent[1]:
         p = paper_namefromid(pid)
-        y = p[3][:4]
+        y = p['ptime'][:4]
         try:
             mention_distribution[y]+=1
         except:
