@@ -92,7 +92,7 @@
                         
                         if($lis.length > 0){
                             $ol
-                                .prepend($('<span class="showmore-button">' + (isExpanded ? 'Show Less' : 'Show More') + '</span>')
+                                .prepend($('<span class="showmore-button" style="margin-left: 10px;">' + (isExpanded ? 'Show Less' : 'Show More') + '</span>')
                                 .click(function(event){
                                     var isExpanded = $ol.hasClass('expanded');
                                     // event.preventDefault();
