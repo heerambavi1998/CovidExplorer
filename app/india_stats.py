@@ -198,9 +198,3 @@ def indiastats():
                             plot34=line34,totals=total,tables=tab,dead=deaths,recover=rec)
 
 
-
-
-
-
-if __name__=='__main__':
-    app.run(debug=True)
