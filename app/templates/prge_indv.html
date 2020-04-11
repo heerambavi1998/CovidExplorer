@@ -59,7 +59,7 @@
                                 <h5>Co-mentioned Entities:</h5>
                                 <p style="font-size: 18px; color: grey">
                                     {% for gene in co_mentions %}
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{gene}}">{{gene}}</a>
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a>
                                     {% endfor %}
                                 </p>
                             </div>
@@ -145,8 +145,9 @@
 
                     var layout = {
                         title: {
-                            text: "Mention Distribution Over Years"
+                            text: "Mention Distribution Over Years",
                         },
+                        xaxis:{'tickformat': 'd'}
                         // marker: {
                         //     color: rgba(0, 179, 188, 1)
                         // }

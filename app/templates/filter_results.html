@@ -2,25 +2,31 @@
     <div class="card text-center">
         <div class="card-body">
             <h5 class="card-title">Filter year results by Proteins and Genes</h5>
-
+            <ol class="expandible" style="list-style-type:none;">
             {% for item in prge %}
+            <li>
                 <div class="inline" style="margin-top: 5px">
                     <span style="margin-left: 10px;">
                         <button type=button id="prge:{{item}}" name="prge:{{item}}" value="prge:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
                 </div>
+            </li>
             {% endfor %}
+        </ol>
         </div>
     </div>
     <div class="card text-center">
         <div class="card-body">
             <h5 class="card-title">Filter year results by Chemical Entities</h5>
-
+            <ol class="expandible" style="list-style-type:none;">
             {% for item in ched %}
+            <li>
                 <div class="inline" style="margin-top: 5px">
                     <span style="margin-left: 10px;">
                         <button type=button id="ched:{{item}}" name="ched:{{item}}" value="ched:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
                 </div>
+            </li>
             {% endfor %}
+        </ol>
         </div>
     </div>
 </div>
@@ -59,3 +65,23 @@
 </div>
 </div></div>
 
+<script>
+    $('ol.expandible').each(function(){
+        var $ol = $(this),
+            $lis = $ol.find('li:gt(9)'),
+            isExpanded = $ol.hasClass('expanded');
+        $lis[isExpanded ? 'show' : 'hide']();
+        
+        if($lis.length > 0){
+            $ol
+                .prepend($('<span class="showmore-button">' + (isExpanded ? 'Show Less' : 'Show More') + '</span>')
+                .click(function(event){
+                    var isExpanded = $ol.hasClass('expanded');
+                    // event.preventDefault();
+                    $(this).html(isExpanded ? 'Show More' : 'Show Less');
+                    $ol.toggleClass('expanded');
+                    $lis.toggle();
+                }));
+        }
+    });
+</script>

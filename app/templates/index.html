@@ -1,14 +1,23 @@
 <html>
     
     {% include 'head.html' %}
-
+    <head>
+        <style>
+        #main{
+            background-image: url('../static/images/virus_bg.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover; 
+        }
+        </style>
+    </head>
 
     <body>
 
         {% include 'navbar.html' %}
     
     <section class="search-sec" id="main">
-            <div class="container" style="text-align:center;padding:10% 0% 10% 0%; color: black;">
+            <div class="container" style="text-align:center;padding:10% 0% 10% 0%; color: white;">
                 <h1 style="font-size: 70px">COVID-19</h1>
                 <h3> Stats, Search and more...</h3>
                 <form action="/search" method="post" novalidate="novalidate">
@@ -67,23 +76,7 @@
     {% include 'footerbar.html' %}
     </body>
     <script src="{{ url_for('static',filename='three.r92.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='vanta.net.min.js') }}"></script>
-
-    <script>
-        VANTA.NET({
-              el: "#main",
-              mouseControls: true,
-              touchControls: true,
-              scale: 1.00,
-              scaleMobile: 1.00,
-              color: 0xffffff,
-              backgroundColor: 0x57b5bb,
-              points: 20.00,
-              maxDistance: 19.00,
-              spacing: 16.00
-        })
-
-    </script>
+   
 <script>
         $('#search-text-1').on('keyup', function() {
             var text_length = $(this).val().replace(/\s/g, "").length;
