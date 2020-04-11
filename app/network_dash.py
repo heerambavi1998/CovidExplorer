@@ -31,8 +31,8 @@ def update_graph(url):
 
     config = dict(urllib.parse.parse_qsl(url.strip('/')))
     gene = config['graphs/entity']
-
-    G = create_network(gene)
+    ent_type = config['ent_type']
+    G = create_network(gene, ent_type)
     pos = nx.spring_layout(G, k=3 / math.sqrt(len(G.nodes())), seed=3)
 
     # Add edges as disconnected lines in a single trace

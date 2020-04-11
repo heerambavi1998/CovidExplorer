@@ -2,8 +2,14 @@ from .config import *
 from . import ES_CLIENT as es
 import networkx as nx
 
-def _get_comentions(gene):
-    res = es.search(index="covid19_ner", body={
+def _get_comentions(gene, ent_type):
+    if ent_type == 'prge':
+        index = 'covid19_ner'
+        ent = 'named_entities'
+    elif ent_type == 'ched':
+        index = 'covid19_ched'
+        ent = 'ched_entities'
+    res = es.search(index=index, body={
         'from': 0,
         'size': 10,
         "query": {
@@ -13,7 +19,6 @@ def _get_comentions(gene):
         }
     })
     pid_list = res['hits']['hits'][0]['_source']['pids']
-
     co_ment = {}
     for pid in pid_list:
         res = es.search(index="covid19_fulltext", body={
@@ -25,14 +30,14 @@ def _get_comentions(gene):
                 }
             }
         })
-        nes = res['hits']['hits'][0]['_source']['named_entities']
+        nes = res['hits']['hits'][0]['_source'][ent]
         co_men = [x for x in nes if x != gene]
         co_ment[pid] = (res['hits']['hits'][0]['_source']['title'], co_men)
     return co_ment
 
 
-def create_network(gene):
-    co_ment = _get_comentions(gene)
+def create_network(gene, ent_type):
+    co_ment = _get_comentions(gene, ent_type)
     graph = nx.Graph()
 
     graph.add_node(gene)
