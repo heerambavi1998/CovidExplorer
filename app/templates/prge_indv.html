@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link href="{{ url_for('static',filename='showmore.css') }}" rel="stylesheet" type="text/css"> </link>
         {% include 'head.html' %}
     </head>
 
@@ -56,11 +57,16 @@
                     <div class="col-lg-10 author-info offset-lg-1">
                         <div class="card" style="margin-top: 20px">
                             <div class="card-body">
-                                <h5>Co-mentioned Entities:</h5>
+                                <h5 id="comen">Co-mentioned Entities:</h5>
                                 <p style="font-size: 18px; color: grey">
+                                <ol class="expandible" style="list-style-type:none;">
                                     {% for gene in co_mentions %}
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a>
+                                    <li>
+                                    <div class="inline" style="margin-top: 5px">
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
+                                    </li>
                                     {% endfor %}
+                                </ol>
                                 </p>
                             </div>
                                 <div class="dashboard_graph">
@@ -77,6 +83,26 @@
                     </div>
                 </div>
 
+                <script>
+                    $('ol.expandible').each(function(){
+                        var $ol = $(this),
+                            $lis = $ol.find('li:gt(19)'),
+                            isExpanded = $ol.hasClass('expanded');
+                        $lis[isExpanded ? 'show' : 'hide']();
+                        
+                        if($lis.length > 0){
+                            $ol
+                                .prepend($('<span class="showmore-button">' + (isExpanded ? 'Show Less' : 'Show More') + '</span>')
+                                .click(function(event){
+                                    var isExpanded = $ol.hasClass('expanded');
+                                    // event.preventDefault();
+                                    $(this).html(isExpanded ? 'Show More' : 'Show Less');
+                                    $ol.toggleClass('expanded');
+                                    $lis.toggle();
+                                }));
+                        }
+                    });
+                </script>
 
                 <div class="row">
                     <div class="col-lg-10 author-info offset-lg-1">
