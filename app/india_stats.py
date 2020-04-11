@@ -12,8 +12,7 @@ import time
 from datetime import datetime  
 from datetime import timedelta  
 global last_updated
-app=Flask(__name__)
-
+from app import app
 def df1():
     url='https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSc_2y5N0I67wDU38DjDh35IZSIS30rQf7_NYZhtYYGU1jJYT6_kDx4YpF-qw0LSlGsBYP8pqM_a1Pd/pubhtml#'
     page = requests.get(url)
@@ -43,7 +42,7 @@ def df1():
             i+=1
     Dict={title:column for (title,column) in col}
     df=pd.DataFrame(Dict)
-    df.to_csv(r'states.csv', index = False)
+    df.to_csv(r'statistics/states.csv', index = False)
     last_updated=datetime.now()
     return 
 def df2():
@@ -74,12 +73,12 @@ def df2():
             i+=1
     Dict={title:column for (title,column) in col}
     df=pd.DataFrame(Dict)
-    df.to_csv(r'india.csv', index = False)
+    df.to_csv(r'statistics/india.csv', index = False)
     last_updated=datetime.now()
     return 
 
 def show_tables():
-    df = pd.read_csv('india.csv')
+    df = pd.read_csv('statistics/india.csv')
     x=list(df['Death'])
     y=list(df['Cured/Discharged/Migrated'])
     data = df
@@ -155,19 +154,19 @@ def generate_graph(df,state):
 
 @app.route('/stats', methods=['POST', 'GET'])
 def indiastats():
-    file1 = open("last_updated.txt","r")
+    file1 = open("statistics/last_updated.txt","r")
     last_updated=file1.read()
     last_updated= datetime.strptime(last_updated, '%Y-%m-%d %H:%M:%S.%f')
     file1.close()
     if datetime.now()>last_updated + timedelta(days=0,minutes=60):
         df1()
         df2()
-        file1 = open("last_updated.txt","w")
+        file1 = open("statistics/last_updated.txt","w")
         file1.truncate(0)
         l=datetime.now()
         file1.write(str(l))
         file1.close()
-    df = pd.read_csv('states.csv') 
+    df = pd.read_csv('statistics/states.csv')
     temp=india(df)
     total=temp[1]
     last_day=temp[2]
