@@ -165,13 +165,14 @@ def index_named_entities(es_client, path, index):
         y_min = datetime.now().date()
         for pid in b['pids']:
             p = paper_namefromid(pid)
+            # print(p['ptime'])
             try:
-                y = datetime.strptime(p[3], '%Y-%m-%d').date()
+                y = datetime.strptime(p['ptime'], '%Y-%m-%d').date()
             except:
                 try:
-                    y = datetime.strptime(p[3], '%Y').date()
+                    y = datetime.strptime(p['ptime'], '%Y').date()
                 except:
-                    print(pid)
+                    print(p)
             if y <= y_min:
                 y_min = y
                 first_p = pid

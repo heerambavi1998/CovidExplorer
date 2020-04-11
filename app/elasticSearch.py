@@ -73,6 +73,20 @@ def paper_filteryr(paper_name,yr_s,yr_e):
         None
     return papers,pids
 
+def top_ents_results(papers, ent_type):
+    entity_dict = {}
+    for paper in papers:
+        ents = paper[ent_type]
+        for ent in ents:
+            try:
+                entity_dict[ent]+=1
+            except:
+                entity_dict[ent]=1
+
+    d = OrderedDict(sorted(entity_dict.items(), key=itemgetter(1), reverse=True))
+    # print(d)
+    return d
+
 def author_es(author):
     res = es.search(index="covid19_authors",body={
         "from":0,
@@ -279,7 +293,7 @@ def get_named_entity_info(entity, entity_type):
         }
     })
     try:
-        #print(res)
+        # print(res)
         r = (res['hits']['hits'][0]['_source']['entity'],
              res['hits']['hits'][0]['_source']['pids'],
              res['hits']['hits'][0]['_source']['doc_freq'],

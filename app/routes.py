@@ -50,15 +50,19 @@ def overall_search():
 def search_field(field, text):
     if field == 'Paper':
         papers, pids = paper_es(text)
-        entities = named_entities_es(pids)
+        ordered_ents_prge = top_ents_results(papers,'prge')
+        ordered_ents_ched = top_ents_results(papers,'ched')
+        # entities = named_entities_es(pids)
         return render_template('search_paper.html', items = papers, keyword=text, field=field,
-                               prge=entities['prge'], ched=entities['ched'])
+                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
 
     if field == 'FullText':
         papers, pids = fulltextsearch(text)
-        entities = named_entities_es(pids)
+        ordered_ents_prge = top_ents_results(papers,'prge')
+        ordered_ents_ched = top_ents_results(papers,'ched')
+        # entities = named_entities_es(pids)
         return render_template('search_paper.html', items=papers, keyword=text, field=field,
-                               prge=entities['prge'], ched=entities['ched'])
+                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
 
     if field == 'Author':
         authors = author_es(text)
@@ -74,14 +78,16 @@ def get_html_year_filter():
     text = request.args.get("searchtext")
     if field == 'Paper':
         papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
-        entities = named_entities_es(pids)
+        ordered_ents_prge = top_ents_results(papers_filt,'prge')
+        ordered_ents_ched = top_ents_results(papers_filt,'ched')
         return render_template('filter_results.html', items=papers_filt,
-                               prge=entities['prge'], ched=entities['ched'])
+                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
     if field == 'FullText':
         papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
-        entities = named_entities_es(pids)
+        ordered_ents_prge = top_ents_results(papers_filt,'prge')
+        ordered_ents_ched = top_ents_results(papers_filt,'ched')
         return render_template('filter_results.html', items=papers_filt,
-                               prge=entities['prge'], ched=entities['ched'])
+                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
 
 
 @app.route('/gene_filter')
