@@ -93,10 +93,13 @@ def india(df):
     count=0
     number=[]
     for i in range(len(df['Date Announced'])):
-        if df['Detected State'][i]!='':
-            count+=1
-            mp.append(df['Date Announced'][i])
-            number.append(count)
+        try :
+            if df['Detected State'][i]!='':
+                count+=1
+                mp.append(df['Date Announced'][i])
+                number.append(count)
+        except:
+            continue
     dic=dict()
     for i in mp:
         if i not in dic:
@@ -126,10 +129,13 @@ def generate_graph(df,state):
     number=[]
     # state="Madhya Pradesh"
     for i in range(len(df['Detected State'])):
-        if df['Detected State'][i]==state:
-            count+=1
-            mp.append(df['Date Announced'][i])
-            number.append(count)
+        try :
+            if df['Detected State'][i]==state:
+                count+=1
+                mp.append(df['Date Announced'][i])
+                number.append(count)
+        except:
+            continue 
     dic=dict()
     for i in mp:
         if i not in dic:
