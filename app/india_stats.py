@@ -153,9 +153,8 @@ def generate_graph(df,state):
     graphJSON=json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-
-@app.route('/',methods=['POST','GET'])
-def index():
+@app.route('/stats', methods=['POST', 'GET'])
+def indiastats():
     file1 = open("last_updated.txt","r")
     last_updated=file1.read()
     last_updated= datetime.strptime(last_updated, '%Y-%m-%d %H:%M:%S.%f')
@@ -193,7 +192,7 @@ def index():
     line30=generate_graph(df,'Telangana')
     line32=generate_graph(df,'Uttar Pradesh')
     line34=generate_graph(df,'West Bengal')
-    return render_template('index.html',last=last_day,plot=line,plot2=line2,plot5=line5,
+    return render_template('indiacovid.html',last=last_day,plot=line,plot2=line2,plot5=line5,
                             plot9=line9,plot11=line11,plot12=line12,plot14=line14,plot16=line16,plot17=line17,
                             plot20=line20,plot21=line21,plot27=line27,plot28=line28,plot29=line29,plot30=line30,plot32=line32,
                             plot34=line34,totals=total,tables=tab,dead=deaths,recover=rec)
