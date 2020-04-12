@@ -164,7 +164,7 @@ def indiastats():
     last_updated=file1.read()
     last_updated= datetime.strptime(last_updated, '%Y-%m-%d %H:%M:%S.%f')
     file1.close()
-    if datetime.now()>last_updated + timedelta(days=0,minutes=60):
+    if datetime.now()>last_updated + timedelta(days=0,minutes=720):
         df1()
         df2()
         file1 = open("statistics/last_updated.txt","w")
