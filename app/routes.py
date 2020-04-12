@@ -1,25 +1,8 @@
-from flask import render_template, request, redirect, session, flash, jsonify, make_response
-from app import app
-
-from pymongo import MongoClient
-import pandas as pd
-from .elasticSearch import *
-
+from flask import render_template, request, redirect, session, flash, jsonify
 from datetime import datetime
-current_year = int(datetime.now().year)
-
-#mongoClient = MongoClient('localhost', 20000)
-#db = mongoClient.new_papers
-
-#author_db = mongoClient.author
-#authorCollection = author_db.author
-
-#subscriptionCollection = db['subscriptions']
-#papers = db['new_papers']
-
-def FirstNameLastName(name):
-    l_n = name.split(",")
-    return l_n[-1]+', '+ l_n[0]
+from app import app
+from .elasticSearch import *
+from .helper import *
 
 @app.route('/')
 @app.route('/index')
@@ -50,18 +33,20 @@ def overall_search():
 def search_field(field, text):
     if field == 'Paper':
         papers, pids = paper_es(text)
+        paper_data = return_yearwise_paper(papers)
         ordered_ents_prge = top_ents_results(papers,'prge')
         ordered_ents_ched = top_ents_results(papers,'ched')
         # entities = named_entities_es(pids)
-        return render_template('search_paper.html', items = papers, keyword=text, field=field,
+        return render_template('search_paper.html', items=paper_data, keyword=text, field=field,
                                prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
 
     if field == 'FullText':
         papers, pids = fulltextsearch(text)
+        paper_data = return_yearwise_paper(papers)
         ordered_ents_prge = top_ents_results(papers,'prge')
         ordered_ents_ched = top_ents_results(papers,'ched')
         # entities = named_entities_es(pids)
-        return render_template('search_paper.html', items=papers, keyword=text, field=field,
+        return render_template('search_paper.html', items=paper_data, keyword=text, field=field,
                                prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
 
     if field == 'Author':
@@ -78,15 +63,19 @@ def get_html_year_filter():
     text = request.args.get("searchtext")
     if field == 'Paper':
         papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
+        paper_data = return_yearwise_paper(papers_filt)
+
         ordered_ents_prge = top_ents_results(papers_filt,'prge')
         ordered_ents_ched = top_ents_results(papers_filt,'ched')
-        return render_template('filter_results.html', items=papers_filt,
+        return render_template('filter_results.html', items=paper_data,
                                prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
     if field == 'FullText':
         papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
+        paper_data = return_yearwise_paper(papers_filt)
+
         ordered_ents_prge = top_ents_results(papers_filt,'prge')
         ordered_ents_ched = top_ents_results(papers_filt,'ched')
-        return render_template('filter_results.html', items=papers_filt,
+        return render_template('filter_results.html', items=paper_data,
                                prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
 
 
@@ -107,7 +96,8 @@ def get_html_gene_filter():
         for i in range(len(pids)):
             if pids[i] in pids_new:
                 d.append(papers_filt[i])
-        return render_template('filter_results_gene.html', items=d)
+        paper_data = return_yearwise_paper(d)
+        return render_template('filter_results_gene.html', items=paper_data)
 
     if field == 'FullText':
         papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
@@ -116,7 +106,8 @@ def get_html_gene_filter():
         for i in range(len(pids)):
             if pids[i] in pids_new:
                 d.append(papers_filt[i])
-        return render_template('filter_results_gene.html', items=d)
+        paper_data = return_yearwise_paper(d)
+        return render_template('filter_results_gene.html', items=paper_data)
 
 @app.route('/entity/<ent_type>/<ent_name>')
 def get_indv_page(ent_type, ent_name):
@@ -125,10 +116,12 @@ def get_indv_page(ent_type, ent_name):
     doc_freq = ent[2]
     first_mention_pid = ent[3]
     co_mentions = ent[4]
+
+    paper_data = return_yearwise_paper([paper_namefromid(pid) for pid in pids])
     return render_template('prge_indv.html',
         ent_type = ent_type,
         ent_name = ent_name,
-        paper_mentions = [paper_namefromid(pid) for pid in pids],
+        paper_mentions = paper_data,
         doc_freq = doc_freq,
         first_mention = paper_namefromid(first_mention_pid),
         co_mentions = co_mentions
@@ -136,6 +129,7 @@ def get_indv_page(ent_type, ent_name):
 
 @app.route('/get_data/prge', methods=["GET", "POST"])
 def graph_data():
+    current_year = int(datetime.now().year)
     ent_name = request.json["ent_name"]
     ent_type = request.json["ent_type"]
     ent = get_named_entity_info(ent_name, ent_type)

@@ -1,6 +1,5 @@
 <html>
     <head>
-        <link href="{{ url_for('static',filename='showmore.css') }}" rel="stylesheet" type="text/css"> </link>
         {% include 'head.html' %}
     </head>
 
@@ -18,7 +17,8 @@
                     <div class="col-md-4 author-info offset-lg-1" style="margin-top: 20px">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Document Frequency: <span style="font-size:36px; color:00b3bc !important;">{{ doc_freq }}</span></h5>
+                                <h5>Document Frequency:</h5>
+                                <span style="font-size:48px; color:00b3bc !important; padding-left:40%">{{ doc_freq }}</span>
                             </div>
                         </div>
                         <br>
@@ -27,6 +27,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5>First Mention:</h5>
+                                <span style="font-size:36px; color:00b3bc !important;">{{first_mention['ptime'][:4]}}</span>
                                 <div>
                                     <h5><a href="{{first_mention['url']}}" target="_blank">{{first_mention['title']}}</a></h5>
                                     <p style="font-size: 18px; color: grey"> Journal : {{first_mention['journ']}} | {{first_mention['ptime']}}
@@ -43,7 +44,7 @@
                     <div class="col-md-6 author-info offset-md1" style="margin-top: 20px">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Mention distribution over years</h5>
+                                <h5>Mention distribution over years:</h5>
                                 <div id="mention-year">
 
                                 </div>
@@ -83,68 +84,67 @@
                     </div>
                 </div>
 
-                <script>
-                    $('ol.expandible').each(function(){
-                        var $ol = $(this),
-                            $lis = $ol.find('li:gt(19)'),
-                            isExpanded = $ol.hasClass('expanded');
-                        $lis[isExpanded ? 'show' : 'hide']();
-                        
-                        if($lis.length > 0){
-                            $ol
-                                .prepend($('<span class="showmore-button" style="margin-left: 10px;">' + (isExpanded ? 'Show Less' : 'Show More') + '</span>')
-                                .click(function(event){
-                                    var isExpanded = $ol.hasClass('expanded');
-                                    // event.preventDefault();
-                                    $(this).html(isExpanded ? 'Show More' : 'Show Less');
-                                    $ol.toggleClass('expanded');
-                                    $lis.toggle();
-                                }));
-                        }
-                    });
-                </script>
-
                 <div class="row">
                     <div class="col-lg-10 author-info offset-lg-1">
                         <div class="card" style="margin-top: 20px">
 
                             <div class="card-body">
-                                <h5>Mentions:-</h5>
-                                  {% for item in paper_mentions %}
-                                  <div>
-                                        <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
-                                        <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
-                                            <br>
-                                            <span style="font-size: 16px; color: grey"> Authors : </span>
-                                        {% for auth in item['auth'] %}
-                                            <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                <h5>Mentions:</h5>
+                                  <nav>
+                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        {% for year in range(paper_mentions | length) %}
+                                            {% if year == 0%}
+                                            <a class="nav-item nav-link active" id="nav-{{paper_mentions[year][0]}}-tab" data-toggle="tab" href="#nav-{{paper_mentions[year][0]}}" role="tab" aria-controls="nav-{{paper_mentions[year][0]}}" aria-selected="true">{{paper_mentions[year][0]}}</a>
+                                            {% else %}
+                                            <a class="nav-item nav-link" id="nav-{{paper_mentions[year][0]}}-tab" data-toggle="tab" href="#nav-{{paper_mentions[year][0]}}" role="tab" aria-controls="nav-{{paper_mentions[year][0]}}" aria-selected="false">{{paper_mentions[year][0]}}</a>
+                                            {% endif %}
                                         {% endfor %}
-                                        </p>
-                                  </div>
-                                  {% endfor %}
+                                        </div>
+                                  </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        {% for year in range(paper_mentions | length) %}
+                                        {% if year == 0%}
+                                        <div class="tab-pane fade show active" id="nav-{{paper_mentions[year][0]}}" role="tabpanel" aria-labelledby="nav-{{paper_mentions[year][0]}}-tab">
+                                            <div style="margin-top:20px;"></div>
+                                            {% for item in paper_mentions[year][1] %}
+                                                <div>
+                                                    <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                                                    <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
+                                                        <br>
+                                                        <span style="font-size: 16px; color: grey"> Authors : </span>
+                                                    {% for auth in item['auth'] %}
+                                                        <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                                    {% endfor %}
+                                                    </p>
+                                                </div>
+                                                <br>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        <div class="tab-pane fade" id="nav-{{paper_mentions[year][0]}}" role="tabpanel" aria-labelledby="nav-{{paper_mentions[year][0]}}-tab">
+                                            <div style="margin-top:20px;">
+                                            </div>
+                                            {% for item in paper_mentions[year][1] %}
+                                                <div>
+                                                    <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                                                    <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
+                                                        <br>
+                                                        <span style="font-size: 16px; color: grey"> Authors : </span>
+                                                    {% for auth in item['auth'] %}
+                                                        <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                                    {% endfor %}
+                                                    </p>
+                                                </div>
+                                                <br>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-                        <!-- <div class="card" style="margin-top: 20px">           
-                            <div class="card-body">
-                                <h5 style="margin-top: 10px">Mentions:</h5>
-                                {% for paper in paper_mentions %}
-                                <div>
-                                    <h5><a href="{{paper[1]}}" target="_blank">{{paper[0]}}</a></h5>
-                                    <p style="font-size: 18px; color: grey"> Journal : {{paper[2]}} | {{paper[3]}}</p>
-                                </div>
-                                {% endfor %}
-
-                            </div>
-                        </div> -->
             </div>
 
         </section>
@@ -181,6 +181,26 @@
                     Plotly.newPlot('mention-year', data,layout, {showSendToCloud:true});
                 }
         })
+        </script>
+        <script>
+            $('ol.expandible').each(function(){
+                var $ol = $(this),
+                    $lis = $ol.find('li:gt(19)'),
+                    isExpanded = $ol.hasClass('expanded');
+                $lis[isExpanded ? 'show' : 'hide']();
+
+                if($lis.length > 0){
+                    $ol
+                        .prepend($('<span class="showmore-button" style="margin-left: 10px;">' + (isExpanded ? 'Show Less' : 'Show More') + '</span>')
+                        .click(function(event){
+                            var isExpanded = $ol.hasClass('expanded');
+                            // event.preventDefault();
+                            $(this).html(isExpanded ? 'Show More' : 'Show Less');
+                            $ol.toggleClass('expanded');
+                            $lis.toggle();
+                        }));
+                }
+            });
         </script>
         <br>
 

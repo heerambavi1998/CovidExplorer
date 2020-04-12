@@ -218,3 +218,26 @@ body {
   word-wrap: break-word;
   word-break: break-all;
 }
+
+.showmore-button {
+    cursor: pointer;
+    background-color: rgba(0, 179, 188, 1);
+    color: white;
+    font-family: Verdana, Arial;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px 40px 10px 40px;
+    margin: 5px 0 0 0;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    border-radius: 8px;
+}
+
+ol, ul, li{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}

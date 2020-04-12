@@ -6,27 +6,74 @@
         {% include 'second-nav.html' %}
         <div class="container" style="margin-top:10px">
             <h3 style="margin-top:50px; margin-bottom: 50px;">Papers of the Author: {{ keyword }}</h3>
-            {% for item in items %}
-                <div>
-                    <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
-                    <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
-                        <br>
-                        <span style="font-size: 16px; color: grey"> Authors : </span>
-                    {% for auth in item['auth'] %}
-                        <span style="font-size: 16px; color: grey"> {{auth}} |</span>
-                    {% endfor %}
-                    <br>
-                    {% for ne in item['prge'] %}
-                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{ne}}">{{ne}}</a>
-                    {% endfor %}
-                    <br>
-                    {% for ne in item['ched'] %}
-                    <a type="button" style="color: c38d9e !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
-                    {% endfor %}
-                    </p>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% for year in range(items | length) %}
+                    {% if year == 0%}
+                    <a class="nav-item nav-link active" id="nav-{{items[year][0]}}-tab" data-toggle="tab" href="#nav-{{items[year][0]}}" role="tab" aria-controls="nav-{{items[year][0]}}" aria-selected="true">{{items[year][0]}}</a>
+                    {% else %}
+                    <a class="nav-item nav-link" id="nav-{{items[year][0]}}-tab" data-toggle="tab" href="#nav-{{items[year][0]}}" role="tab" aria-controls="nav-{{items[year][0]}}" aria-selected="false">{{items[year][0]}}</a>
+                    {% endif %}
+                {% endfor %}
                 </div>
-                <br>
-            {% endfor %}
+            </nav>
+
+            <div class="tab-content" id="nav-tabContent">
+                {% for year in range(items | length) %}
+                {% if year == 0%}
+                <div class="tab-pane fade show active" id="nav-{{items[year][0]}}" role="tabpanel" aria-labelledby="nav-{{items[year][0]}}-tab">
+                    <div style="margin-top:20px;"></div>
+                    {% for item in items[year][1] %}
+                        <div>
+                            <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                            <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
+                                <br>
+                                <span style="font-size: 16px; color: grey"> Authors : </span>
+                            {% for auth in item['auth'] %}
+                                <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                            {% endfor %}
+                            <br>
+                            {% for ne in item['prge'] %}
+                            <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+                            <br>
+                            {% for ne in item['ched'] %}
+                            <a type="button" style="color: c38d9e !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+                            </p>
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="tab-pane fade" id="nav-{{items[year][0]}}" role="tabpanel" aria-labelledby="nav-{{items[year][0]}}-tab">
+                    <div style="margin-top:20px;">
+                    </div>
+                    {% for item in items[year][1] %}
+                        <div>
+                            <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                            <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
+                                <br>
+                                <span style="font-size: 16px; color: grey"> Authors : </span>
+                            {% for auth in item['auth'] %}
+                                <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                            {% endfor %}
+                            <br>
+                            {% for ne in item['prge'] %}
+                            <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+                            <br>
+                            {% for ne in item['ched'] %}
+                            <a type="button" style="color: c38d9e !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+                            </p>
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </body>
 
