@@ -6,6 +6,52 @@
     <script src="static/func.js"></script>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+</style>   
+    
+    
+    
+
 <style>
   .content {
     max-width: 960px;
@@ -33,25 +79,50 @@
         div.grey {
           color:#B3A9B8;
         }
+        div.blu{
+          color: rgb(73, 15, 209);
+    }
     </style>
     <section style="padding:20px;"></section>
 
     <div class="content">
-    <h2 style="background:gainsboro;"><center>INDIA COVID-19 TRACKER</center></h2>
+    <h1 style="background:rgb(236, 236, 236);"><center>INDIA COVID-19 TRACKER</center></h1>
     </div>
     <br>
-
+    <br>
     <div class="content">
-        <h4><center>Coronavirus Cases in India:</center></h3>
-        <div class="grey" style="font-size:60px" ><center>{{totals}}<sub><small>+({{last}})</small></sub></center></div>
-        <br>
-        <h4><center>Deaths in India:</center></h3>
-        <div class="red" style="font-size:60px" ><center>{{dead}}</center></div>
-        <br>
-        <h4><center>Recovered:</center></h3>
-        <div class="gre" style="font-size:60px" ><center>{{recover}}</center></div>
-        <br>
+      <div class="row">
+        <div class="column">
+          <div class="card" >
+            <h3>Coronavirus Cases</h3>
+            <div class="grey" style="font-size:40px" >{{totals}}<sub><small>+({{last}})</small></sub></div>
+        
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="card">
+            <h3>Active</h3>
+            <div class="blu" style="font-size:40px" ><center>{{active}}</center></div>
+          </div>
+        </div>
+      
+        <div class="column">
+          <div class="card">
+            <h3>Deaths</h3>
+            <div class="red" style="font-size:40px" ><center>{{dead}}</center></div>
+          </div>
+        </div>
+        
+        <div class="column">
+          <div class="card">
+            <h3>Recovered:</h3>
+            <div class="gre" style="font-size:40px" ><center>{{recover}}</center></div>
+          </div>
+        </div>
+        
     </div>
+    
     <br>
     <div class="content">
         <h2> <center>Daily cases in India</center></h2>
