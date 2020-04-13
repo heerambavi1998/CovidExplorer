@@ -181,6 +181,7 @@ def indiastats():
     deaths=temp2[1]
     rec=temp2[2]
     line=temp[0]
+    acti=total-deaths-rec
     line2=generate_graph(df,'Andhra Pradesh')
     line5=generate_graph(df,'Bihar')
     line9=generate_graph(df,'Delhi')
@@ -200,6 +201,6 @@ def indiastats():
     return render_template('indiacovid.html',last=last_day,plot=line,plot2=line2,plot5=line5,
                             plot9=line9,plot11=line11,plot12=line12,plot14=line14,plot16=line16,plot17=line17,
                             plot20=line20,plot21=line21,plot27=line27,plot28=line28,plot29=line29,plot30=line30,plot32=line32,
-                            plot34=line34,totals=total,tables=tab,dead=deaths,recover=rec)
+                            plot34=line34,totals=total,tables=tab,dead=deaths,recover=rec,active=acti)
 
 
