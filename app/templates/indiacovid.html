@@ -180,7 +180,7 @@ body {
       </div>
       <div id="b2" class="containerTab" style="display:none">
         <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
-        <div id="chart2"></div>
+        <div id="chart2">
           <script>
              var graphs = {{plot2 | safe}};
              var layout = {
@@ -204,6 +204,7 @@ body {
           };
              Plotly.newPlot('chart2',graphs,layout);
           </script>
+         </div>
       </div>
     </div>
 
