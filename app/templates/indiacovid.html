@@ -125,7 +125,7 @@ body {
     
     <br>
     <div class="content">
-        <h2> <center>Daily cases in India</center></h2>
+        <h2> <center>Total cases in India</center></h2>
         <br>
         <div id="chart"></div>
         <script>
@@ -153,6 +153,36 @@ body {
           Plotly.newPlot('chart',graphs,layout);
         </script>
     </div>
+        
+    <div class="content">
+      <h2> <center>Daily cases in India</center></h2>
+      <br>
+      <div id="chart0"></div>
+      <script>
+
+        var graphs = {{daily|safe}};
+        var layout = {
+          xaxis: {
+            // title: 'Dates',
+            showgrid: false,
+            zeroline: false
+          },
+          yaxis: {
+            title: 'No. of Cases',
+            showline: false
+          },
+          autosize: true,
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(0,0,0,0)',
+          font: {
+            family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+            size: 16,
+            color: '#7f7f7f'
+          }
+        };
+        Plotly.newPlot('chart0',graphs,layout);
+      </script>
+  </div>
 
 
     <br>
@@ -964,52 +994,8 @@ body {
 
     <br>
     <br>
-<!--     <div class="content">
-      <div class=page >
-        <h2><center>COVID-19 Statewise Status</center></h2>
-          {{ tables|safe }}
-      </div>
-        <br>
-    </div> -->
+
     <div class="content">
-<!--         <h2>About Coronavirus </h2>
-        <p>  Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.
-        The disease causes respiratory illness (like the flu) with symptoms such as a cough, fever, and in more severe cases, difficulty breathing. You can protect yourself by washing your hands frequently, avoiding touching your face, and avoiding close contact (1 meter or 3 feet) with people who are unwell</p>
-        <h2>HOW IT SPREADS </h2>
-        <p>
-          Coronavirus disease spreads primarily through contact with an infected person when they cough or sneeze. It also spreads when a person touches a surface or object that has the virus on it, then touches their eyes, nose, or mouth.</p>
-        <h2> What happens when you get the coronavirus disease?</h2>
-        <p>People with COVID-19 generally develop signs and symptoms, including mild respiratory symptoms and fever, on an average of 5-6 days after infection (mean incubation period 5-6 days, range 1-14 days). Most people infected with COVID-19 virus have mild disease and recover.</p>
-        <h2>What are the symptoms of the coronavirus disease?</h2>
-        <p>The COVID-19 virus affects different people in different ways.  COVID-19 is a respiratory disease and most infected people will develop mild to moderate symptoms and recover without requiring special treatment.  People who have underlying medical conditions and those over 60 years old have a higher risk of developing severe disease and death.</p>
-        <p>Common symptoms include:</p>
-        <ul>
-          <li>fever</li>
-          <li>tiredness</li>
-          <li>dry cough.</li>
-        </ul>
-        <p>Other symptoms include:</p>
-        <ul>
-          <li>shortness of breath</li>
-          <li>aches and pains</li>
-          <li>sore throat</li>
-          <li>and very few people will report diarrhoea, nausea or a runny nose.</li>
-        </ul>
-        <p>
-          People with mild symptoms who are otherwise healthy should self-isolate and contact their medical provider or a COVID-19 information line for advice on testing and referral.
-        </p>
-        <p>People with fever, cough or difficulty breathing should call their doctor and seek medical attention.</p>
-        <h2>Prevention</h2>
-        <p>To prevent infection and to slow transmission of COVID-19, do the following:</p>
-        <ul>
-            <li>Wash your hands regularly with soap and water, or clean them with alcohol-based hand rub.</li>
-            <li>Maintain at least 1 metre distance between you and people coughing or sneezing.</li>
-            <li>Avoid touching your face.</li>
-            <li>Cover your mouth and nose when coughing or sneezing.</li>
-            <li>Stay home if you feel unwell.</li>
-            <li>Refrain from smoking and other activities that weaken the lungs.</li>
-            <li>Practice physical distancing by avoiding unnecessary travel and staying away from large groups of people.</li>
-        </ul> -->
         <h2>Sources</h2>
         <ol>
           <li>Novel Coronavirus (2019-nCoV) situation reports - World Health Organization (WHO)</li>
