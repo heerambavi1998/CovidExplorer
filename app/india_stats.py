@@ -120,8 +120,15 @@ def india(df):
                     mode='lines+markers',
                     name='lineplot',
                     line=dict(color='royalblue', width=3))]
+    df1 = pd.DataFrame(list(zip(newday, day_count)), 
+                columns =['Day', 'Daily_count'])
+    fig = px.bar(df1, x='Day', y='Daily_count',
+                color='Daily_count',
+                labels={'Daily Cases in India'}, height=450)
+    graphJSON1=json.dumps(fig,cls=plotly.utils.PlotlyJSONEncoder)                   
     graphJSON=json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON,total_count[-1],day_count[-1]
+    
+    return graphJSON,total_count[-1],day_count[-1],graphJSON1
 
 def generate_graph(df,state):
     mp=[]
@@ -177,13 +184,14 @@ def indiastats():
         file1.close()
     df = pd.read_csv('statistics/states.csv')
     temp=india(df)
+    line=temp[0]
     total=temp[1]
     last_day=temp[2]
+    daily_c=temp[3]
     temp2=show_tables()
     tab=temp2[0]
     deaths=temp2[1]
     rec=temp2[2]
-    line=temp[0]
     acti=total-deaths-rec
     line2=generate_graph(df,'Andhra Pradesh')
     line5=generate_graph(df,'Bihar')
@@ -201,7 +209,7 @@ def indiastats():
     line30=generate_graph(df,'Telangana')
     line32=generate_graph(df,'Uttar Pradesh')
     line34=generate_graph(df,'West Bengal')
-    return render_template('indiacovid.html',last=last_day,plot=line,plot2=line2,plot5=line5,
+    return render_template('indiacovid.html',daily=daily_c,last=last_day,plot=line,plot2=line2,plot5=line5,
                             plot9=line9,plot11=line11,plot12=line12,plot14=line14,plot16=line16,plot17=line17,
                             plot20=line20,plot21=line21,plot27=line27,plot28=line28,plot29=line29,plot30=line30,plot32=line32,
                             plot34=line34,totals=total,tables=tab,dead=deaths,recover=rec,active=acti)
