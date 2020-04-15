@@ -17,6 +17,10 @@ def index():
 def team():
     return render_template('team.html')
 
+@app.route('/facts', methods=['GET'])
+def facts():
+    return render_template('facts.html')
+
 
 @app.route('/search_all')
 def search_all():
