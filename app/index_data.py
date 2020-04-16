@@ -115,7 +115,8 @@ def index_authorsfromMD(es_client, filepath, index):
                             b['paper_ids'] = _format_sha(row['sha'])
                         elif row['pmcid'] != "":
                             b['paper_ids'] = _format_sha(row['pmcid'])
-                        
+                        else:
+                            b['paper_ids'] = []
                         all_authors[a_name] = b
                     else:
                         if row['sha'] != "":
@@ -202,7 +203,6 @@ def index_named_entities(es_client, path, index):
                 try:
                     y = datetime.strptime(p['ptime'], '%Y').date()
                 except:
-                    print(p, pid)
                     continue
             if y <= y_min:
                 y_min = y
