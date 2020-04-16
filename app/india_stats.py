@@ -117,7 +117,7 @@ def india(df):
         else:
             total_count.append(day_count[i]+total_count[i-1])
     data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
-                    mode='lines+markers',
+                    mode='lines+ markers',
                     name='lineplot',
                     line=dict(color='royalblue', width=3))]
     df1 = pd.DataFrame(list(zip(newday, day_count)), 
@@ -127,7 +127,6 @@ def india(df):
                 labels={'Daily Cases in India'}, height=450)
     graphJSON1=json.dumps(fig,cls=plotly.utils.PlotlyJSONEncoder)                   
     graphJSON=json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
-    
     return graphJSON,total_count[-1],day_count[-1],graphJSON1
 
 def generate_graph(df,state):
