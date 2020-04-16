@@ -13,6 +13,7 @@ from datetime import datetime
 from datetime import timedelta  
 global last_updated
 from app import app
+import plotly.express as px
 def df1():
     url='https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSc_2y5N0I67wDU38DjDh35IZSIS30rQf7_NYZhtYYGU1jJYT6_kDx4YpF-qw0LSlGsBYP8pqM_a1Pd/pubhtml#'
     page = requests.get(url)
