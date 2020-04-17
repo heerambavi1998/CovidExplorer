@@ -1,5 +1,5 @@
 
-ES_PORT = 9200
+ES_PORT = 9210
 #place all pdf_json files above pmc_json files since entity csv is constructed with preference to pdf sha over pmc id
 DATAPATHS = ["data/comm_use_subset/comm_use_subset/pdf_json/*.json",
             "data/noncomm_use_subset/noncomm_use_subset/pdf_json/*.json",
