@@ -21,13 +21,18 @@ def index_fulltext(es_client, metadatapath, paths, index):
         print("TYPE:", response['error']['type'])
 
     print("adding full-text index...")
+    
     metadata_dict = {}
     with open(metadatapath, newline='') as csvfile:
         f = csv.DictReader(csvfile)
         for row in f:
-            if row['sha'] != '':
-                for sha in _format_sha(row['sha']):
-                    metadata_dict[sha] = row
+            if row['full_text_file']=='custom_license' or row['full_text_file']=='comm_use_subset' or row['full_text_file']=='noncomm_use_subset' or row['full_text_file']=='biorxiv_medrxiv':
+                if row['sha'] != '' and row['has_pdf_parse'] == 'True':
+                    for sha in _format_sha(row['sha']):
+                        metadata_dict[sha] = row
+                elif row['pmcid'] != "" and row['has_pmc_xml_parse'] == 'True':
+                    for pmc in _format_sha(row['pmcid']):
+                        metadata_dict[pmc] = row
 
     named_ent_dict = {}
     with open('prge_from_abs_comb.csv', newline='') as csvfile:
@@ -41,38 +46,54 @@ def index_fulltext(es_client, metadatapath, paths, index):
             ched_ent_dict[row[0]] = _format_ne(row[1])
 
     i = 0
+    sha_tillnow=[]
     for path in paths:
         for file in glob.glob(path):
             i+=1
             doc = json.load(open(file, 'r'))
-            b = {}
-            b['paper_id'] = doc['paper_id']
-            b['title'] = doc["metadata"]["title"]
+            
+            if doc['paper_id'] in sha_tillnow:
+                continue
 
-            abst = ""
-            for para in doc['abstract']:
-                abst += para['text']
-                abst += '\n'
-            b['abstract'] = abst
+            try:
+                # find the paper in metadatadict
+                metadata = metadata_dict[doc['paper_id']]
 
-            body = ""
-            for para in doc['body_text']:
-                body += para['text']
-                body += '\n'
-            b['body_text'] = body
+                # start building index doc
+                b = {}
+                b['paper_id'] = doc['paper_id']
+                sha_tillnow.append(b['paper_id'])
+                b['title'] = doc["metadata"]["title"]
 
-            # adding metadata
-            metadata = metadata_dict[doc['paper_id']]
-            b['doi'] = metadata['doi']
-            b['url'] = metadata['url']
-            b['publish_time'] = metadata['publish_time']
-            b['journal'] = metadata['journal']
-            b['authors'] = _format_sha(metadata['authors'])
-            b['named_entities'] = named_ent_dict[doc['paper_id']]
-            b['ched_entities'] = ched_ent_dict[doc['paper_id']]
-            es_client.index(index=index,
-                           id=i,
-                           body=b)
+                # abst = ""
+                # for para in doc['abstract']:
+                #     abst += para['text']
+                #     abst += '\n'
+                # b['abstract'] = abst
+
+                body = ""
+                for para in doc['body_text']:
+                    body += para['text']
+                    body += '\n'
+                b['body_text'] = body
+
+                # adding metadata to doc
+                b['abstract'] = metadata['abstract']
+                b['doi'] = metadata['doi']
+                b['url'] = metadata['url']
+                b['publish_time'] = metadata['publish_time']
+                b['journal'] = metadata['journal']
+                b['authors'] = _format_sha(metadata['authors'])
+                b['named_entities'] = named_ent_dict[doc['paper_id']] #refers to proteins and genes
+                b['ched_entities'] = ched_ent_dict[doc['paper_id']] #refers to chemical names
+                es_client.index(index=index,
+                            id=i,
+                            body=b)
+            except:
+                #error due to missing paper ID in metadatadict
+                #paper already accounted for via different format
+                continue
+
     return
 
 def index_authorsfromMD(es_client, filepath, index):
@@ -83,17 +104,27 @@ def index_authorsfromMD(es_client, filepath, index):
         f = csv.DictReader(csvfile)
         #print("csv opened")
         for row in f:
-            if row['has_full_text']=='True':
+            if row['full_text_file']=='custom_license' or row['full_text_file']=='comm_use_subset' or row['full_text_file']=='noncomm_use_subset' or row['full_text_file']=='biorxiv_medrxiv':
                 #print("found file")
                 authors = row['authors'].split(";")
                 for a_name in authors:
                     if a_name not in all_authors:
                         b={}
                         b['author_name'] = a_name
-                        b['paper_ids'] = _format_sha(row['sha'])
+                        if row['sha'] != "":
+                            b['paper_ids'] = _format_sha(row['sha'])
+                        elif row['pmcid'] != "":
+                            b['paper_ids'] = _format_sha(row['pmcid'])
+                        else:
+                            b['paper_ids'] = []
                         all_authors[a_name] = b
                     else:
-                        all_authors[a_name]['paper_ids'].extend(_format_sha(row['sha']))
+                        if row['sha'] != "":
+                            all_authors[a_name]['paper_ids'].extend(_format_sha(row['sha']))
+                        elif row['pmcid'] != "":
+                            all_authors[a_name]['paper_ids'].extend(_format_sha(row['pmcid']))
+                        else:
+                            continue
     i=0
     for author in all_authors:
         i+=1
@@ -172,7 +203,7 @@ def index_named_entities(es_client, path, index):
                 try:
                     y = datetime.strptime(p['ptime'], '%Y').date()
                 except:
-                    print(p)
+                    continue
             if y <= y_min:
                 y_min = y
                 first_p = pid
