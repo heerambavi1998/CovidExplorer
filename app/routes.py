@@ -89,7 +89,6 @@ def get_html_gene_filter():
     yr_e = request.args.get("yr_e")
     field = request.args.get("field")
     text = request.args.get("searchtext")
-    print(request.args.get("entity"))
     ent_type = request.args.get("entity").split(':')[0]
     entity = request.args.get("entity").split(':')[1]
 
