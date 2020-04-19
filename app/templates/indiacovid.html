@@ -1,5 +1,5 @@
 <html>
-{% include 'head.html' %}
+  {% include 'head.html' %}
 <head>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
@@ -41,11 +41,16 @@ body {
 }
 
 /* Style the counter cards */
-.card {
+.card1 {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 16px;
   text-align: center;
-  background-color: #f1f1f1;
+  
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  
 }
 </style>   
     
@@ -63,7 +68,8 @@ body {
   }
 </style>
 <body>
-    {% include 'navbar.html' %}
+  {% include 'navbar.html' %}
+   
     <style>
       div.gre {
         color: rgb(28, 206, 28);
@@ -93,34 +99,35 @@ body {
     <div class="content">
       <div class="row">
         <div class="column">
-          <div class="card" >
-            <h3>Total Cases</h3>
+          <div class="card1" style="background-color:#f1f1f1" >
+            <h5>Coronavirus Cases</h5>
             <div class="grey" style="font-size:40px" >{{totals}}<sub><small>+{{last}}</small></sub></div>
         
           </div>
         </div>
 
         <div class="column">
-          <div class="card">
-            <h3>Active</h3>
+          <div class="card1" style="background-color:#f1f1f1">
+            <h5>Active</h5>
             <div class="blu" style="font-size:40px" ><center>{{active}}</center></div>
           </div>
         </div>
       
         <div class="column">
-          <div class="card">
-            <h3>Deaths</h3>
+          <div class="card1" style="background-color:#f1f1f1">
+            <h5>Deaths</h5>
             <div class="red" style="font-size:40px" ><center>{{dead}}</center></div>
           </div>
         </div>
         
         <div class="column">
-          <div class="card">
-            <h3>Recovered:</h3>
+          <div class="card1" style="background-color:#f1f1f1">
+            <h5>Recovered:</h5>
             <div class="gre" style="font-size:40px" ><center>{{recover}}</center></div>
           </div>
         </div>
         
+      </div>
     </div>
     
     <br>
@@ -153,11 +160,11 @@ body {
           Plotly.newPlot('chart',graphs,layout);
         </script>
     </div>
-        
+
     <div class="content">
       <h2> <center>Daily cases in India</center></h2>
       <br>
-      <div id="chart0">
+      <div id="chart0"></div>
       <script>
 
         var graphs = {{daily|safe}};
@@ -182,21 +189,740 @@ body {
         };
         Plotly.newPlot('chart0',graphs,layout);
       </script>
+    </div>
+
+
+    <br>
+    <br>
+    <h2> <center>Total case count: State-wise</center></h2>
+    <br>
+
+    <div class="content">
+      <div class="dropdown">
+      <button class="dropbtn">Select State</button>
+      <div class="dropdown-content">
+        <div class="content">
+          <div  onclick="openTab('b2');"   ><h4>Andhra Pradesh</h4></div>
+          
+          <div id="b2" class="containerTab" style="display:none">
+            <div id="chart2">
+              <script>
+                 var graphs = {{plot2 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart2',graphs,layout);
+              </script>
+            </div>
+          </div>
+        </div>
+        <!-- <a href="#">Link 3</a> -->
+        <div class="content">
+          
+            <div  onclick="openTab('b5');"   ><h4>Bihar</h4></div>
+         
+          <div id="b5" class="containerTab" style="display:none">
+            <div id="chart5"></div>
+              <script>
+                 var graphs = {{plot5 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart5',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <div class="content">
+          
+            <div  onclick="openTab('b9');"   ><h4>Delhi</h4></div>
+          
+          <div id="b9" class="containerTab" style="display:none">
+            <div id="chart9"></div>
+              <script>
+                 var graphs = {{plot9 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart9',graphs,layout);
+              </script>
+          </div>
+        </div>
+
+        <div class="content">
+            
+            <div  onclick="openTab('b11');"   ><h4>Gujarat</h3></div>
+          <div id="b11" class="containerTab" style="display:none">
+              
+            <div id="chart11"></div>
+              <script>
+                 var graphs = {{plot11 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart11',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b12');"   ><h4>Haryana</h3></div>
+          
+          <div id="b12" class="containerTab" style="display:none">
+              
+            <div id="chart12"></div>
+              <script>
+                 var graphs = {{plot12 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart12',graphs, layout);
+              </script>
+          </div>
+        </div>
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b13');"   ><h4>Himachal Pradesh</h3></div>
+          </div>
+          <div id="b13" class="containerTab" style="display:none">
+              
+            <div id="chart13"></div>
+              <script>
+                 var graphs = {{plot13 | safe}};
+                 Plotly.plot('chart13',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b14');"   ><h4>Jammu and Kashmir </h3></div>
+        
+          <div id="b14" class="containerTab" style="display:none">
+            <div id="chart14"></div>
+              <script>
+                 var graphs = {{plot14 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart14',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b15');"   ><h4>Jharkhand</h3></div>
+          </div>
+          <div id="b15" class="containerTab" style="display:none">
+              
+            <div id="chart15"></div>
+              <script>
+                 var graphs = {{plot15 | safe}};
+                 Plotly.plot('chart15',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b16');"   ><h4>Karnataka</h3></div>
+      
+          <div id="b16" class="containerTab" style="display:none">
+            <div id="chart16"></div>
+              <script>
+                 var graphs = {{plot16 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart16',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b17');"   ><h4>Kerala</h3></div>
+         
+          <div id="b17" class="containerTab" style="display:none">
+            <div id="chart17"></div>
+              <script>
+                 var graphs = {{plot17 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart17',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b18');"   ><h4>Ladakh</h3></div>
+          </div>
+          <div id="b18" class="containerTab" style="display:none">
+              
+            <div id="chart18"></div>
+              <script>
+                 var graphs = {{plot18 | safe}};
+                 Plotly.plot('chart18',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b19');"   ><h4>Lakshadweep</h3></div>
+          </div>
+          <div id="b19" class="containerTab" style="display:none">
+              
+            <div id="chart19"></div>
+              <script>
+                 var graphs = {{plot19 | safe}};
+                 Plotly.plot('chart19',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+    
+    
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b20');"   ><h4>Madhya Pradesh</h3></div>
+     
+          <div id="b20" class="containerTab" style="display:none">
+            <div id="chart20">
+            <script>
+                var graphs = {{plot20 | safe}};
+                var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                Plotly.newPlot('chart20',graphs,layout);
+            </script>
+            </div>
+          </div>
+        </div>
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b21');"   ><h4>Maharashtra</h3></div>
+          
+          <div id="b21" class="containerTab" style="display:none">
+            <div id="chart21"></div>
+              <script>
+                 var graphs = {{plot21 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart21',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b22');"   ><h4>Manipur</h3></div>
+          </div>
+          <div id="b22" class="containerTab" style="display:none">
+              
+            <div id="chart22"></div>
+              <script>
+                 var graphs = {{plot22 | safe}};
+                 Plotly.plot('chart22',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b23');"   ><h4>Meghalaya</h3></div>
+          </div>
+          <div id="b23" class="containerTab" style="display:none">
+              
+            <div id="chart23"></div>
+              <script>
+                 var graphs = {{plot23 | safe}};
+                 Plotly.plot('chart23',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b24');"   ><h4>Mizoram</h3></div>
+          </div>
+          <div id="b24" class="containerTab" style="display:none">
+              
+            <div id="chart24"></div>
+              <script>
+                 var graphs = {{plot24 | safe}};
+                 Plotly.plot('chart24,graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b25');"   ><h4>Nagaland</h3></div>
+          </div>
+          <div id="b25" class="containerTab" style="display:none">
+              
+            <div id="chart25"></div>
+              <script>
+                 var graphs = {{plot25 | safe}};
+                 Plotly.plot('chart25',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b26');"   ><h4>Odisha</h3></div>
+          </div>
+          <div id="b26" class="containerTab" style="display:none">
+              
+            <div id="chart26"></div>
+              <script>
+                 var graphs = {{plot26 | safe}};
+                 Plotly.plot('chart26',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b27');"   ><h4>	Punjab</h3></div>
+         
+          <div id="b27" class="containerTab" style="display:none">
+            <div id="chart27"></div>
+              <script>
+                 var graphs = {{plot27 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart27',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b28');"   ><h4>Rajasthan</h3></div>
+        
+          <div id="b28" class="containerTab" style="display:none">
+            <div id="chart28"></div>
+              <script>
+                 var graphs = {{plot28 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart28',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b28');"   ><h4>Sikkim</h3></div>
+          </div>
+          <div id="b28" class="containerTab" style="display:none">
+              
+            <div id="chart28"></div>
+              <script>
+                 var graphs = {{plot28 | safe}};
+                 Plotly.plot('chart28',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b29');"   ><h4>Tamil Nadu</h3></div>
+         
+          <div id="b29" class="containerTab" style="display:none">
+            <div id="chart29"></div>
+              <script>
+                 var graphs = {{plot29 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart29',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b30');"   ><h4>Telangana</h3></div>
+       
+          <div id="b30" class="containerTab" style="display:none">
+            <div id="chart30"></div>
+              <script>
+                 var graphs = {{plot30 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart30',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b31');"   ><h4>Tripura</h3></div>
+          </div>
+          <div id="b31" class="containerTab" style="display:none">
+              
+            <div id="chart19"></div>
+              <script>
+                 var graphs = {{plot31 | safe}};
+                 Plotly.plot('chart31',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b32');"   ><h4>Uttar Pradesh</h3></div>
+         
+          <div id="b32" class="containerTab" style="display:none">
+            <div id="chart32"></div>
+              <script>
+                 var graphs = {{plot32 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                }
+              };
+                 Plotly.newPlot('chart32',graphs,layout);
+              </script>
+          </div>
+        </div>
+    
+        <!-- <div class="content">
+            
+            <div  onclick="openTab('b33');"   ><h4>Uttarakhand</h3></div>
+          </div>
+          <div id="b33" class="containerTab" style="display:none">
+              
+            <div id="chart33"></div>
+              <script>
+                 var graphs = {{plot33 | safe}};
+                 Plotly.plot('chart33',graphs,{});
+              </script>
+          </div>
+        </div> -->
+    
+        <div class="content">
+            
+            <div  onclick="openTab('b34');"   ><h4>West Bengal</h3></div>
+          
+          <div id="b34" class="containerTab" style="display:none">
+            <div id="chart34"></div>
+              <script>
+                 var graphs = {{plot34 | safe}};
+                 var layout = {
+                xaxis: {
+                  // title: 'Dates',
+                  showgrid: false,
+                  zeroline: false
+                },
+                yaxis: {
+                  title: 'No. of Cases',
+                  showline: false
+                },
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: {
+                  family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                  size: 16,
+                  color: '#7f7f7f'
+                },
+              };
+                 Plotly.newPlot('chart34',graphs,layout);
+              </script>
+          </div>
+        </div>
+
       </div>
-  </div>
-
-
-    <br>
-    <br>
-    <h2> <center>Daily case count: State-wise<sub><small>[4]</small></sub></center></h2>
-    <br>
-
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- <div class="content">
-      <div class="row">
-        <div class="column" onclick="openTab('b1');" style="background:gainsboro;" ><h4><center>Andaman and Nicobar Islands </center></h3></div>
+        
+        <div class="column" onclick="openTab('b1');"   ><h4><center>Andaman and Nicobar Islands </center></h3></div>
       </div>
       <div id="b1" class="containerTab" style="display:none">
-        <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
+          
         <div id="chart1"></div>
           <script>
              var graphs = {{plot1 | safe}};
@@ -204,9 +930,9 @@ body {
           </script>
       </div>
     </div> -->
-
-    <div class="content">
-      <div class="row">
+    
+    <!-- <div class="content">
+        
         <div class="column" onclick="openTab('b2');" style="background:gainsboro;" ><h4><center>Andhra Pradesh</center></h3></div>
       </div>
       <div id="b2" class="containerTab" style="display:none">
@@ -235,12 +961,12 @@ body {
           };
              Plotly.newPlot('chart2',graphs,layout);
           </script>
-         </div>
+        </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
-      <div class="row">
+        
         <div class="column" onclick="openTab('b3');" style="background:gainsboro;" ><h4><center>Arunachal Pradesh</center></h3></div>
       </div>
       <div id="b3" class="containerTab" style="display:none">
@@ -254,7 +980,7 @@ body {
     </div> -->
 
     <!-- <div class="content">
-      <div class="row">
+        
         <div class="column" onclick="openTab('b4');" style="background:gainsboro;" ><h4><center>Assam</center></h3></div>
       </div>
       <div id="b4" class="containerTab" style="display:none">
@@ -268,8 +994,8 @@ body {
     </div> -->
 
 
-    <div class="content">
-      <div class="row">
+    <!-- <div class="content">
+        
         <div class="column" onclick="openTab('b5');" style="background:gainsboro;" ><h4><center>Bihar</center></h3></div>
       </div>
       <div id="b5" class="containerTab" style="display:none">
@@ -299,11 +1025,11 @@ body {
              Plotly.newPlot('chart5',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
 
     <!-- <div class="content">
-      <div class="row">
+        
         <div class="column" onclick="openTab('b6');" style="background:gainsboro;" ><h4><center>Chandigarh</center></h3></div>
       </div>
       <div id="b6" class="containerTab" style="display:none">
@@ -317,7 +1043,7 @@ body {
     </div> -->
 
     <!-- <div class="content">
-      <div class="row">
+        
         <div class="column" onclick="openTab('b7');" style="background:gainsboro;" ><h4><center>Chhattisgarh</center></h3></div>
       </div>
       <div id="b7" class="containerTab" style="display:none">
@@ -331,7 +1057,7 @@ body {
     </div> -->
 
     <!-- <div class="content">
-      <div class="row">
+        
         <div class="column" onclick="openTab('b8');" style="background:gainsboro;" ><h4><center>Dadra and Nagar Haveli and Daman and Diu</center></h3></div>
       </div>
       <div id="b8" class="containerTab" style="display:none">
@@ -344,8 +1070,8 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
-      <div class="row">
+    <!-- <div class="content">
+        
         <div class="column" onclick="openTab('b9');" style="background:gainsboro;" ><h4><center>Delhi</center></h3></div>
       </div>
       <div id="b9" class="containerTab" style="display:none">
@@ -375,10 +1101,10 @@ body {
              Plotly.newPlot('chart9',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
-      <div class="row">
+        
         <div class="column" onclick="openTab('b10');" style="background:gainsboro;" ><h4><center>Goa</center></h3></div>
       </div>
       <div id="b10" class="containerTab" style="display:none">
@@ -391,7 +1117,7 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b11');" style="background:gainsboro;" ><h4><center>Gujarat</center></h3></div>
       </div>
@@ -455,7 +1181,7 @@ body {
              Plotly.newPlot('chart12',graphs, layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
       <div class="row">
@@ -471,7 +1197,7 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b14');" style="background:gainsboro;" ><h4><center>Jammu and Kashmir </center></h3></div>
       </div>
@@ -502,7 +1228,7 @@ body {
              Plotly.newPlot('chart14',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
       <div class="row">
@@ -518,7 +1244,7 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b16');" style="background:gainsboro;" ><h4><center>Karnataka</center></h3></div>
       </div>
@@ -582,9 +1308,10 @@ body {
              Plotly.newPlot('chart17',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
+      
       <div class="row">
         <div class="column" onclick="openTab('b18');" style="background:gainsboro;" ><h4><center>Ladakh</center></h3></div>
       </div>
@@ -616,7 +1343,7 @@ body {
 
 
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b20');" style="background:gainsboro;" ><h4><center>Madhya Pradesh</center></h3></div>
       </div>
@@ -648,9 +1375,9 @@ body {
         </script>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b21');" style="background:gainsboro;" ><h4><center>Maharashtra</center></h3></div>
       </div>
@@ -681,7 +1408,7 @@ body {
              Plotly.newPlot('chart21',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
       <div class="row">
@@ -753,7 +1480,7 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b27');" style="background:gainsboro;" ><h4><center>	Punjab</center></h3></div>
       </div>
@@ -784,9 +1511,9 @@ body {
              Plotly.newPlot('chart27',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b28');" style="background:gainsboro;" ><h4><center>Rajasthan</center></h3></div>
       </div>
@@ -817,7 +1544,7 @@ body {
              Plotly.newPlot('chart28',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
       <div class="row">
@@ -833,7 +1560,7 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b29');" style="background:gainsboro;" ><h4><center>Tamil Nadu</center></h3></div>
       </div>
@@ -864,9 +1591,9 @@ body {
              Plotly.newPlot('chart29',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b30');" style="background:gainsboro;" ><h4><center>Telangana</center></h3></div>
       </div>
@@ -897,7 +1624,7 @@ body {
              Plotly.newPlot('chart30',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="content">
       <div class="row">
@@ -913,7 +1640,7 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
         <div class="column" onclick="openTab('b32');" style="background:gainsboro;" ><h4><center>Uttar Pradesh</center></h3></div>
       </div>
@@ -944,7 +1671,7 @@ body {
              Plotly.newPlot('chart32',graphs,layout);
           </script>
       </div>
-    </div>
+    </div>  -->
 
     <!-- <div class="content">
       <div class="row">
@@ -960,9 +1687,9 @@ body {
       </div>
     </div> -->
 
-    <div class="content">
+    <!-- <div class="content">
       <div class="row">
-        <div class="column" onclick="openTab('b34');" style="background:gainsboro;" ><h4><center>West Bengal</center></h3></div>
+        <div class="column" onclick="openTab('b34');"   ><h4><center>West Bengal</center></h3></div>
       </div>
       <div id="b34" class="containerTab" style="display:none">
         <span onclick="this.parentElement.style.display='none'" class="closebtn">x</span>
@@ -991,18 +1718,42 @@ body {
              Plotly.newPlot('chart34',graphs,layout);
           </script>
       </div>
-    </div>
+    </div> -->
 
+  
     <br>
+<!--     <div class="content">
+      <div class=page >
+        <h2><center>COVID-19 Statewise Status</center></h2>
+          {{ tables|safe }}
+      </div>
+        <br>
+    </div> -->
     <br>
-
     <div class="content">
-        <h2>Sources</h2>
+      <div class="card">
+        <div class="card-header" style="background-color:#f1f1f1">
+          <p style="font-size: 35px;" style="font-style: normal;">Closed Cases</p>
+        </div>
+        <div class="card-body"  >
+          <h2 style="font-size: 35px;"> {{close}}</h2>
+          <p>Cases which had outcome</p>
+          <h3>Recovered</h3>
+          <div  class="gre" style="font-size:40px" >{{recover}}  <span style="font-size: 20px;" style="text-decoration-color: black;"><strong>({{recper}}%)</strong></span></div>     
+          <h3>Deaths</h3>
+          <div  class="red" style="font-size:40px">{{dead}}   <span style="font-size: 20px;" style="text-decoration-color: black;"><strong>({{deadper}}%)</strong></span></div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <hr>
+    <div class="content">
+        <h1><center>Sources</center></h1>
         <ol>
           <li>Novel Coronavirus (2019-nCoV) situation reports - World Health Organization (WHO)</li>
           <li>https://www.mohfw.gov.in/</li>
           <li>https://www.covid19india.org/</li>
-          <li><a href="https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSc_2y5N0I67wDU38DjDh35IZSIS30rQf7_NYZhtYYGU1jJYT6_kDx4YpF-qw0LSlGsBYP8pqM_a1Pd/pubhtml">VIEW THE PATIENTS DATABASE</a><p> (All graphs source)</p></li>
+          <li><a href="https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSz8Qs1gE_IYpzlkFkCXGcL_BqR8hZieWVi-rphN1gfrO3H4lDtVZs4kd0C3P8Y9lhsT1rhoB-Q_cP4/pubhtml#">VIEW THE PATIENTS DATABASE</a><p> (All graphs source)</p></li>
           <li>https://www.who.int/health-topics/coronavirus#tab=tab_3</li>
 
         </ol>
@@ -1011,7 +1762,7 @@ body {
     <br>
 
     </div>
-
+    <!-- <a style="font-size:20px"  href="/facts">Facts</a> -->
 </body>
 
 
