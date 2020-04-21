@@ -34,17 +34,6 @@ def index_fulltext(es_client, metadatapath, paths, index):
                     for pmc in _format_sha(row['pmcid']):
                         metadata_dict[pmc] = row
 
-    named_ent_dict = {}
-    with open('prge_from_abs_comb.csv', newline='') as csvfile:
-        f = csv.reader(csvfile)
-        for row in f:
-            named_ent_dict[row[0]] = _format_ne(row[1])
-    ched_ent_dict = {}
-    with open('ched_from_abs_comb.csv', newline='') as csvfile:
-        f = csv.reader(csvfile)
-        for row in f:
-            ched_ent_dict[row[0]] = _format_ne(row[1])
-
     i = 0
     sha_tillnow=[]
     for path in paths:
@@ -84,9 +73,13 @@ def index_fulltext(es_client, metadatapath, paths, index):
                 b['publish_time'] = metadata['publish_time']
                 b['journal'] = metadata['journal']
                 b['authors'] = _format_sha(metadata['authors'])
-                b['named_entities'] = named_ent_dict[doc['paper_id']] #refers to proteins and genes
-                b['ched_entities'] = ched_ent_dict[doc['paper_id']] #refers to chemical names
-                es_client.index(index=index,
+
+                # adding named entities
+                _, named_entity_dict = _ner_filter()
+                for item in named_entity_dict[doc['paper_id']]:
+                    b[item] = named_entity_dict[doc['paper_id']][item]
+
+                res = es_client.index(index=index,
                             id=i,
                             body=b)
             except:
@@ -167,33 +160,19 @@ def index_authors(es_client, paths, index):
     return
 
 
-def index_named_entities(es_client, path, index):
-    print("adding Named Entity index for %s..." %path)
+def index_named_entities(es_client, index):
+    print("adding Named Entity index...")
 
-    named_ent_dict = {}
-    co_men_dict = {}
-    with open(path, newline='') as csvfile:
-        f = csv.reader(csvfile)
-        for row in f:
-            if row[1] == '':
-                continue
-            nes = _format_ne(row[1])
-            for ne in nes:
-                co_men = [x for x in nes if x!=ne] #all nes except current ne
-                if ne in named_ent_dict:
-                    named_ent_dict[ne].append(row[0])
-                    co_men_dict[ne].update(co_men)
-                else:
-                    named_ent_dict[ne] = [row[0]]
-                    co_men_dict[ne] = set(co_men)
-
+    named_ent_dict, _ = _ner_filter()
     i = 0
     for item in named_ent_dict:
         i = i + 1
         b = {}
         b['entity'] = item
-        b['pids'] = named_ent_dict[item]
+        b['pids'] = named_ent_dict[item]['pids']
+        b['type'] = named_ent_dict[item]['type']
         y_min = datetime.now().date()
+        first_p = ''
         for pid in b['pids']:
             p = paper_namefromid(pid)
             # print(p['ptime'])
@@ -207,10 +186,9 @@ def index_named_entities(es_client, path, index):
             if y <= y_min:
                 y_min = y
                 first_p = pid
-        b['doc_freq'] = len(named_ent_dict[item])
+        b['doc_freq'] = len(b['pids'])
         b['first_mention'] = first_p
-        b['co_mentions'] = list(co_men_dict[item])
-
+        b['co_mentions'] = named_ent_dict[item]['comen']
         es_client.index(index=index, id=i, body=b)
 
     return
@@ -225,3 +203,121 @@ def _format_ne(ne):
     l = ne.split(';')
     l_1 = [i.strip() for i in l if len(i)>1]
     return l_1
+
+
+def _ner_filter():
+    """
+    filters the NERs from csvs
+    :return: (map of ner to sha, map of sha to ner)
+    """
+    print("creating dicts from csvs...")
+    sha_to_ent_dict = {}
+    ent_to_sha_dict = {}
+
+    mapp = {0: 'ner_ched', 1: 'ner_dna', 2: 'ner_rna', 3: 'ner_protein', 4: 'ner_cell_line', 5: 'ner_cell_type'}
+
+    # scibert entities
+    # first finding the entity type for each entity
+    # ched entities have not been included as it is possible that other entities maybe a subset
+    # of ched entities.
+    ent_type_dict = {}
+    with open('ent_from_scibert_JNLPBA.csv', newline='') as csvfile:
+        f = csv.reader(csvfile)
+        for row in f:
+            for i in range(1, 6):
+                nes = _format_ne(row[i])
+                for ne in nes:
+                    if ne in ent_type_dict:
+                        ent_type_dict[ne].append(i)
+                    else:
+                        ent_type_dict[ne] = [i]
+    # with open('ched_from_abs_comb.csv', newline='') as csvfile:
+    #     f = csv.reader(csvfile)
+    #     for row in f:
+    #         nes = _format_ne(row[1])
+    #         for ne in nes:
+    #             if ne in ent_type_dict:
+    #                 ent_type_dict[ne].append(0)
+    #             else:
+    #                 ent_type_dict[ne] = [0]
+    for ne in ent_type_dict:
+        mode = max(ent_type_dict[ne], key=ent_type_dict[ne].count)
+        ent_type_dict[ne] = mapp[mode]
+
+    # ched entities
+    with open('ched_from_abs_comb.csv', newline='') as csvfile:
+        f = csv.reader(csvfile)
+        for row in f:
+            if row[0] not in sha_to_ent_dict:
+                sha_to_ent_dict[row[0]] = {'ner_ched': [],
+                                           'ner_dna': [],
+                                           'ner_rna': [],
+                                           'ner_protein': [],
+                                           'ner_cell_line': [],
+                                           'ner_cell_type': []}
+            nes = _format_ne(row[1])
+
+            for ne in nes:
+                #type = ent_type_dict[ne]
+                type = 'ner_ched'
+                sha_to_ent_dict[row[0]][type].append(ne)
+
+                co_men = [x for x in nes if x != ne]  # all nes except current ne
+                if ne in ent_to_sha_dict:
+                    ent_to_sha_dict[ne]['pids'].append(row[0])
+                else:
+                    ent_to_sha_dict[ne] = {}
+                    ent_to_sha_dict[ne]['pids'] = [row[0]]
+                    ent_to_sha_dict[ne]['comen'] = {'ner_ched': [],
+                                                    'ner_dna': [],
+                                                    'ner_rna': [],
+                                                    'ner_protein': [],
+                                                    'ner_cell_line': [],
+                                                    'ner_cell_type': []}
+                ent_to_sha_dict[ne]['type'] = type
+                ent_to_sha_dict[ne]['comen'][type].extend(co_men)
+
+    with open('ent_from_scibert_JNLPBA.csv', newline='') as csvfile:
+        f = csv.reader(csvfile)
+        for row in f:
+            if row[0] not in sha_to_ent_dict:
+                sha_to_ent_dict[row[0]] = {'ner_ched':[],
+                                          'ner_dna':[],
+                                          'ner_rna':[],
+                                          'ner_protein':[],
+                                          'ner_cell_line':[],
+                                          'ner_cell_type':[]}
+            for i in range(1,6):
+                if row[i] == '':
+                    continue
+
+                nes = _format_ne(row[i])
+
+                for ne in nes:
+                    type = ent_type_dict[ne]
+
+                    sha_to_ent_dict[row[0]][type].append(ne)
+
+                    co_men = [x for x in nes if x != ne]  # all nes except current ne
+                    if ne in ent_to_sha_dict:
+                        ent_to_sha_dict[ne]['pids'].append(row[0])
+                    else:
+                        ent_to_sha_dict[ne] = {}
+                        ent_to_sha_dict[ne]['pids'] = [row[0]]
+                        ent_to_sha_dict[ne]['comen'] = {'ner_ched':[],
+                                                          'ner_dna':[],
+                                                          'ner_rna':[],
+                                                          'ner_protein':[],
+                                                          'ner_cell_line':[],
+                                                          'ner_cell_type':[]}
+
+                    ent_to_sha_dict[ne]['type'] = type
+                    ent_to_sha_dict[ne]['comen'][type].extend(co_men)
+
+    #changing sets to list
+    for ne in ent_to_sha_dict:
+        for j in ent_to_sha_dict[ne]['comen']:
+            ent_to_sha_dict[ne]['comen'][j] = list(set(ent_to_sha_dict[ne]['comen'][j]))
+
+    print("creating dicts from csvs...DONE")
+    return ent_to_sha_dict, sha_to_ent_dict

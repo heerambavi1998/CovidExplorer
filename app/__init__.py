@@ -23,9 +23,6 @@ if not ES_CLIENT.indices.exists(index='covid19_authors'):
     index_data.index_authorsfromMD(ES_CLIENT, METADATAPATH, 'covid19_authors')
 
 if not ES_CLIENT.indices.exists(index='covid19_ner'): #need fulltext index made before this
-    index_data.index_named_entities(ES_CLIENT, NERDATAPATH, 'covid19_ner')
-
-if not ES_CLIENT.indices.exists(index='covid19_ched'): #need fulltext index made before this
-    index_data.index_named_entities(ES_CLIENT, CHEDDATAPATH, 'covid19_ched')
+    index_data.index_named_entities(ES_CLIENT, 'covid19_ner')
 
 from app import routes, author_routes,india_stats,network_dash
