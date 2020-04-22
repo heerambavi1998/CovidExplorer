@@ -17,7 +17,7 @@ def paper_es(paper_name):
         })
     papers=[]
     pids = []
-    try:
+    if res:
         for i in range(len(res['hits']['hits'])):
             papers.append({'title': res['hits']['hits'][i]['_source']['title'],
             'url': res['hits']['hits'][i]['_source']['url'],
@@ -26,8 +26,6 @@ def paper_es(paper_name):
             'auth' : res['hits']['hits'][i]['_source']['authors'],
             'ner': res['hits']['hits'][i]['_source']['named_entities'] })
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
-    except:
-        None
     return papers,pids
 
 def paper_filteryr(paper_name,yr_s,yr_e):
@@ -58,7 +56,7 @@ def paper_filteryr(paper_name,yr_s,yr_e):
 
     papers=[]
     pids = []
-    try:
+    if res:
         for i in range(len(res['hits']['hits'])):
             papers.append({'title': res['hits']['hits'][i]['_source']['title'],
                            'url': res['hits']['hits'][i]['_source']['url'],
@@ -67,8 +65,6 @@ def paper_filteryr(paper_name,yr_s,yr_e):
                            'auth': res['hits']['hits'][i]['_source']['authors'],
                            'ner': res['hits']['hits'][i]['_source']['named_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
-    except:
-        None
     return papers,pids
 
 
@@ -84,13 +80,11 @@ def author_es(author):
                 }
                 }}})
     authors=[]
-    try:
+    if res:
         for i in range(len(res['hits']['hits'])):
             aname = res['hits']['hits'][i]['_source']['author_name']
             # aid = res['hits']['hits'][i]['_source']['id']
             authors.append(aname)
-    except:
-        None
     return authors
 
 def author_findpapers(author):
@@ -115,17 +109,14 @@ def paper_namefromid(pid):
             }
         }
     })
-    try:
-        
+    r = {}
+    if res:
         r = {'title': res['hits']['hits'][0]['_source']['title'],
              'url' : res['hits']['hits'][0]['_source']['url'],
              'journ': res['hits']['hits'][0]['_source']['journal'],
              'ptime': res['hits']['hits'][0]['_source']['publish_time'],
              'ner': res['hits']['hits'][0]['_source']['named_entities'],
              'auth': res['hits']['hits'][0]['_source']['authors']}
-    except:
-        r = None
-        print(res)
     return r
 
 
@@ -143,7 +134,7 @@ def fulltextsearch(search_item):
     })
     papers=[]
     pids = []
-    try:
+    if res:
         for i in range(len(res['hits']['hits'])):
             papers.append({'title': res['hits']['hits'][i]['_source']['title'],
                            'url': res['hits']['hits'][i]['_source']['url'],
@@ -152,8 +143,6 @@ def fulltextsearch(search_item):
                            'auth': res['hits']['hits'][i]['_source']['authors'],
                            'ner': res['hits']['hits'][i]['_source']['named_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
-    except:
-        None
     return papers,pids
 
 def fulltextsearch_filteryr(search_item, yr_s, yr_e):
@@ -184,7 +173,7 @@ def fulltextsearch_filteryr(search_item, yr_s, yr_e):
     })
     papers=[]
     pids = []
-    try:
+    if res:
         for i in range(len(res['hits']['hits'])):
             papers.append({'title': res['hits']['hits'][i]['_source']['title'],
                            'url': res['hits']['hits'][i]['_source']['url'],
@@ -193,8 +182,6 @@ def fulltextsearch_filteryr(search_item, yr_s, yr_e):
                            'auth': res['hits']['hits'][i]['_source']['authors'],
                            'ner': res['hits']['hits'][i]['_source']['named_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
-    except:
-        None
     return (papers, pids)
 
 
@@ -269,14 +256,13 @@ def get_named_entity_info(entity, entity_type):
             }
         }
     })
-    try:
+    r = {}
+    if res:
         # print(res)
         r = (res['hits']['hits'][0]['_source']['entity'],
              res['hits']['hits'][0]['_source']['pids'],
              res['hits']['hits'][0]['_source']['doc_freq'],
              res['hits']['hits'][0]['_source']['first_mention'],
              res['hits']['hits'][0]['_source']['co_mentions'])
-    except:
-        r = None
     return r
 

@@ -171,7 +171,7 @@ def index_named_entities(es_client, index):
         b['pids'] = named_ent_dict[item]['pids']
         b['type'] = named_ent_dict[item]['type']
         y_min = datetime.now().date()
-        first_p = ''
+        #first_p = ''
         for pid in b['pids']:
             p = paper_namefromid(pid)
             # print(p['ptime'])
@@ -231,16 +231,16 @@ def _ner_filter():
                     else:
                         ent_type_dict[ne] = [i]
                 #ched entities
-                nes = _format_ne(row[7])
-                for ne in nes:
-                    if ne not in ent_type_dict:
-                        ent_type_dict[ne] = [0]
+            nes = _format_ne(row[6])
+            for ne in nes:
+                if ne not in ent_type_dict:
+                    ent_type_dict[ne] = [0]
 
     for ne in ent_type_dict:
         mode = max(ent_type_dict[ne], key=ent_type_dict[ne].count)
         ent_type_dict[ne] = mapp[mode]
 
-    with open('ner.csv', newline='') as csvfile:
+    with open('ners.csv', newline='') as csvfile:
         f = csv.reader(csvfile)
         for row in f:
             if row[0] not in sha_to_ent_dict:
