@@ -218,9 +218,9 @@ def _ner_filter():
     # scibert entities
     # first finding the entity type for each entity
     # ched entities have not been included as it is possible that other entities maybe a subset
-    # of ched entities.
+    # of ched entities. Hence any entity which is of type ched and Xyz is assigned type Xyz.
     ent_type_dict = {}
-    with open('ent_from_scibert_JNLPBA.csv', newline='') as csvfile:
+    with open('ners.csv', newline='') as csvfile:
         f = csv.reader(csvfile)
         for row in f:
             for i in range(1, 6):
@@ -230,53 +230,17 @@ def _ner_filter():
                         ent_type_dict[ne].append(i)
                     else:
                         ent_type_dict[ne] = [i]
-    # with open('ched_from_abs_comb.csv', newline='') as csvfile:
-    #     f = csv.reader(csvfile)
-    #     for row in f:
-    #         nes = _format_ne(row[1])
-    #         for ne in nes:
-    #             if ne in ent_type_dict:
-    #                 ent_type_dict[ne].append(0)
-    #             else:
-    #                 ent_type_dict[ne] = [0]
+                #ched entities
+                nes = _format_ne(row[7])
+                for ne in nes:
+                    if ne not in ent_type_dict:
+                        ent_type_dict[ne] = [0]
+
     for ne in ent_type_dict:
         mode = max(ent_type_dict[ne], key=ent_type_dict[ne].count)
         ent_type_dict[ne] = mapp[mode]
 
-    # ched entities
-    with open('ched_from_abs_comb.csv', newline='') as csvfile:
-        f = csv.reader(csvfile)
-        for row in f:
-            if row[0] not in sha_to_ent_dict:
-                sha_to_ent_dict[row[0]] = {'ner_ched': [],
-                                           'ner_dna': [],
-                                           'ner_rna': [],
-                                           'ner_protein': [],
-                                           'ner_cell_line': [],
-                                           'ner_cell_type': []}
-            nes = _format_ne(row[1])
-
-            for ne in nes:
-                #type = ent_type_dict[ne]
-                type = 'ner_ched'
-                sha_to_ent_dict[row[0]][type].append(ne)
-
-                co_men = [x for x in nes if x != ne]  # all nes except current ne
-                if ne in ent_to_sha_dict:
-                    ent_to_sha_dict[ne]['pids'].append(row[0])
-                else:
-                    ent_to_sha_dict[ne] = {}
-                    ent_to_sha_dict[ne]['pids'] = [row[0]]
-                    ent_to_sha_dict[ne]['comen'] = {'ner_ched': [],
-                                                    'ner_dna': [],
-                                                    'ner_rna': [],
-                                                    'ner_protein': [],
-                                                    'ner_cell_line': [],
-                                                    'ner_cell_type': []}
-                ent_to_sha_dict[ne]['type'] = type
-                ent_to_sha_dict[ne]['comen'][type].extend(co_men)
-
-    with open('ent_from_scibert_JNLPBA.csv', newline='') as csvfile:
+    with open('ner.csv', newline='') as csvfile:
         f = csv.reader(csvfile)
         for row in f:
             if row[0] not in sha_to_ent_dict:
@@ -286,7 +250,7 @@ def _ner_filter():
                                           'ner_protein':[],
                                           'ner_cell_line':[],
                                           'ner_cell_type':[]}
-            for i in range(1,6):
+            for i in range(1,7):
                 if row[i] == '':
                     continue
 
