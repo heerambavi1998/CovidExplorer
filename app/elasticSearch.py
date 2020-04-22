@@ -24,8 +24,7 @@ def paper_es(paper_name):
             'ptime' : res['hits']['hits'][i]['_source']['publish_time'],
             'journ' : res['hits']['hits'][i]['_source']['journal'],
             'auth' : res['hits']['hits'][i]['_source']['authors'],
-            'prge' : res['hits']['hits'][i]['_source']['named_entities'],
-            'ched' : res['hits']['hits'][i]['_source']['ched_entities']})
+            'ner': res['hits']['hits'][i]['_source']['named_entities'] })
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -66,26 +65,12 @@ def paper_filteryr(paper_name,yr_s,yr_e):
                            'ptime': res['hits']['hits'][i]['_source']['publish_time'],
                            'journ': res['hits']['hits'][i]['_source']['journal'],
                            'auth': res['hits']['hits'][i]['_source']['authors'],
-                           'prge': res['hits']['hits'][i]['_source']['named_entities'],
-                           'ched': res['hits']['hits'][i]['_source']['ched_entities']})
+                           'ner': res['hits']['hits'][i]['_source']['named_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
     return papers,pids
 
-def top_ents_results(papers, ent_type):
-    entity_dict = {}
-    for paper in papers:
-        ents = paper[ent_type]
-        for ent in ents:
-            try:
-                entity_dict[ent]+=1
-            except:
-                entity_dict[ent]=1
-
-    d = OrderedDict(sorted(entity_dict.items(), key=itemgetter(1), reverse=True))
-    # print(d)
-    return d
 
 def author_es(author):
     res = es.search(index="covid19_authors",body={
@@ -131,16 +116,16 @@ def paper_namefromid(pid):
         }
     })
     try:
-        #print(res)
+        
         r = {'title': res['hits']['hits'][0]['_source']['title'],
              'url' : res['hits']['hits'][0]['_source']['url'],
              'journ': res['hits']['hits'][0]['_source']['journal'],
              'ptime': res['hits']['hits'][0]['_source']['publish_time'],
-             'prge': res['hits']['hits'][0]['_source']['named_entities'],
-             'ched' : res['hits']['hits'][0]['_source']['ched_entities'],
+             'ner': res['hits']['hits'][0]['_source']['named_entities'],
              'auth': res['hits']['hits'][0]['_source']['authors']}
     except:
         r = None
+        print(res)
     return r
 
 
@@ -165,8 +150,7 @@ def fulltextsearch(search_item):
                            'ptime': res['hits']['hits'][i]['_source']['publish_time'],
                            'journ': res['hits']['hits'][i]['_source']['journal'],
                            'auth': res['hits']['hits'][i]['_source']['authors'],
-                           'prge': res['hits']['hits'][i]['_source']['named_entities'],
-                           'ched': res['hits']['hits'][i]['_source']['ched_entities']})
+                           'ner': res['hits']['hits'][i]['_source']['named_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -207,8 +191,7 @@ def fulltextsearch_filteryr(search_item, yr_s, yr_e):
                            'ptime': res['hits']['hits'][i]['_source']['publish_time'],
                            'journ': res['hits']['hits'][i]['_source']['journal'],
                            'auth': res['hits']['hits'][i]['_source']['authors'],
-                           'prge': res['hits']['hits'][i]['_source']['named_entities'],
-                           'ched': res['hits']['hits'][i]['_source']['ched_entities']})
+                           'ner': res['hits']['hits'][i]['_source']['named_entities']})
             pids.append(res['hits']['hits'][i]['_source']['paper_id'])
     except:
         None
@@ -257,10 +240,7 @@ def named_entities_es(pid_list):
 
 
 def named_entity_filter(pid_list, entity, entity_type):
-    if entity_type == 'prge':
-        index = 'covid19_ner'
-    elif entity_type == 'ched':
-        index = 'covid19_ched'
+    index = 'covid19_ner'
     res = es.search(index=index, body={
         'from': 0,
         'size': 10000,
@@ -279,10 +259,7 @@ def named_entity_filter(pid_list, entity, entity_type):
     return l
 
 def get_named_entity_info(entity, entity_type):
-    if entity_type == 'prge':
-        index = 'covid19_ner'
-    elif entity_type == 'ched':
-        index = 'covid19_ched'
+    index = 'covid19_ner'    
     res = es.search(index=index, body={
         'from':0,
         'size':100,

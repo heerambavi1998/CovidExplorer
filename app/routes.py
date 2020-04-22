@@ -35,23 +35,48 @@ def overall_search():
 
 @app.route('/search/<field>/<text>', methods=["GET", "POST"])
 def search_field(field, text):
+
     if field == 'Paper':
         papers, pids = paper_es(text)
         paper_data = return_yearwise_paper(papers)
-        ordered_ents_prge = top_ents_results(papers,'prge')
-        ordered_ents_ched = top_ents_results(papers,'ched')
-        # entities = named_entities_es(pids)
-        return render_template('search_paper.html', items=paper_data, keyword=text, field=field,
-                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
+        ordered_ents_ched = top_ents_results(papers,'ner_ched')
+        ordered_ents_dna = top_ents_results(papers,'ner_dna')
+        ordered_ents_rna = top_ents_results(papers,'ner_rna')
+        ordered_ents_protein = top_ents_results(papers,'ner_protein')
+        ordered_ents_cellline = top_ents_results(papers,'ner_cell_line')
+        ordered_ents_celltype = top_ents_results(papers,'ner_cell_type')
+        
+        return render_template('search_paper.html', 
+                                items = paper_data, 
+                                keyword = text, 
+                                field = field,
+                                ched = ordered_ents_ched.keys(),
+                                dna = ordered_ents_dna.keys(),
+                                rna = ordered_ents_rna.keys(),
+                                protein = ordered_ents_protein.keys(),
+                                cellline = ordered_ents_cellline.keys(),
+                                celltype = ordered_ents_celltype.keys())
 
     if field == 'FullText':
         papers, pids = fulltextsearch(text)
         paper_data = return_yearwise_paper(papers)
-        ordered_ents_prge = top_ents_results(papers,'prge')
-        ordered_ents_ched = top_ents_results(papers,'ched')
-        # entities = named_entities_es(pids)
-        return render_template('search_paper.html', items=paper_data, keyword=text, field=field,
-                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
+        ordered_ents_ched = top_ents_results(papers,'ner_ched')
+        ordered_ents_dna = top_ents_results(papers,'ner_dna')
+        ordered_ents_rna = top_ents_results(papers,'ner_rna')
+        ordered_ents_protein = top_ents_results(papers,'ner_protein')
+        ordered_ents_cellline = top_ents_results(papers,'ner_cell_line')
+        ordered_ents_celltype = top_ents_results(papers,'ner_cell_type')
+        
+        return render_template('search_paper.html', 
+                                items = paper_data, 
+                                keyword = text, 
+                                field = field,
+                                ched = ordered_ents_ched.keys(),
+                                dna = ordered_ents_dna.keys(),
+                                rna = ordered_ents_rna.keys(),
+                                protein = ordered_ents_protein.keys(),
+                                cellline = ordered_ents_cellline.keys(),
+                                celltype = ordered_ents_celltype.keys())
 
     if field == 'Author':
         authors = author_es(text)
@@ -66,21 +91,41 @@ def get_html_year_filter():
     field = request.args.get("field")
     text = request.args.get("searchtext")
     if field == 'Paper':
-        papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
+        papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e)+1)
         paper_data = return_yearwise_paper(papers_filt)
 
-        ordered_ents_prge = top_ents_results(papers_filt,'prge')
-        ordered_ents_ched = top_ents_results(papers_filt,'ched')
-        return render_template('filter_results.html', items=paper_data,
-                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
+        ordered_ents_ched = top_ents_results(papers_filt,'ner_ched')
+        ordered_ents_dna = top_ents_results(papers_filt,'ner_dna')
+        ordered_ents_rna = top_ents_results(papers_filt,'ner_rna')
+        ordered_ents_protein = top_ents_results(papers_filt,'ner_protein')
+        ordered_ents_cellline = top_ents_results(papers_filt,'ner_cell_line')
+        ordered_ents_celltype = top_ents_results(papers_filt,'ner_cell_type')
+        return render_template('filter_results.html', 
+                                items=paper_data,
+                                ched = ordered_ents_ched.keys(),
+                                dna = ordered_ents_dna.keys(),
+                                rna = ordered_ents_rna.keys(),
+                                protein = ordered_ents_protein.keys(),
+                                cellline = ordered_ents_cellline.keys(),
+                                celltype = ordered_ents_celltype.keys())
     if field == 'FullText':
-        papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
+        papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e)+1)
         paper_data = return_yearwise_paper(papers_filt)
 
-        ordered_ents_prge = top_ents_results(papers_filt,'prge')
-        ordered_ents_ched = top_ents_results(papers_filt,'ched')
-        return render_template('filter_results.html', items=paper_data,
-                               prge=ordered_ents_prge.keys(), ched=ordered_ents_ched.keys())
+        ordered_ents_ched = top_ents_results(papers_filt,'ner_ched')
+        ordered_ents_dna = top_ents_results(papers_filt,'ner_dna')
+        ordered_ents_rna = top_ents_results(papers_filt,'ner_rna')
+        ordered_ents_protein = top_ents_results(papers_filt,'ner_protein')
+        ordered_ents_cellline = top_ents_results(papers_filt,'ner_cell_line')
+        ordered_ents_celltype = top_ents_results(papers_filt,'ner_cell_type')
+        return render_template('filter_results.html', 
+                                items=paper_data,
+                                ched = ordered_ents_ched.keys(),
+                                dna = ordered_ents_dna.keys(),
+                                rna = ordered_ents_rna.keys(),
+                                protein = ordered_ents_protein.keys(),
+                                cellline = ordered_ents_cellline.keys(),
+                                celltype = ordered_ents_celltype.keys())
 
 
 @app.route('/gene_filter')
@@ -93,7 +138,7 @@ def get_html_gene_filter():
     entity = request.args.get("entity").split(':')[1]
 
     if field == 'Paper':
-        papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e))
+        papers_filt, pids = paper_filteryr(text, int(yr_s), int(yr_e)+1)
         pids_new = named_entity_filter(pids,entity, ent_type)
         d = []
         for i in range(len(pids)):
@@ -103,7 +148,7 @@ def get_html_gene_filter():
         return render_template('filter_results_gene.html', items=paper_data)
 
     if field == 'FullText':
-        papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e))
+        papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e)+1)
         pids_new = named_entity_filter(pids, entity, ent_type)
         d = []
         for i in range(len(pids)):
@@ -119,6 +164,8 @@ def get_indv_page(ent_type, ent_name):
     doc_freq = ent[2]
     first_mention_pid = ent[3]
     co_mentions = ent[4]
+    # print(co_mentions)
+    print(ent)
 
     paper_data = return_yearwise_paper([paper_namefromid(pid) for pid in pids])
     return render_template('prge_indv.html',
