@@ -1,6 +1,6 @@
 from flask import Flask
 from .config import * 
-
+import time
 from elasticsearch import Elasticsearch
 ES_CLIENT = Elasticsearch([{'host':'localhost','port':ES_PORT}]) # ES indexing
 
@@ -24,5 +24,6 @@ if not ES_CLIENT.indices.exists(index='covid19_authors'):
 
 if not ES_CLIENT.indices.exists(index='covid19_ner'): #need fulltext index made before this
     index_data.index_named_entities(ES_CLIENT, 'covid19_ner')
+
 
 from app import routes, author_routes,india_stats,network_dash

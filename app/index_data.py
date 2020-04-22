@@ -33,12 +33,13 @@ def index_fulltext(es_client, metadatapath, paths, index):
                 elif row['pmcid'] != "" and row['has_pmc_xml_parse'] == 'True':
                     for pmc in _format_sha(row['pmcid']):
                         metadata_dict[pmc] = row
-
+    _, named_entity_dict = _ner_filter()
     i = 0
-    sha_tillnow=[]
+    sha_tillnow={}
     for path in paths:
+        print("indexing path %s" %path)
+
         for file in glob.glob(path):
-            i+=1
             doc = json.load(open(file, 'r'))
             
             if doc['paper_id'] in sha_tillnow:
@@ -47,46 +48,44 @@ def index_fulltext(es_client, metadatapath, paths, index):
             try:
                 # find the paper in metadatadict
                 metadata = metadata_dict[doc['paper_id']]
-
-                # start building index doc
-                b = {}
-                b['paper_id'] = doc['paper_id']
-                sha_tillnow.append(b['paper_id'])
-                b['title'] = doc["metadata"]["title"]
-
-                # abst = ""
-                # for para in doc['abstract']:
-                #     abst += para['text']
-                #     abst += '\n'
-                # b['abstract'] = abst
-
-                body = ""
-                for para in doc['body_text']:
-                    body += para['text']
-                    body += '\n'
-                b['body_text'] = body
-
-                # adding metadata to doc
-                b['abstract'] = metadata['abstract']
-                b['doi'] = metadata['doi']
-                b['url'] = metadata['url']
-                b['publish_time'] = metadata['publish_time']
-                b['journal'] = metadata['journal']
-                b['authors'] = _format_sha(metadata['authors'])
-
-                # adding named entities
-                _, named_entity_dict = _ner_filter()
-                for item in named_entity_dict[doc['paper_id']]:
-                    b[item] = named_entity_dict[doc['paper_id']][item]
-
-                res = es_client.index(index=index,
-                            id=i,
-                            body=b)
             except:
-                #error due to missing paper ID in metadatadict
-                #paper already accounted for via different format
+                # error due to missing paper ID in metadatadict
+                # paper already accounted for via different format
                 continue
+            i += 1
+            # start building index doc
+            b = {}
+            b['paper_id'] = doc['paper_id']
+            sha_tillnow[doc['paper_id']] = 1
+            b['title'] = doc["metadata"]["title"]
 
+            # abst = ""
+            # for para in doc['abstract']:
+            #     abst += para['text']
+            #     abst += '\n'
+            # b['abstract'] = abst
+
+            body = ""
+            for para in doc['body_text']:
+                body += para['text']
+                body += '\n'
+            b['body_text'] = body
+
+            # adding metadata to doc
+            b['abstract'] = metadata['abstract']
+            b['doi'] = metadata['doi']
+            b['url'] = metadata['url']
+            b['publish_time'] = metadata['publish_time']
+            b['journal'] = metadata['journal']
+            b['authors'] = _format_sha(metadata['authors'])
+
+            # adding named entities
+            b['named_entities'] = named_entity_dict[doc['paper_id']]
+
+            res = es_client.index(index=index,
+                        id=i,
+                        body=b)
+            #print(res)
     return
 
 def index_authorsfromMD(es_client, filepath, index):
