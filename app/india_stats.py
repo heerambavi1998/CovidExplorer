@@ -15,38 +15,45 @@ global last_updated
 import math
 from app import app
 import plotly.express as px
+import os
+import zipfile
 def df1():
-    url='https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSz8Qs1gE_IYpzlkFkCXGcL_BqR8hZieWVi-rphN1gfrO3H4lDtVZs4kd0C3P8Y9lhsT1rhoB-Q_cP4/pubhtml'
-    page = requests.get(url)
-    doc = lh.fromstring(page.content)
-    tr_elements = doc.xpath('//tr')
-    # tr_elements = doc.xpath('//tr')
-    col=[]
-    i=0
-    for t in tr_elements[1]:
-        i+=1
-        name=t.text_content()
-        col.append((name,[]))
+    os.system('cmd /c "kaggle datasets download -d sudalairajkumar/covid19-in-india"')
+    with zipfile.ZipFile('covid19-in-india.zip', 'r') as zip_ref:
+        zip_ref.extractall('statistics')
+    return
+# def df1():
+#     url='https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSz8Qs1gE_IYpzlkFkCXGcL_BqR8hZieWVi-rphN1gfrO3H4lDtVZs4kd0C3P8Y9lhsT1rhoB-Q_cP4/pubhtml'
+#     page = requests.get(url)
+#     doc = lh.fromstring(page.content)
+#     tr_elements = doc.xpath('//tr')
+#     # tr_elements = doc.xpath('//tr')
+#     col=[]
+#     i=0
+#     for t in tr_elements[1]:
+#         i+=1
+#         name=t.text_content()
+#         col.append((name,[]))
 
-    for j in range(3,len(tr_elements)):
-        T=tr_elements[j]
-        if len(T)!=len(tr_elements[0]):
-            continue
-        i=0
-        for t in T.iterchildren():
-            data=t.text_content() 
-            if i>0:
-                try:
-                    data=int(data)
-                except:
-                    pass
-            col[i][1].append(data)
-            i+=1
-    Dict={title:column for (title,column) in col}
-    df=pd.DataFrame(Dict)
-    df.to_csv(r'statistics/states.csv', index = False)
-    last_updated=datetime.now()
-    return 
+#     for j in range(3,len(tr_elements)):
+#         T=tr_elements[j]
+#         if len(T)!=len(tr_elements[0]):
+#             continue
+#         i=0
+#         for t in T.iterchildren():
+#             data=t.text_content() 
+#             if i>0:
+#                 try:
+#                     data=int(data)
+#                 except:
+#                     pass
+#             col[i][1].append(data)
+#             i+=1
+#     Dict={title:column for (title,column) in col}
+#     df=pd.DataFrame(Dict)
+#     df.to_csv(r'statistics/states.csv', index = False)
+#     last_updated=datetime.now()
+#     return 
 def df2():
     url="https://www.mohfw.gov.in/"
     page = requests.get(url)
@@ -89,16 +96,16 @@ def show_tables():
     return data.to_html(classes='female'),sum(x),sum(y)
     
 def india(df):
-    df = df[df['Detected State'].notna()]
+    df = df[df['detected_state'].notna()]
     mp=[]
     total_count=[]
     count=0
     number=[]
-    for i in range(len(df['Date Announced'])):
+    for i in range(len(df['diagnosed_date'])):
         try :
-            if df['Detected State'][i]!='':
+            if df['detected_state'][i]!='':
                 count+=1
-                mp.append(df['Date Announced'][i])
+                mp.append(df['diagnosed_date'][i])
                 number.append(count)
         except:
             continue
@@ -137,14 +144,14 @@ def generate_graph(df,state):
     count=0
     number=[]
     # state="Madhya Pradesh"
-    for i in range(len(df['Detected State'])):
+    for i in range(len(df['detected_state'])):
         try :
-            if df['Detected State'][i]==state:
+            if df['detected_state'][i]==state:
                 count+=1
-                mp.append(df['Date Announced'][i])
+                mp.append(df['diagnosed_date'][i])
                 number.append(count)
         except:
-            continue 
+            continue
     dic=dict()
     for i in mp:
         if i not in dic:
@@ -183,7 +190,7 @@ def indiastats():
         l=datetime.now()
         file1.write(str(l))
         file1.close()
-    df = pd.read_csv('statistics/states.csv')
+    df = pd.read_csv('statistics/IndividualDetails.csv')
     temp=india(df)
     line=temp[0]
     total=temp[1]
