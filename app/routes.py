@@ -165,7 +165,6 @@ def get_indv_page(ent_type, ent_name):
     first_mention_pid = ent[3]
     co_mentions = ent[4]
     # print(co_mentions)
-    print(ent)
 
     paper_data = return_yearwise_paper([paper_namefromid(pid) for pid in pids])
     return render_template('prge_indv.html',

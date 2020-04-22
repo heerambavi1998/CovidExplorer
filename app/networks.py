@@ -3,13 +3,8 @@ from . import ES_CLIENT as es
 import networkx as nx
 
 def _get_comentions(gene, ent_type):
-    if ent_type == 'prge':
-        index = 'covid19_ner'
-        ent = 'named_entities'
-    elif ent_type == 'ched':
-        index = 'covid19_ched'
-        ent = 'ched_entities'
-    res = es.search(index=index, body={
+    # gets comentions for the entity which are of type ent_type
+    res = es.search(index='covid19_ner', body={
         'from': 0,
         'size': 10,
         "query": {
@@ -30,7 +25,7 @@ def _get_comentions(gene, ent_type):
                 }
             }
         })
-        nes = res['hits']['hits'][0]['_source'][ent]
+        nes = res['hits']['hits'][0]['_source']['named_entities'][ent_type]
         co_men = [x for x in nes if x != gene]
         co_ment[pid] = (res['hits']['hits'][0]['_source']['title'], co_men)
     return co_ment
