@@ -19,117 +19,226 @@
                 </div>
             </div>
 
-            <div class="row" style="margin-top:50px;padding-left: 10%;">
-                <div class="col-lg-10">
+            <div class="row" style="margin-top:50px;">
+                <div class="col-lg-10 offset-lg-1">
                     <input type="text" id="yr-slider" class="slider">
                 </div>
             </div>
 
-            <div class="row" style="margin-top:50px; " id="result">
-                    <div class="column-lg-9" style="float:left; width:25%;padding-left: 5%;">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Filter year results by Proteins and Genes</h5>
-                                <ol class="expandible" style="list-style-type:none;">
-                                    <br>
-                                {% for item in prge %}
-                                <li>
-                                    <div class="inline" style="margin-top: 5px">
-                                        <span style="margin-left: 10px;">
-                                            <button type=button id="prge:{{item}}" name="prge:{{item}}" value="prge:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                            </ol>
-                            </div>
-                        </div>
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Filter year results by Chemical Entities</h5>
-                                <ol class="expandible" style="list-style-type:none;">
-                                    <br>
-                                {% for item in ched %}
-                                <li>
-                                    <div class="inline" style="margin-top: 5px">
-                                        <span style="margin-left: 10px;">
-                                            <button type=button id="ched:{{item}}" name="ched:{{item}}" value="ched:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                            </ol>
-                            </div>
+            <div class="row no-gutters" style="margin-top:50px; " id="result">
+                <div class="column-lg-3" style="float:left; padding-left: 3%;" >
+
+                    <!-- Protein Filter Box -->
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Filter year results by Proteins</h5>
+                            <ol class="expandible" style="list-style-type:none;">
+                                <br>
+                            {% for item in protein %}
+                            <li>
+                                <div class="inline" style="margin-top: 5px">
+                                    <span style="margin-left: 10px;">
+                                        <button type=button id="protein:{{item}}" name="protein:{{item}}" value="protein:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ol>
                         </div>
                     </div>
 
-                    <div style="float:right; width:75%; padding-left: 10%; padding-right: 10%;" id="gene_filter_result">
-                        <nav>
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            {% for year in range(items | length) %}
-                                {% if year == 0%}
-                                <a class="nav-item nav-link active" id="nav-{{items[year][0]}}-tab" data-toggle="tab" href="#nav-{{items[year][0]}}" role="tab" aria-controls="nav-{{items[year][0]}}" aria-selected="true">{{items[year][0]}}</a>
-                                {% else %}
-                                <a class="nav-item nav-link" id="nav-{{items[year][0]}}-tab" data-toggle="tab" href="#nav-{{items[year][0]}}" role="tab" aria-controls="nav-{{items[year][0]}}" aria-selected="false">{{items[year][0]}}</a>
-                                {% endif %}
-                            {% endfor %}
-                            </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            {% for year in range(items | length) %}
-                            {% if year == 0%}
-                            <div class="tab-pane fade show active" id="nav-{{items[year][0]}}" role="tabpanel" aria-labelledby="nav-{{items[year][0]}}-tab">
-                                <div style="margin-top:20px;"></div>
-                                {% for item in items[year][1] %}
-                                    <div>
-                                        <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
-                                        <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
-                                            <br>
-                                            <span style="font-size: 16px; color: grey"> Authors : </span>
-                                        {% for auth in item['auth'] %}
-                                            <span style="font-size: 16px; color: grey"> {{auth}} |</span>
-                                        {% endfor %}
-                                        <br>
-                                        {% for ne in item['prge'] %}
-                                        <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{ne}}">{{ne}}</a>
-                                        {% endfor %}
-                                        <br>
-                                        {% for ne in item['ched'] %}
-                                        <a type="button" style="color: c38d9e !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
-                                        {% endfor %}
-                                        </p>
-                                    </div>
-                                    <br>
-                                {% endfor %}
-                            </div>
-                            {% else %}
-                            <div class="tab-pane fade" id="nav-{{items[year][0]}}" role="tabpanel" aria-labelledby="nav-{{items[year][0]}}-tab">
-                                <div style="margin-top:20px;">
+                    <!-- DNA Filter Box -->
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Filter year results by DNA</h5>
+                            <ol class="expandible" style="list-style-type:none;">
+                                <br>
+                            {% for item in dna %}
+                            <li>
+                                <div class="inline" style="margin-top: 5px">
+                                    <span style="margin-left: 10px;">
+                                        <button type=button id="dna:{{item}}" name="dna:{{item}}" value="dna:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
                                 </div>
-                                {% for item in items[year][1] %}
-                                    <div>
-                                        <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
-                                        <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
-                                            <br>
-                                            <span style="font-size: 16px; color: grey"> Authors : </span>
-                                        {% for auth in item['auth'] %}
-                                            <span style="font-size: 16px; color: grey"> {{auth}} |</span>
-                                        {% endfor %}
-                                        <br>
-                                        {% for ne in item['prge'] %}
-                                        <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/prge/{{ne}}">{{ne}}</a>
-                                        {% endfor %}
-                                        <br>
-                                        {% for ne in item['ched'] %}
-                                        <a type="button" style="color: c38d9e !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
-                                        {% endfor %}
-                                        </p>
-                                    </div>
-                                    <br>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
+                            </li>
                             {% endfor %}
+                        </ol>
                         </div>
                     </div>
+
+                    <!-- RNA Filter Box -->
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Filter year results by RNA</h5>
+                            <ol class="expandible" style="list-style-type:none;">
+                                <br>
+                            {% for item in rna %}
+                            <li>
+                                <div class="inline" style="margin-top: 5px">
+                                    <span style="margin-left: 10px;">
+                                        <button type=button id="rna:{{item}}" name="rna:{{item}}" value="rna:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        </div>
+                    </div>
+
+                    <!-- CHED Filter Box -->
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Filter year results by Chemical Entities</h5>
+                            <ol class="expandible" style="list-style-type:none;">
+                                <br>
+                            {% for item in ched %}
+                            <li>
+                                <div class="inline" style="margin-top: 5px">
+                                    <span style="margin-left: 10px;">
+                                        <button type=button id="ched:{{item}}" name="ched:{{item}}" value="ched:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        </div>
+                    </div>
+
+                    <!-- Cell Type Filter Box -->
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Filter year results by Cell Types</h5>
+                            <ol class="expandible" style="list-style-type:none;">
+                                <br>
+                            {% for item in celltype %}
+                            <li>
+                                <div class="inline" style="margin-top: 5px">
+                                    <span style="margin-left: 10px;">
+                                        <button type=button id="celltype:{{item}}" name="celltype:{{item}}" value="celltype:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        </div>
+                    </div>
+
+                    <!-- Cell Line Filter Box -->
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Filter year results by Cell Lines</h5>
+                            <ol class="expandible" style="list-style-type:none;">
+                                <br>
+                            {% for item in cellline %}
+                            <li>
+                                <div class="inline" style="margin-top: 5px">
+                                    <span style="margin-left: 10px;">
+                                        <button type=button id="cellline:{{item}}" name="cellline:{{item}}" value="cellline:{{item}}" class="btn btn-light" onclick="filterby(this)">{{item}}</button></span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="column-lg-9" style="float: right; width: 70%; padding-left: 5%;" id="gene_filter_result">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        {% for year in range(items | length) %}
+                            {% if year == 0%}
+                            <a class="nav-item nav-link active" id="nav-{{items[year][0]}}-tab" data-toggle="tab" href="#nav-{{items[year][0]}}" role="tab" aria-controls="nav-{{items[year][0]}}" aria-selected="true">{{items[year][0]}}</a>
+                            {% else %}
+                            <a class="nav-item nav-link" id="nav-{{items[year][0]}}-tab" data-toggle="tab" href="#nav-{{items[year][0]}}" role="tab" aria-controls="nav-{{items[year][0]}}" aria-selected="false">{{items[year][0]}}</a>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        {% for year in range(items | length) %}
+                        {% if year == 0%}
+                        <div class="tab-pane fade show active" id="nav-{{items[year][0]}}" role="tabpanel" aria-labelledby="nav-{{items[year][0]}}-tab">
+                            <div style="margin-top:20px;"></div>
+                            {% for item in items[year][1] %}
+                                <div>
+                                    <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                                    <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
+                                        <br>
+                                        <span style="font-size: 16px; color: grey"> Authors : </span>
+                                    {% for auth in item['auth'] %}
+                                        <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                    {% endfor %}
+                                    <br>
+                                    {% for ne in item['ner']['ner_protein'] %}
+                                    <a type="button" style="color: #F7819F !important;"class="btn btn-light" href="/entity/protein/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_dna'] %}
+                                    <a type="button" style="color: #819FF7 !important;"class="btn btn-light" href="/entity/dna/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_rna'] %}
+                                    <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/rna/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_ched'] %}
+                                    <a type="button" style="color: #F7BE81 !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_cell_type'] %}
+                                    <a type="button" style="color: #81DAF5 !important;"class="btn btn-light" href="/entity/cell_type/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_cell_line'] %}
+                                    <a type="button" style="color: #F3F781 !important;"class="btn btn-light" href="/entity/cell_line/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    </p>
+                                </div>
+                                <br>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="tab-pane fade" id="nav-{{items[year][0]}}" role="tabpanel" aria-labelledby="nav-{{items[year][0]}}-tab">
+                            <div style="margin-top:20px;">
+                            </div>
+                            {% for item in items[year][1] %}
+                                <div>
+                                    <h5><a href="{{item['url']}}" target="_blank">{{item['title']}}</a></h5>
+                                    <p style="font-size: 18px; color: grey"> Journal : {{item['journ']}} | {{item['ptime']}}
+                                        <br>
+                                        <span style="font-size: 16px; color: grey"> Authors : </span>
+                                    {% for auth in item['auth'] %}
+                                        <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                    {% endfor %}
+                                    <br>
+                                    {% for ne in item['ner']['ner_protein'] %}
+                                    <a type="button" style="color: #F7819F !important;"class="btn btn-light" href="/entity/protein/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_dna'] %}
+                                    <a type="button" style="color: #819FF7 !important;"class="btn btn-light" href="/entity/dna/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_rna'] %}
+                                    <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/rna/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_ched'] %}
+                                    <a type="button" style="color: #F7BE81 !important;"class="btn btn-light" href="/entity/ched/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_cell_type'] %}
+                                    <a type="button" style="color: #81DAF5 !important;"class="btn btn-light" href="/entity/cell_type/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    
+                                    {% for ne in item['ner']['ner_cell_line'] %}
+                                    <a type="button" style="color: #F3F781 !important;"class="btn btn-light" href="/entity/cell_line/{{ne}}">{{ne}}</a>
+                                    {% endfor %}
+                                    </p>
+                                </div>
+                                <br>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
 
