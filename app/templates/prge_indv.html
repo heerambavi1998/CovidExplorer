@@ -59,16 +59,93 @@
                         <div class="card" style="margin-top: 20px">
                             <div class="card-body">
                                 <h5 id="comen">Co-mentioned Entities:</h5>
-                                <p style="font-size: 18px; color: grey">
+                                
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    {% for type in range(co_mentions | length) %}
+                                        {% if type == 0%}
+                                        <a class="nav-item nav-link active" id="nav-{{co_mentions[type][0]}}-tab" data-toggle="tab" href="#nav-{{co_mentions[type][0]}}" role="tab" aria-controls="nav-{{co_mentions[type][0]}}" aria-selected="true">{{ent_type_names[type]}}</a>
+                                        {% else %}
+                                        <a class="nav-item nav-link" id="nav-{{co_mentions[type][0]}}-tab" data-toggle="tab" href="#nav-{{co_mentions[type][0]}}" role="tab" aria-controls="nav-{{co_mentions[type][0]}}" aria-selected="false">{{ent_type_names[type]}}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </div>
+                                </nav>
+
+
+                                <div class="tab-content" id="nav-tabContent">
+                                    {% for type in range(co_mentions | length) %}
+                                    {% if type == 0%}
+                                    <div class="tab-pane fade show active" id="nav-{{co_mentions[type][0]}}" role="tabpanel" aria-labelledby="nav-{{co_mentions[type][0]}}-tab">
+                                        <div style="margin-top:20px;"></div>
+                                        <ol class="expandible" style="list-style-type:none;">
+                                        {% for gene in co_mentions[type][1] %}
+                                        <li>
+                                            <div class="inline" style="margin-top: 5px; margin-left: 10px;">
+                                            <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{co_mentions[type][0]}}/{{gene}}">{{gene}}</a></div>
+                                        </li>   
+                                        {% endfor %}
+                                    </ol>
+                                    </div>
+                                    {% else %}
+                                    <div class="tab-pane fade" id="nav-{{co_mentions[type][0]}}" role="tabpanel" aria-labelledby="nav-{{co_mentions[type][0]}}-tab">
+                                        <div style="margin-top:20px;">
+                                        </div>
+                                        <ol class="expandible" style="list-style-type:none;">
+                                        {% for gene in co_mentions[type][1] %}
+                                        <li>
+                                            <div class="inline" style="margin-top: 5px; margin-left: 10px;">
+                                            <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{co_mentions[type][0]}}/{{gene}}">{{gene}}</a></div>
+                                        </li>   
+                                        {% endfor %}
+                                    </ol>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+
+
+
+                                <!-- <p style="font-size: 18px; color: grey">
                                 <ol class="expandible" style="list-style-type:none;">
-                                    {% for gene in co_mentions %}
+                                    {% for gene in co_mentions['ner_dna'] %}
+                                    <li>
+                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
+                                    </li>
+                                    {% endfor %}
+                                    {% for gene in co_mentions['ner_rna'] %}
+                                    <li>
+                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
+                                    </li>
+                                    {% endfor %}
+                                    {% for gene in co_mentions['ner_protein'] %}
+                                    <li>
+                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
+                                    </li>
+                                    {% endfor %}
+                                    {% for gene in co_mentions['ner_ched'] %}
+                                    <li>
+                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
+                                    </li>
+                                    {% endfor %}
+                                    {% for gene in co_mentions['ner_cell_type'] %}
+                                    <li>
+                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
+                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
+                                    </li>
+                                    {% endfor %}
+                                    {% for gene in co_mentions['cell_line'] %}
                                     <li>
                                     <div class="inline" style="margin-top: 5px; margin-left: 10px;">
                                     <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
                                     </li>
                                     {% endfor %}
                                 </ol>
-                                </p>
+                                </p> -->
                             </div>
                                 <div class="dashboard_graph">
                                     <div style="width: 100%; min-height:600px;" >
@@ -115,6 +192,30 @@
                                                     {% for auth in item['auth'] %}
                                                         <span style="font-size: 16px; color: grey"> {{auth}} |</span>
                                                     {% endfor %}
+                                                    <br>
+                                                    {% for ne in item['ner']['ner_protein'] %}
+                                                    <a type="button" style="color: #F7819F !important;"class="btn btn-light" href="/entity/ner_protein/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_dna'] %}
+                                                    <a type="button" style="color: #819FF7 !important;"class="btn btn-light" href="/entity/ner_dna/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_rna'] %}
+                                                    <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/ner_rna/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_ched'] %}
+                                                    <a type="button" style="color: #F7BE81 !important;"class="btn btn-light" href="/entity/ner_ched/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_cell_type'] %}
+                                                    <a type="button" style="color: #81DAF5 !important;"class="btn btn-light" href="/entity/ner_cell_type/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_cell_line'] %}
+                                                    <a type="button" style="color: #F3F781 !important;"class="btn btn-light" href="/entity/ner_cell_line/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
                                                     </p>
                                                 </div>
                                                 <br>
@@ -132,6 +233,30 @@
                                                         <span style="font-size: 16px; color: grey"> Authors : </span>
                                                     {% for auth in item['auth'] %}
                                                         <span style="font-size: 16px; color: grey"> {{auth}} |</span>
+                                                    {% endfor %}
+                                                    <br>
+                                                    {% for ne in item['ner']['ner_protein'] %}
+                                                    <a type="button" style="color: #F7819F !important;"class="btn btn-light" href="/entity/ner_protein/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_dna'] %}
+                                                    <a type="button" style="color: #819FF7 !important;"class="btn btn-light" href="/entity/ner_dna/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_rna'] %}
+                                                    <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/ner_rna/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_ched'] %}
+                                                    <a type="button" style="color: #F7BE81 !important;"class="btn btn-light" href="/entity/ner_ched/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_cell_type'] %}
+                                                    <a type="button" style="color: #81DAF5 !important;"class="btn btn-light" href="/entity/ner_cell_type/{{ne}}">{{ne}}</a>
+                                                    {% endfor %}
+
+                                                    {% for ne in item['ner']['ner_cell_line'] %}
+                                                    <a type="button" style="color: #F3F781 !important;"class="btn btn-light" href="/entity/ner_cell_line/{{ne}}">{{ne}}</a>
                                                     {% endfor %}
                                                     </p>
                                                 </div>
@@ -155,6 +280,9 @@
                 type: "POST",
                 url: "/get_data/prge",
                 contentType: 'application/json',
+                // start_time: new Date().getTime(),
+                // complete: function(data) {
+                //     alert('This request took '+(new Date().getTime() - this.start_time)+' ms');},
                 data: JSON.stringify({
                     ent_name: "{{ent_name}}",
                     ent_type: "{{ent_type}}"
