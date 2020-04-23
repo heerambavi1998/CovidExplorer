@@ -204,6 +204,7 @@ def _format_ne(ne):
     return l_1
 
 
+
 def _ner_filter():
     """
     filters the NERs from csvs
@@ -250,16 +251,23 @@ def _ner_filter():
                                           'ner_protein':[],
                                           'ner_cell_line':[],
                                           'ner_cell_type':[]}
+            nes = {}
             for i in range(1,7):
                 if row[i] == '':
-                    continue
+                    continue   
+                nes[mapp[i-1]] = _format_ne(row[i])
+            print(nes)
+            for t in nes:
+                other_comen = nes.copy()
+                other_comen.pop(t) 
+                for ne in nes[t]:
+                    try:
+                        typ = ent_type_dict[ne]
+                    except:
+                        print(ne, t)
+                        break
 
-                nes = _format_ne(row[i])
-
-                for ne in nes:
-                    type = ent_type_dict[ne]
-
-                    sha_to_ent_dict[row[0]][type].append(ne)
+                    sha_to_ent_dict[row[0]][typ].append(ne)
 
                     co_men = [x for x in nes if x != ne]  # all nes except current ne
                     if ne in ent_to_sha_dict:
@@ -268,14 +276,15 @@ def _ner_filter():
                         ent_to_sha_dict[ne] = {}
                         ent_to_sha_dict[ne]['pids'] = [row[0]]
                         ent_to_sha_dict[ne]['comen'] = {'ner_ched':[],
-                                                          'ner_dna':[],
-                                                          'ner_rna':[],
-                                                          'ner_protein':[],
-                                                          'ner_cell_line':[],
-                                                          'ner_cell_type':[]}
-
-                    ent_to_sha_dict[ne]['type'] = type
-                    ent_to_sha_dict[ne]['comen'][type].extend(co_men)
+                                                        'ner_dna':[],
+                                                        'ner_rna':[],
+                                                        'ner_protein':[],
+                                                        'ner_cell_line':[],
+                                                        'ner_cell_type':[]}
+                        ent_to_sha_dict[ne]['type'] = typ
+                    ent_to_sha_dict[ne]['comen'][typ].extend(co_men)
+                    for tt in other_comen:
+                        ent_to_sha_dict[ne]['comen'][tt].extend(other_comen[tt])
 
     #changing sets to list
     for ne in ent_to_sha_dict:

@@ -163,8 +163,8 @@ def get_indv_page(ent_type, ent_name):
     pids = ent[1]
     doc_freq = ent[2]
     first_mention_pid = ent[3]
-    co_mentions = ent[4]
-    # print(co_mentions)
+    co_mentions = sorted(ent[4].items(), reverse=True)
+    ent_type_names = get_ent_names(co_mentions)
 
     paper_data = return_yearwise_paper([paper_namefromid(pid) for pid in pids])
     return render_template('prge_indv.html',
@@ -173,7 +173,8 @@ def get_indv_page(ent_type, ent_name):
         paper_mentions = paper_data,
         doc_freq = doc_freq,
         first_mention = paper_namefromid(first_mention_pid),
-        co_mentions = co_mentions
+        co_mentions = co_mentions,
+        ent_type_names = ent_type_names
         )
 
 @app.route('/get_data/prge', methods=["GET", "POST"])

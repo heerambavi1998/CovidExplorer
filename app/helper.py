@@ -37,3 +37,22 @@ def top_ents_results(papers, ent_type):
     d = OrderedDict(sorted(entity_dict.items(), key=itemgetter(1), reverse=True))
     # print(d)
     return d
+
+def get_ent_names(ents):
+    """
+    ents: dictionary_item with entity type as key and list as value
+    returns: list of formatted entity type names
+    """
+    mapp = {'ner_dna':"DNA",
+            'ner_rna':"RNA",
+            'ner_protein':"Proteins",
+            'ner_cell_type': "Cell Types",
+            'ner_cell_line': "Cell Lines",
+            'ner_ched': "Chemical Entities"}
+    formatted_names = []
+    for t in ents:
+        formatted_names.append(mapp[t[0]])
+
+    return formatted_names
+
+    
