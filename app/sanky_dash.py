@@ -16,7 +16,7 @@ graph = dash.Dash(
     server=app,
     routes_pathname_prefix=url_base,
 )
-
+graph.config.suppress_callback_exceptions = True
 graph.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     #html.Div([html.H1("People")], className="row", style={'textAlign': "center"}),
@@ -32,10 +32,12 @@ def update_sanky(url):
     #ent_type = config['ent_type']
     data = create_sanky(gene)
     figure = go.Figure(data=[go.Sankey(
+        arrangement="snap",
+        orientation='h',
         #valueformat=".0f",
         #valuesuffix="TWh",
         node=dict(
-            pad=15,
+            pad=30,
             thickness=15,
             line=dict(color="black", width=0.5),
             label=data['label']
@@ -51,7 +53,8 @@ def update_sanky(url):
     figure.update_layout(
         hovermode='x',
         title="%s" %gene,
-        font=dict(size=14, color='white'),
+        font=dict(size=12, color='white'),
+        height=1000,
     )
 
     return figure
