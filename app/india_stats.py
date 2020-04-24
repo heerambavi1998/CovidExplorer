@@ -205,7 +205,7 @@ def indiastats():
     line27=generate_graph(df,'Punjab') 
     line28=generate_graph(df,'Rajasthan')
     line29=generate_graph(df,'Tamil Nadu')
-    line30=generate_graph(df,'Telangana')
+    line30=generate_graph(df,'Telengana')
     line32=generate_graph(df,'Uttar Pradesh')
     line34=generate_graph(df,'West Bengal')
     return render_template('indiacovid.html',daily=daily_c,last=last_day,plot=line,plot2=line2,plot5=line5,
