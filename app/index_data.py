@@ -256,7 +256,7 @@ def _ner_filter():
                 if row[i] == '':
                     continue   
                 nes[mapp[i-1]] = _format_ne(row[i])
-            print(nes)
+            #print(nes)
             for t in nes:
                 other_comen = nes.copy()
                 other_comen.pop(t) 
@@ -264,7 +264,7 @@ def _ner_filter():
                     try:
                         typ = ent_type_dict[ne]
                     except:
-                        print(ne, t)
+                        #print(ne, t)
                         break
 
                     sha_to_ent_dict[row[0]][typ].append(ne)

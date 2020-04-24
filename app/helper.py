@@ -55,4 +55,17 @@ def get_ent_names(ents):
 
     return formatted_names
 
-    
+
+def get_ent_type_name(ent_type):
+    """
+    ent_type: string
+    returns: string
+    """
+    mapp = {'ner_dna':"DNA",
+            'ner_rna':"RNA",
+            'ner_protein':"Proteins",
+            'ner_cell_type': "Cell Types",
+            'ner_cell_line': "Cell Lines",
+            'ner_ched': "Chemical Entities"}
+
+    return mapp[ent_type]

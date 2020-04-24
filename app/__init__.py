@@ -26,4 +26,4 @@ if not ES_CLIENT.indices.exists(index='covid19_ner'): #need fulltext index made 
     index_data.index_named_entities(ES_CLIENT, 'covid19_ner')
 
 
-from app import routes, author_routes,india_stats,network_dash
+from app import routes, author_routes,india_stats,network_dash,sanky_dash
