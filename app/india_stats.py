@@ -96,35 +96,29 @@ def show_tables():
     return data.to_html(classes='female'),sum(x),sum(y)
     
 def india(df):
-    df = df[df['detected_state'].notna()]
+    df = df[df['State/UnionTerritory'].notna()]
     mp=[]
     total_count=[]
     count=0
     number=[]
-    for i in range(len(df['diagnosed_date'])):
-        try :
-            if df['detected_state'][i]!='':
-                count+=1
-                mp.append(df['diagnosed_date'][i])
-                number.append(count)
-        except:
-            continue
+
     dic=dict()
-    for i in mp:
-        if i not in dic:
-            dic[i]=1
+    for i in range(len(df['Confirmed'])):
+        if df['Date'][i] not in dic:
+            dic[df['Date'][i]]=df['Confirmed'][i]
         else:
-            dic[i]+=1
-    day_count=list(dic.values())
+            dic[df['Date'][i]]+=df['Confirmed'][i]
+    total_count=list(dic.values())
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
         newday.append(day[i][0:5])
-    for i in range(len(day_count)):
-        if i==0:
-            total_count.append(day_count[i]+0)
-        else:
-            total_count.append(day_count[i]+total_count[i-1])
+    day_count=[]
+    day_count.append(total_count[0])
+    for i in range(1,len(total_count)):
+        day_count.append(total_count[i]-total_count[i-1])
+    # print(day_count,total_count)
+            
     data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
                     mode='lines+ markers',
                     name='lineplot',
@@ -139,35 +133,29 @@ def india(df):
     return graphJSON,total_count[-1],day_count[-1],graphJSON1
 
 def generate_graph(df,state):
+    df = df[df['State/UnionTerritory'].notna()]
     mp=[]
     total_count=[]
     count=0
     number=[]
-    # state="Madhya Pradesh"
-    for i in range(len(df['detected_state'])):
-        try :
-            if df['detected_state'][i]==state:
-                count+=1
-                mp.append(df['diagnosed_date'][i])
-                number.append(count)
-        except:
-            continue
+
     dic=dict()
-    for i in mp:
-        if i not in dic:
-            dic[i]=1
-        else:
-            dic[i]+=1
-    day_count=list(dic.values())
+    for i in range(len(df['Confirmed'])):
+        if df['State/UnionTerritory'][i]==state:
+            if df['Date'][i] not in dic:
+                dic[df['Date'][i]]=df['Confirmed'][i]
+            else:
+                dic[df['Date'][i]]+=df['Confirmed'][i]
+    total_count=list(dic.values())
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
         newday.append(day[i][0:5])
-    for i in range(len(day_count)):
-        if i==0:
-            total_count.append(day_count[i]+0)
-        else:
-            total_count.append(day_count[i]+total_count[i-1])
+    day_count=[]
+    day_count.append(total_count[0])
+    for i in range(1,len(total_count)):
+        day_count.append(total_count[i]-total_count[i-1])
+    # print(day_count,total_count)
     data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
                     mode='lines+markers',
                     name='lineplot',
@@ -190,7 +178,7 @@ def indiastats():
         l=datetime.now()
         file1.write(str(l))
         file1.close()
-    df = pd.read_csv('statistics/IndividualDetails.csv')
+    df = pd.read_csv('statistics/covid_19_india.csv')
     temp=india(df)
     line=temp[0]
     total=temp[1]
