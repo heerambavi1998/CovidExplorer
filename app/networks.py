@@ -154,7 +154,7 @@ def create_sanky(gene):
         target.append(label_dict[type_name])
         value.append(tot_val)
 
-    d = {'label': label_dict.keys(),
+    d = {'label': list(label_dict.keys()),
          'color_node': [color_node[i] for i in range(len(label_dict))],
          'source': source,
          'target': target,
