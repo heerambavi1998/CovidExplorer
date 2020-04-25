@@ -22,8 +22,6 @@
                             </div>
                         </div>
                         <br>
-                        <br>
-                        <br>
                         <div class="card">
                             <div class="card-body">
                                 <h5>First Mention:</h5>
@@ -103,60 +101,22 @@
                                     {% endif %}
                                     {% endfor %}
                                 </div>
-
-
-
-                                <!-- <p style="font-size: 18px; color: grey">
-                                <ol class="expandible" style="list-style-type:none;">
-                                    {% for gene in co_mentions['ner_dna'] %}
-                                    <li>
-                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
-                                    </li>
-                                    {% endfor %}
-                                    {% for gene in co_mentions['ner_rna'] %}
-                                    <li>
-                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
-                                    </li>
-                                    {% endfor %}
-                                    {% for gene in co_mentions['ner_protein'] %}
-                                    <li>
-                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
-                                    </li>
-                                    {% endfor %}
-                                    {% for gene in co_mentions['ner_ched'] %}
-                                    <li>
-                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
-                                    </li>
-                                    {% endfor %}
-                                    {% for gene in co_mentions['ner_cell_type'] %}
-                                    <li>
-                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
-                                    </li>
-                                    {% endfor %}
-                                    {% for gene in co_mentions['cell_line'] %}
-                                    <li>
-                                    <div class="inline" style="margin-top: 5px; margin-left: 10px;">
-                                    <a type="button" style="color: 00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{gene}}">{{gene}}</a></div>
-                                    </li>
-                                    {% endfor %}
-                                </ol>
-                                </p> -->
                             </div>
+                        </div>
+                        <div class="card" style="margin-top: 20px">
+                            <div class="card-body">
+                                <h5>Top 10 Co-Mentions for Different Entity Types for {{ent_name}}:</h5>
                                 <div class="dashboard_graph">
-                                    <div style="width: 100%; min-height:600px;" >
+                                    <div style="width: 100%; min-height:1100px;" >
                                         <iframe
                                           noresize='noresize'
                                           style='position: absolute; background: transparent; width: 95%; height:100%;'
-                                          src="/graphs/network/entity={{ent_name}}&ent_type={{ent_type}}"
+                                          src="/graphs/sanky/entity={{ent_name}}&ent_type={{ent_type}}"
                                           frameborder="0">
                                         </iframe>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>

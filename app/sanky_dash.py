@@ -40,20 +40,20 @@ def update_sanky(url):
             pad=30,
             thickness=15,
             line=dict(color="black", width=0.5),
-            label=data['label']
-            #color=data['data'][0]['node']['color']
+            label=data['label'],
+            color=data['color_node']
         ),
         link=dict(
             source=data['source'],
             target=data['target'],
             value=data['value'],
             #label=data['data'][0]['link']['label']
+            color=data['color_link']
         ))])
 
     figure.update_layout(
         hovermode='x',
-        title="%s" %gene,
-        font=dict(size=12, color='white'),
+        font=dict(size=12, color='black'),
         height=1000,
     )
 

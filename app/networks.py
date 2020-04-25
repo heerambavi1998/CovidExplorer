@@ -118,8 +118,14 @@ def create_sanky(gene):
     # getting top 10 genes only
     co_ment = _get_comentions(gene, 10)
 
+    # add colors same as html
+    cmap = {'ner_protein': 'rgba(247,129,159, 0.8)', 'ner_dna': 'rgba(129,159,247, 0.8)', 'ner_rna': 'rgba(129,247,129, 0.8)',
+            'ner_ched': 'rgba(247,190,129, 0.8)', 'ner_cell_line': 'rgba(243,247,129, 0.8)',
+            'ner_cell_type': 'rgba(129,218,245, 0.8)'}
+
     #labled dict for mapping from a gene to its int label
-    label_dict = {gene:0}
+    label_dict = OrderedDict({gene:0})
+    color_node = {0: 'rgba(0,0,255, 0.8)'}
     source = []
     target = []
     value = []
@@ -127,12 +133,16 @@ def create_sanky(gene):
     for type in co_ment:
         type_name = get_ent_type_name(type)
         label_dict[type_name] = c
+        color_node[label_dict[type_name]] = cmap[type]
         c+=1
 
         tot_val = 0
         # add flow from entity_type node to each entity
         for ne in co_ment[type]:
+            if ne in label_dict:
+                continue
             label_dict[ne] = c
+            color_node[label_dict[ne]] = cmap[type]
             c+=1
             source.append(label_dict[type_name])
             target.append(label_dict[ne])
@@ -144,8 +154,10 @@ def create_sanky(gene):
         target.append(label_dict[type_name])
         value.append(tot_val)
 
-    d = {'label':list(label_dict.keys()),
+    d = {'label': label_dict.keys(),
+         'color_node': [color_node[i] for i in range(len(label_dict))],
          'source': source,
          'target': target,
-         'value': value}
+         'value': value,
+         'color_link': [color_node[i].replace("0.8","0.4") for i in target]}
     return d

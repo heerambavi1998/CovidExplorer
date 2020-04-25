@@ -61,11 +61,11 @@ def get_ent_type_name(ent_type):
     ent_type: string
     returns: string
     """
-    mapp = {'ner_dna':"DNA",
-            'ner_rna':"RNA",
-            'ner_protein':"Proteins",
-            'ner_cell_type': "Cell Types",
-            'ner_cell_line': "Cell Lines",
-            'ner_ched': "Chemical Entities"}
+    mapp = {'ner_dna':"DNA entities",
+            'ner_rna':"RNA entities",
+            'ner_protein':"Proteins entities",
+            'ner_cell_type': "Cell Types entities",
+            'ner_cell_line': "Cell Lines entities",
+            'ner_ched': "Chemical entities"}
 
     return mapp[ent_type]
