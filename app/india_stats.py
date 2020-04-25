@@ -96,35 +96,29 @@ def show_tables():
     return data.to_html(classes='female'),sum(x),sum(y)
     
 def india(df):
-    df = df[df['detected_state'].notna()]
+    df = df[df['State/UnionTerritory'].notna()]
     mp=[]
     total_count=[]
     count=0
     number=[]
-    for i in range(len(df['diagnosed_date'])):
-        try :
-            if df['detected_state'][i]!='':
-                count+=1
-                mp.append(df['diagnosed_date'][i])
-                number.append(count)
-        except:
-            continue
+
     dic=dict()
-    for i in mp:
-        if i not in dic:
-            dic[i]=1
+    for i in range(len(df['Confirmed'])):
+        if df['Date'][i] not in dic:
+            dic[df['Date'][i]]=df['Confirmed'][i]
         else:
-            dic[i]+=1
-    day_count=list(dic.values())
+            dic[df['Date'][i]]+=df['Confirmed'][i]
+    total_count=list(dic.values())
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
         newday.append(day[i][0:5])
-    for i in range(len(day_count)):
-        if i==0:
-            total_count.append(day_count[i]+0)
-        else:
-            total_count.append(day_count[i]+total_count[i-1])
+    day_count=[]
+    day_count.append(total_count[0])
+    for i in range(1,len(total_count)):
+        day_count.append(total_count[i]-total_count[i-1])
+    # print(day_count,total_count)
+            
     data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
                     mode='lines+ markers',
                     name='lineplot',
@@ -138,36 +132,66 @@ def india(df):
     graphJSON=json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON,total_count[-1],day_count[-1],graphJSON1
 
-def generate_graph(df,state):
+def india_deaths(df):
+    df = df[df['State/UnionTerritory'].notna()]
     mp=[]
     total_count=[]
     count=0
     number=[]
-    # state="Madhya Pradesh"
-    for i in range(len(df['detected_state'])):
-        try :
-            if df['detected_state'][i]==state:
-                count+=1
-                mp.append(df['diagnosed_date'][i])
-                number.append(count)
-        except:
-            continue
+
     dic=dict()
-    for i in mp:
-        if i not in dic:
-            dic[i]=1
+    for i in range(len(df['Deaths'])):
+        if df['Date'][i] not in dic:
+            dic[df['Date'][i]]=df['Deaths'][i]
         else:
-            dic[i]+=1
-    day_count=list(dic.values())
+            dic[df['Date'][i]]+=df['Deaths'][i]
+    total_count=list(dic.values())
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
         newday.append(day[i][0:5])
-    for i in range(len(day_count)):
-        if i==0:
-            total_count.append(day_count[i]+0)
-        else:
-            total_count.append(day_count[i]+total_count[i-1])
+    day_count=[]
+    day_count.append(total_count[0])
+    for i in range(1,len(total_count)):
+        day_count.append(total_count[i]-total_count[i-1])
+    # print(day_count,total_count)
+    data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
+                    mode='lines+ markers',
+                    name='lineplot',
+                    line=dict(color='red', width=3))]
+    df1 = pd.DataFrame(list(zip(newday, day_count)), 
+                columns =['Day', 'Daily_count'])
+    fig = px.bar(df1, x='Day', y='Daily_count',
+                color='Daily_count',
+                labels={'Daily Cases in India'}, height=450)
+    graphJSON1=json.dumps(fig,cls=plotly.utils.PlotlyJSONEncoder)                   
+    graphJSON=json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON,graphJSON1
+
+def generate_graph(df,state):
+    df = df[df['State/UnionTerritory'].notna()]
+    mp=[]
+    total_count=[]
+    count=0
+    number=[]
+
+    dic=dict()
+    for i in range(len(df['Confirmed'])):
+        if df['State/UnionTerritory'][i]==state:
+            if df['Date'][i] not in dic:
+                dic[df['Date'][i]]=df['Confirmed'][i]
+            else:
+                dic[df['Date'][i]]+=df['Confirmed'][i]
+    total_count=list(dic.values())
+    day=list(dic.keys())
+    newday=[]
+    for i in range(len(day)):
+        newday.append(day[i][0:5])
+    day_count=[]
+    day_count.append(total_count[0])
+    for i in range(1,len(total_count)):
+        day_count.append(total_count[i]-total_count[i-1])
+    # print(day_count,total_count)
     data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
                     mode='lines+markers',
                     name='lineplot',
@@ -190,7 +214,12 @@ def indiastats():
         l=datetime.now()
         file1.write(str(l))
         file1.close()
-    df = pd.read_csv('statistics/IndividualDetails.csv')
+    df = pd.read_csv('statistics/covid_19_india.csv')
+    
+    temp5=india_deaths(df)
+    tot_death_graph=temp5[0]
+    daily_death_graphs=temp5[1]
+    
     temp=india(df)
     line=temp[0]
     total=temp[1]
@@ -217,10 +246,10 @@ def indiastats():
     line27=generate_graph(df,'Punjab') 
     line28=generate_graph(df,'Rajasthan')
     line29=generate_graph(df,'Tamil Nadu')
-    line30=generate_graph(df,'Telangana')
+    line30=generate_graph(df,'Telengana')
     line32=generate_graph(df,'Uttar Pradesh')
     line34=generate_graph(df,'West Bengal')
-    return render_template('indiacovid.html',daily=daily_c,last=last_day,plot=line,plot2=line2,plot5=line5,
+    return render_template('indiacovid.html',plot41=tot_death_graph,plot40=daily_death_graphs,daily=daily_c,last=last_day,plot=line,plot2=line2,plot5=line5,
                             plot9=line9,plot11=line11,plot12=line12,plot14=line14,plot16=line16,plot17=line17,
                             plot20=line20,plot21=line21,plot27=line27,plot28=line28,plot29=line29,plot30=line30,plot32=line32,
                             plot34=line34,totals=total,tables=tab,dead=deaths,recover=rec,active=acti,close=closed,recper=recper,

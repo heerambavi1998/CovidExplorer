@@ -160,6 +160,35 @@ body {
           Plotly.newPlot('chart',graphs,layout);
         </script>
     </div>
+  <div class="content">
+      <h2> <center>Total Deaths in India</center></h2>
+      <br>
+      <div id="chart41"></div>
+      <script>
+
+        var graphs = {{plot41|safe}};
+        var layout = {
+          xaxis: {
+            // title: 'Dates',
+            showgrid: false,
+            zeroline: false
+          },
+          yaxis: {
+            title: 'No. of Cases',
+            showline: false
+          },
+          autosize: true,
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(0,0,0,0)',
+          font: {
+            family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+            size: 16,
+            color: '#7f7f7f'
+          }
+        };
+        Plotly.newPlot('chart41',graphs,layout);
+      </script>
+    </div>
 
     <div class="content">
       <h2> <center>Daily cases in India</center></h2>
@@ -188,6 +217,35 @@ body {
           }
         };
         Plotly.newPlot('chart0',graphs,layout);
+      </script>
+    </div>
+  <div class="content">
+      <h2> <center>Daily Deaths in India</center></h2>
+      <br>
+      <div id="chart40"></div>
+      <script>
+
+        var graphs = {{plot40|safe}};
+        var layout = {
+          xaxis: {
+            // title: 'Dates',
+            showgrid: false,
+            zeroline: false
+          },
+          yaxis: {
+            title: 'No. of Cases',
+            showline: false
+          },
+          autosize: true,
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(0,0,0,0)',
+          font: {
+            family: "Lucida Sans Unicode, Lucida Grande, sans-serif",
+            size: 16,
+            color: '#7f7f7f'
+          }
+        };
+        Plotly.newPlot('chart40',graphs,layout);
       </script>
     </div>
 
