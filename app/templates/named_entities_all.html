@@ -1,0 +1,31 @@
+<html>
+        {% include 'head.html' %}
+
+    <body>
+        {% include 'navbar.html' %}
+        <section>
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-10 author-info offset-lg-1">
+                        <h2 style="margin-left: 0px; margin-top: 50px; text-align: center">Named Entities</h2>
+
+                        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                          {% for key,value in ent_types.items() %}
+                            <a href="/ner_all/{{key}}" type="button" class="btn btn-outline-secondary mr-1" onclick="filterby(this)">{{value}}
+                            </a>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <h5>Add TIMELINE HERE</h5>
+        {% include 'footerbar.html' %}
+
+    </body>
+</html>

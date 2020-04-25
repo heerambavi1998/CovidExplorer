@@ -1,0 +1,46 @@
+<html>
+        {% include 'head.html' %}
+
+    <body>
+        {% include 'navbar.html' %}
+        <section>
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-10 author-info offset-lg-1">
+                        <h2 style="margin-left: 0px; margin-top: 50px; text-align: center">Named Entities</h2>
+
+                        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                          {% for key,value in ent_types.items() %}
+                            <a href="/ner_all/{{key}}" type="button" class="btn btn-outline-secondary mr-1" onclick="filterby(this)">{{value}}
+                            </a>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section style="margin-top: 50px;">
+            <div class="row">
+                <div class="col-lg-10 author-info offset-lg-1">
+                    <div class="card" style="margin-top: 20px">
+                        <h3>{{ent_type}}</h3>
+                        <div class="card-body">
+                            <h5>Most frequently mentioned entities:</h5>
+                            {% for ne in top_entities %}
+                                <a type="button" style="color: #F7819F !important;"class="btn btn-light" href="/entity/ner_protein/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+            {% include 'footerbar.html' %}
+    </body>
+    <script src="../static/year_slider.js"></script>
+</html>
