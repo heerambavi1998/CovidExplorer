@@ -28,6 +28,8 @@
             <div class="row no-gutters" style="margin-top:50px; " id="result">
                 <div class="column" style="float:left; width:25%; padding-left: 3%;" >
 
+
+                    {% if (protein | length) != 0 %}
                     <!-- Protein Filter Box -->
                     <div class="card">
                         <div class="card-body">
@@ -47,7 +49,9 @@
                         </ol>
                         </div>
                     </div>
-
+                    {% endif %}
+                    
+                    {% if (dna | length) != 0 %}
                     <!-- DNA Filter Box -->
                     <div class="card">
                         <div class="card-body">
@@ -67,7 +71,9 @@
                         </ol>
                         </div>
                     </div>
+                    {% endif %}
 
+                    {% if (rna | length) != 0 %}
                     <!-- RNA Filter Box -->
                     <div class="card">
                         <div class="card-body">
@@ -86,7 +92,9 @@
                         </ol>
                         </div>
                     </div>
-
+                    {% endif %}
+                    
+                    {% if (ched | length) != 0 %}
                     <!-- CHED Filter Box -->
                     <div class="card">
                         <div class="card-body">
@@ -105,7 +113,9 @@
                         </ol>
                         </div>
                     </div>
+                    {% endif %}
 
+                    {% if (celltype | length) != 0 %}
                     <!-- Cell Type Filter Box -->
                     <div class="card">
                         <div class="card-body">
@@ -124,7 +134,9 @@
                         </ol>
                         </div>
                     </div>
+                    {% endif %}
 
+                    {% if (cellline | length) != 0 %}
                     <!-- Cell Line Filter Box -->
                     <div class="card">
                         <div class="card-body">
@@ -143,6 +155,7 @@
                         </ol>
                         </div>
                     </div>
+                    {% endif %}
 
                 </div>
 

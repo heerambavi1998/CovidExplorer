@@ -62,9 +62,13 @@
                                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     {% for type in range(co_mentions | length) %}
                                         {% if type == 0%}
+                                        {% if (co_mentions[type][1] | length) != 0 %}
                                         <a class="nav-item nav-link active" id="nav-{{co_mentions[type][0]}}-tab" data-toggle="tab" href="#nav-{{co_mentions[type][0]}}" role="tab" aria-controls="nav-{{co_mentions[type][0]}}" aria-selected="true">{{ent_type_names[type]}}</a>
+                                        {% endif %}
                                         {% else %}
+                                        {% if (co_mentions[type][1] | length) != 0 %}
                                         <a class="nav-item nav-link" id="nav-{{co_mentions[type][0]}}-tab" data-toggle="tab" href="#nav-{{co_mentions[type][0]}}" role="tab" aria-controls="nav-{{co_mentions[type][0]}}" aria-selected="false">{{ent_type_names[type]}}</a>
+                                        {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                     </div>
