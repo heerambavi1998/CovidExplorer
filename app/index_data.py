@@ -2,7 +2,7 @@ import glob
 import json
 import csv
 from datetime import datetime
-#from .elasticSearch import paper_namefromid
+from .elasticSearch import paper_namefromid
 
 def index_fulltext(es_client, metadatapath, paths, index):
     print("creating full-text index mapping...")
@@ -295,27 +295,4 @@ def _ner_filter():
     return ent_to_sha_dict, sha_to_ent_dict
 
 
-def top_entities():
-    # function to create json file with top 10 entities for each entity type
-    d = {'ner_ched':[],
-        'ner_dna':[],
-        'ner_rna':[],
-        'ner_protein':[],
-        'ner_cell_line':[],
-        'ner_cell_type':[]}
-    named_ent_dict, _ = _ner_filter()
-    for item in named_ent_dict:
-        freq= len(named_ent_dict[item]['pids'])
-        type = named_ent_dict[item]['type']
-        d[type].append((freq,item))
 
-    for type in d:
-        d[type].sort(reverse=True)
-        d[type] = d[type][:10]
-
-    json.dump(d, open('top_entities.json','w'))
-
-    return
-
-if __name__=='__main__':
-    top_entities()

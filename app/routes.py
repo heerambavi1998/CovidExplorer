@@ -3,6 +3,7 @@ from datetime import datetime
 from app import app
 from .elasticSearch import *
 from .helper import *
+from .config import COLOR_MAP
 
 @app.route('/')
 @app.route('/index')
@@ -76,7 +77,8 @@ def search_field(field, text):
                                 rna = ordered_ents_rna.keys(),
                                 protein = ordered_ents_protein.keys(),
                                 cellline = ordered_ents_cellline.keys(),
-                                celltype = ordered_ents_celltype.keys())
+                                celltype = ordered_ents_celltype.keys(),
+                                color_map = COLOR_MAP)
 
     if field == 'Author':
         authors = author_es(text)
@@ -211,22 +213,22 @@ def graph_data():
     return resp
 
 
-@app.route('/timeline1',methods=["GET","POST"])
-def timeline1():
-    # data = make_timeline_data_json()
-    return render_template('timelinepg.html', file="timeline-data6.js")
+# @app.route('/timeline1',methods=["GET","POST"])
+# def timeline1():
+#     # data = make_timeline_data_json()
+#     return render_template('timelinepg.html', file="timeline-data6.js")
 
-@app.route('/timeline2',methods=["GET","POST"])
-def timeline2():
-    # data = make_timeline_data_json()
-    return render_template('timelinepg.html', file="timeline-data7.js")
+# @app.route('/timeline2',methods=["GET","POST"])
+# def timeline2():
+#     # data = make_timeline_data_json()
+#     return render_template('timelinepg.html', file="timeline-data7.js")
 
-@app.route('/timeline3',methods=["GET","POST"])
-def timeline3():
-    # data = make_timeline_data_json()
-    return render_template('timelinepg-big.html', file="timeline-data5.js")
+# @app.route('/timeline3',methods=["GET","POST"])
+# def timeline3():
+#     # data = make_timeline_data_json()
+#     return render_template('timelinepg-big.html', file="timeline-data5.js")
 
-@app.route('/timeline4',methods=["GET","POST"])
-def timeline4():
-    # data = make_timeline_data_json()
-    return render_template('timelinepg-big.html', file="timeline-data8.js")
+# @app.route('/timeline4',methods=["GET","POST"])
+# def timeline4():
+#     # data = make_timeline_data_json()
+#     return render_template('timelinepg-big.html', file="timeline-data8.js")
