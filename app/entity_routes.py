@@ -18,3 +18,4 @@ def ne_type(ent_type):
         ent = json.load(f)
     return render_template('named_entity_type_pg.html', ent_type=ent_types[ent_type],
                            ent_types=ent_types, top_entities=ent[ent_type])
+

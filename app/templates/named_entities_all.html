@@ -1,5 +1,6 @@
 <html>
         {% include 'head.html' %}
+        <link rel="stylesheet" href="{{ url_for('static',filename='timeline.css') }}" />
 
     <body>
         {% include 'navbar.html' %}
@@ -8,10 +9,12 @@
                 <div class="row">
 
                     <div class="col-lg-10 author-info offset-lg-1">
-                        <h2 style="margin-left: 0px; margin-top: 50px; text-align: center">Named Entities</h2>
+                        
 
-                        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                          {% for key,value in ent_types.items() %}
+                        <div style="margin-top: 50px;" class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                            <a href="/ner_all" type="button" class="btn btn-outline-secondary mr-1">All Entities
+                            </a>
+                            {% for key,value in ent_types.items() %}
                             <a href="/ner_all/{{key}}" type="button" class="btn btn-outline-secondary mr-1" onclick="filterby(this)">{{value}}
                             </a>
                             {% endfor %}
@@ -22,10 +25,23 @@
                 </div>
             </div>
         </section>
+        
+        <br>
+        <h2 style="margin-left: 0px; margin-top: 50px; text-align: center">Timeline of First Mentions of Entities</h2>
+        <script type="text/javascript" src="{{ url_for('static',filename='timeline.js') }}"></script>
+        <div id='timeline-embed' style="width: 100%; height: 600px;"></div>
 
-
-        <h5>Add TIMELINE HERE</h5>
         {% include 'footerbar.html' %}
 
     </body>
-</html>
+    <script type="text/javascript" src="{{ url_for('static',filename='timeline-data-final.js') }}"></script>
+    <script type="text/javascript">
+    var timeline_json = JSON.parse(data_all);
+    
+    var options = {
+      timenav_position: "bottom",
+    }
+    timeline = new TL.Timeline('timeline-embed',timeline_json,options);
+    </script>
+
+    </html>
