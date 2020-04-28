@@ -28,7 +28,7 @@ if not ES_CLIENT.indices.exists(index='covid19_ner'): #need fulltext index made 
 if not os.path.exists('app/static/timeline-data-final.js'):
     make_timeline_data.make_timeline_data_json()
 
-if not os.path.exists('/top_entities.json'):
+if not os.path.exists('top_entities.json'):
     make_timeline_data.top_entities()
 
 
