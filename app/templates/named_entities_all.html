@@ -1,6 +1,11 @@
 <html>
         {% include 'head.html' %}
         <link rel="stylesheet" href="{{ url_for('static',filename='timeline.css') }}" />
+        <style>
+            .tl-headline-date{
+                visibility: hidden;
+            }
+            </style>
 
     <body>
         {% include 'navbar.html' %}
@@ -47,6 +52,7 @@
 
         var options = {
           timenav_position: "bottom",
+          start_at_end: true,
         }
         timeline = new TL.Timeline('timeline-embed',timeline_json,options);
         </script>
