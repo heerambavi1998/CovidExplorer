@@ -10,6 +10,6 @@ DATAPATHS = ["data/comm_use_subset/comm_use_subset/pdf_json/*.json",
             "data/comm_use_subset/comm_use_subset/pmc_json/*.json",
             ]
 METADATAPATH = "data/metadata.csv"
-NERDATAPATH = "prge_from_abs_comb.csv"
-CHEDDATAPATH = "ched_from_abs_comb.csv"
+READMEPATH = "data/metadata.readme"
 DASHURL = '/graphs/'
+ENT_TYPES = ['ner_ched', 'ner_dna', 'ner_rna', 'ner_protein', 'ner_cell_type', 'ner_cell_line']

@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from operator import itemgetter
-
+from .config import READMEPATH
 # Helper functions
 
 def return_yearwise_paper(paper_data):
@@ -69,3 +69,30 @@ def get_ent_type_name(ent_type):
             'ner_ched': "Chemical entities"}
 
     return mapp[ent_type]
+
+
+def get_metadata_numbers():
+    """
+    :return: dict with number of papers for each of: 'biorxiv_medrxiv',
+    'comm_use_subset', 'custom_license', 'noncomm_use_subset'
+    """
+    with open(READMEPATH) as f:
+        lines = f.readlines()
+
+    i = 0
+    for line in range(len(lines)):
+        if 'SUMMARY' in lines[line]:
+            i = line
+    last_update = lines[i:]
+    papers = ['biorxiv_medrxiv', 'comm_use_subset', 'custom_license', 'noncomm_use_subset']
+    d = {}
+    for paper in papers:
+        for line in range(len(last_update)):
+            if last_update[line].startswith(paper):
+                c = 0
+                if 'PDF' in last_update[line + 1]:
+                    c += int(last_update[line + 1].split('-')[1].split()[0])
+                if 'PMC' in last_update[line + 2]:
+                    c += int(last_update[line + 2].split('-')[1].split()[0])
+                d[paper] = c
+    return d

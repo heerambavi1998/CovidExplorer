@@ -10,8 +10,8 @@ from .helper import *
 def index():
     session.clear()
     # Todo : Make search
-    
-    return render_template('index.html', title='Covid-19')
+    metadata = get_metadata_numbers()
+    return render_template('index.html', title='Covid-19', metadata=metadata)
 
 @app.route('/team', methods=['GET'])
 def team():
