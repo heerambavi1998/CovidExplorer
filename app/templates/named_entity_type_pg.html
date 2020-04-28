@@ -36,7 +36,7 @@
                             <div class="card-body">
                                 <h5>Most frequently mentioned entities:</h5>
                                 {% for ne in top_entities %}
-                                    <a type="button" title="{{ne[0]}}" style="color:00b3bc !important;"class="btn btn-light" href="/entity/ner_protein/{{ne}}">{{ne[1]}}</a>
+                                    <a type="button" title="Doc freq: {{ne[0]}}" style="color:00b3bc !important;"class="btn btn-light" href="/entity/ner_protein/{{ne[1]}}">{{ne[1]}}</a>
                                 {% endfor %}
                             </div>
                         </div>
