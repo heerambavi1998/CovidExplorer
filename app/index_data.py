@@ -269,7 +269,7 @@ def _ner_filter():
 
                     sha_to_ent_dict[row[0]][typ].append(ne)
 
-                    co_men = [x for x in nes if x != ne]  # all nes except current ne
+                    co_men = [x for x in nes[t] if x != ne]  # all nes except current ne
                     if ne in ent_to_sha_dict:
                         ent_to_sha_dict[ne]['pids'].append(row[0])
                     else:
