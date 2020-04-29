@@ -88,12 +88,18 @@ def df2():
 
 def show_tables():
     df = pd.read_csv('statistics/india.csv')
-    x=list(df['Death'])
+    x=0
+    try :
+        for i in range(len(df['Death'])):
+            x+=int(df['Death'][i])
+    except:
+        pass
+    # x=list(df['Death'])
     y=list(df['Cured/Discharged/Migrated'])
     data = df
     data.set_index(['S. No.'], inplace=True)
     data.index.name=None
-    return data.to_html(classes='female'),sum(x),sum(y)
+    return data.to_html(classes='female'),x,sum(y)
     
 def india(df):
     df = df[df['State/UnionTerritory'].notna()]
@@ -134,27 +140,27 @@ def india(df):
 
 def india_deaths(df):
     df = df[df['State/UnionTerritory'].notna()]
-    mp=[]
     total_count=[]
-    count=0
-    number=[]
-
     dic=dict()
-    for i in range(len(df['Deaths'])):
-        if df['Date'][i] not in dic:
-            dic[df['Date'][i]]=df['Deaths'][i]
-        else:
-            dic[df['Date'][i]]+=df['Deaths'][i]
+    try:
+        for i in range(len(df['Deaths'])):
+            if df['Date'][i] not in dic:
+                dic[df['Date'][i]]=int(df['Deaths'][i])
+            else:
+                dic[df['Date'][i]]+=int(df['Deaths'][i])
+    except:
+        pass
     total_count=list(dic.values())
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
         newday.append(day[i][0:5])
+#     print(total_count)
     day_count=[]
     day_count.append(total_count[0])
-    for i in range(1,len(total_count)):
+    for i in range(1,len(total_count)-1):
         day_count.append(total_count[i]-total_count[i-1])
-    # print(day_count,total_count)
+#     print(day_count,total_count)
     data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
                     mode='lines+ markers',
                     name='lineplot',
