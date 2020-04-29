@@ -16,6 +16,6 @@ def ne_all():
 def ne_type(ent_type):
     with open('top_entities.json') as f:
         ent = json.load(f)
-    return render_template('named_entity_type_pg.html', ent_type=ent_types[ent_type],
+    return render_template('named_entity_type_pg.html', entn=ent_type,ent_type=ent_types[ent_type],
                            ent_types=ent_types, top_entities=ent[ent_type])
 

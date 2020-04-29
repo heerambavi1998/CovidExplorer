@@ -1,6 +1,11 @@
 <html>
         {% include 'head.html' %}
         <link rel="stylesheet" href="{{ url_for('static',filename='timeline.css') }}" />
+        <style>
+        .tl-headline-date{
+            visibility: hidden;
+        }
+        </style>
     <body>
         {% include 'navbar.html' %}
         <section>
@@ -59,32 +64,33 @@
 
         <script type="text/javascript" src="{{ url_for('static',filename='timeline-data-final.js') }}"></script>
         <script type="text/javascript">
-        // switch(entn){
-        //     case "ner_dna":
-        //         data = data_ner_dna;
-        //         break;
-        //     case "ner_rna":
-        //         data = data_ner_rna;
-        //         break;
-        //     case "ner_protein":
-        //         data = data_ner_protein;
-        //         break;
-        //     case "ner_ched":
-        //         data = data_ner_ched;
-        //         break;
-        //     case "ner_cell_line":
-        //         data = data_ner_cell_line;
-        //         break;
-        //     case "ner_cell_type":
-        //         data = data_ner_cell_type;
-        //         break;
-        // }
+        switch('{{ entn }}'){
+            case "ner_dna":
+                data = data_ner_dna;
+                break;
+            case "ner_rna":
+                data = data_ner_rna;
+                break;
+            case "ner_protein":
+                data = data_ner_protein;
+                break;
+            case "ner_ched":
+                data = data_ner_ched;
+                break;
+            case "ner_cell_line":
+                data = data_ner_cell_line;
+                break;
+            case "ner_cell_type":
+                data = data_ner_cell_type;
+                break;
+        }
 
 
-        var timeline_json = JSON.parse(data_all);
+        var timeline_json = JSON.parse(data);
 
         var options = {
           timenav_position: "bottom",
+          start_at_end: true,
         }
         timeline = new TL.Timeline('timeline-embed',timeline_json,options);
         </script>

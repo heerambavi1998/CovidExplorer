@@ -80,11 +80,12 @@ def make_timeline_data_json():
         
     all_yrs = timeline_ents.keys()
     all_yrs = sorted(all_yrs)
-    tl_dict = {}
-    # tl_dict["title"] = {
-    #     "heading" : "Explore when the entities were first discovered..."
-    # }
+    tl_dict = {}    #for combined timeline
+
     tl_dict["events"] = []
+
+    tl_types_dict = {} # for typewise timeline
+   
 
     types = {'ner_ched':'Chemical Entity', 
                 'ner_dna':'DNA', 
@@ -93,25 +94,44 @@ def make_timeline_data_json():
                 'ner_cell_line':'Cell Line', 
                 'ner_cell_type':'Cell Type'}
 
+    for t in types:
+        tl_types_dict[t] = {}
+        tl_types_dict[t]["events"] = []
+
     
     for dt in all_yrs:
 
         d = {}
+        
         d["start_date"] = {"year":str(dt)}
         
-        html_mk = "<ul>"
+        html_mk = "<ul>" #combined text
         
         for t in types:
             if len(timeline_ents[dt][t])!=0:
+                type_d = {}
+                type_d["start_date"] = {"year":str(dt)}
+                # type_d["background"] = {"color": "#E6E6FA"}
+                text_type = "<p>" #typewise text
+                
                 html_mk += "<li>"
                 html_mk += "<h4>"+str(types[t])+"</h4>"
                 html_mk += "<p>"
                 
                 for ent in timeline_ents[dt][t]:
-                    html_mk += r"<a type=\"button\" style=\"margin-top:5px;margin-left:10px;color:"+color_map[t]+r" !important;\" class=\"btn btn-light\" href=\"/entity/"+str(ent_type[ent])+"/"+str(ent)+r"\">"+str(ent)+"</a></div>"
-
+                    ent_text = r"<a type=\"button\" style=\"margin-top:5px;margin-left:10px;text-decoration:none;color:"+color_map[t]+r" !important;\" class=\"btn btn-light\" href=\"/entity/"+str(ent_type[ent])+"/"+str(ent)+r"\">"+str(ent)+"</a></div>"
+                    html_mk += ent_text
+                    text_type += ent_text
                 html_mk += "</p>"
                 html_mk += "</li>"
+
+                type_d["text"] = {
+                    "headline":str(dt),
+                    "text":text_type
+                }
+
+                tl_types_dict[t]["events"].append(type_d)
+
 
         html_mk += "</ul>"
 
@@ -120,18 +140,14 @@ def make_timeline_data_json():
             "text":html_mk
         }
 
-        # d["background"] = {"url": r"\{\{url_for(\"static/images\", filename=\"virtual_bg.jpg\")\}\}"}
+        # d["background"] = {"color": "#E6E6FA"}
 
         tl_dict["events"].append(d)
 
 
 
     # # MAKING DATA FOR SEPARATE ENTITY TYPES
-    # tl_types_dict = {}
-
-    # for t in types:
-    #     tl_types_dict[t] = {}
-    #     tl_types_dict[t]["events"] = []
+    
 
     # for ent in first_men_mon:
     #     d = {}
@@ -162,16 +178,16 @@ def make_timeline_data_json():
     json_obj_all = json.dumps(tl_dict, indent = 4)
     json_obj_all = re.sub(r'\n+', '', json_obj_all)
 
-    # json_obj_types = {}
-    # for t in types:
-    #     temp = json.dumps(tl_types_dict[t], indent=4)
-    #     json_obj_types[t] = re.sub(r'\n+', '', temp)
-    #     temp = None
+    json_obj_types = {}
+    for t in types:
+        temp = json.dumps(tl_types_dict[t], indent=4)
+        json_obj_types[t] = re.sub(r'\n+', '', temp)
+        temp = None
 
     with open("app/static/timeline-data-final.js",'w') as outfile:
         outfile.write("data_all = '"+ json_obj_all+"';\n")
-    #     for t in types:
-    #         outfile.write("data_"+str(t)+" = '"+ json_obj_types[t]+"';\n")
+        for t in types:
+            outfile.write("data_"+str(t)+" = '"+ json_obj_types[t]+"';\n")
 
     return
 
