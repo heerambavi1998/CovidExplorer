@@ -251,25 +251,14 @@ def _ner_filter():
                                           'ner_protein':[],
                                           'ner_cell_line':[],
                                           'ner_cell_type':[]}
-            nes = {}
             for i in range(1,7):
                 if row[i] == '':
                     continue   
-                nes[mapp[i-1]] = _format_ne(row[i])
-            #print(nes)
-            for t in nes:
-                other_comen = nes.copy()
-                other_comen.pop(t) 
-                for ne in nes[t]:
-                    try:
-                        typ = ent_type_dict[ne]
-                    except:
-                        #print(ne, t)
-                        break
+                nes = _format_ne(row[i])
+                for ne in nes:
+                    type = ent_type_dict[ne]
+                    sha_to_ent_dict[row[0]][type].append(ne)
 
-                    sha_to_ent_dict[row[0]][typ].append(ne)
-
-                    co_men = [x for x in nes if x != ne]  # all nes except current ne
                     if ne in ent_to_sha_dict:
                         ent_to_sha_dict[ne]['pids'].append(row[0])
                     else:
@@ -281,10 +270,24 @@ def _ner_filter():
                                                         'ner_protein':[],
                                                         'ner_cell_line':[],
                                                         'ner_cell_type':[]}
-                        ent_to_sha_dict[ne]['type'] = typ
-                    ent_to_sha_dict[ne]['comen'][typ].extend(co_men)
-                    for tt in other_comen:
-                        ent_to_sha_dict[ne]['comen'][tt].extend(other_comen[tt])
+                    ent_to_sha_dict[ne]['type'] = type
+
+    # adding comentions to ent_to_sha_dict
+    with open('ners.csv', newline='') as csvfile:
+        f = csv.reader(csvfile)
+        for row in f:
+            # all entities for a row are co-mentions of each other
+            nes_for_row = []
+            for i in range(1,7):
+                if row[i] == '':
+                    continue
+                nes = _format_ne(row[i])
+                nes_for_row.extend(nes)
+            # adding these co mentions to the entry for ne in ent_to_sha_dict
+            for ne in nes_for_row:
+                co_ment = [x for x in nes_for_row if x!=ne]
+                for ent in co_ment:
+                    ent_to_sha_dict[ne]['comen'][ent_type_dict[ent]].append(ent)
 
     #changing sets to list
     for ne in ent_to_sha_dict:

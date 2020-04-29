@@ -51,10 +51,18 @@ def update_sanky(url):
             color=data['color_link']
         ))])
 
+    # plotAnnotes = []
+    # for i in data['href']:
+    #     plotAnnotes.append(dict(
+    #             text=i,
+    #             xanchor='center',
+    #             yanchor='middle',
+    #             showarrow=False),)
     figure.update_layout(
         hovermode='x',
         font=dict(size=12, color='black'),
         height=1000,
+        #annotations=plotAnnotes
     )
 
     return figure

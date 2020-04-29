@@ -126,14 +126,17 @@ def create_sanky(gene):
     #labled dict for mapping from a gene to its int label
     label_dict = OrderedDict({gene:0})
     color_node = {0: 'rgba(0,0,255, 0.8)'}
+    href_node = {0: "<a href='' %s </a>" %gene}
     source = []
     target = []
     value = []
+
     c = 1
     for type in co_ment:
         type_name = get_ent_type_name(type)
         label_dict[type_name] = c
         color_node[label_dict[type_name]] = cmap[type]
+        href_node[label_dict[type_name]] = '<a href="ner_all/%s">%s</a>' %(type,type_name)
         c+=1
 
         tot_val = 0
@@ -143,6 +146,7 @@ def create_sanky(gene):
                 continue
             label_dict[ne] = c
             color_node[label_dict[ne]] = cmap[type]
+            href_node[label_dict[ne]] = '<a href="/entity/%s/%s" > %s </a>' %(type,ne,ne)
             c+=1
             source.append(label_dict[type_name])
             target.append(label_dict[ne])
@@ -159,5 +163,6 @@ def create_sanky(gene):
          'source': source,
          'target': target,
          'value': value,
+         'href': [href_node[i] for i in range(len(label_dict))],
          'color_link': [color_node[i].replace("0.8","0.4") for i in target]}
     return d

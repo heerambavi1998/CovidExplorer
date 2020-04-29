@@ -211,24 +211,3 @@ def graph_data():
 
     resp = jsonify(gene_data)
     return resp
-
-
-# @app.route('/timeline1',methods=["GET","POST"])
-# def timeline1():
-#     # data = make_timeline_data_json()
-#     return render_template('timelinepg.html', file="timeline-data6.js")
-
-# @app.route('/timeline2',methods=["GET","POST"])
-# def timeline2():
-#     # data = make_timeline_data_json()
-#     return render_template('timelinepg.html', file="timeline-data7.js")
-
-# @app.route('/timeline3',methods=["GET","POST"])
-# def timeline3():
-#     # data = make_timeline_data_json()
-#     return render_template('timelinepg-big.html', file="timeline-data5.js")
-
-# @app.route('/timeline4',methods=["GET","POST"])
-# def timeline4():
-#     # data = make_timeline_data_json()
-#     return render_template('timelinepg-big.html', file="timeline-data8.js")
