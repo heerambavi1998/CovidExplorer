@@ -89,11 +89,12 @@ def df2():
 def show_tables():
     df = pd.read_csv('statistics/india.csv')
     x=0
-    try :
-        for i in range(len(df['Death'])):
+    
+    for i in range(len(df['Death'])):
+        try :
             x+=int(df['Death'][i])
-    except:
-        pass
+        except:
+            pass
     # x=list(df['Death'])
     y=list(df['Cured/Discharged/Migrated'])
     data = df
