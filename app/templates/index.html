@@ -11,14 +11,20 @@
         }
         </style>
     </head>
+    <head>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        
+    </head>
 
     <body>
 
         {% include 'navbar.html' %}
-    
+        
     <section class="search-sec" id="main">
-            <div class="container" style="text-align:center;padding:10% 0% 10% 0%; color: white;">
-                <h1 style="font-size: 70px">COVID-19</h1>
+        
+            <div class="container" style="text-align:center;padding:1% 0% 1% 0%; color: white;">
+                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_wdXBRc.json"  background="transparent"  speed="1"  style="width: 600px; height: 300px;padding-left: 20%;"  loop  autoplay></lottie-player>
+                <h1 style="font-size: 70px; font-weight: bolder;">COVID-19</h1>
                 <h3> Stats, Search and more...</h3>
                 <form action="/search" method="post" novalidate="novalidate">
                 <div class="row">
