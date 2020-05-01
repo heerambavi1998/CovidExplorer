@@ -29,6 +29,10 @@ if __name__ == '__main__':
     _, err = run('unzip -oq CORD-19-research-challenge.zip -d ~/web-dir/data')
     if err != '':
         print('Error in unzipping dataset: %s' %err)
-
+        
+    _, err = run('python3 ~/web-dir/system/run_scibertNER.py')
+    if err != '':
+        print('Error in extracting entities: %s' %err)
+        
     currtime = datetime.now()
     _, err = run('touch ~/web-dir/system/time.txt; echo "%s" >> ~/web-dir/system/time.txt' %currtime)
