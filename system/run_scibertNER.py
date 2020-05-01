@@ -3,9 +3,9 @@ from datetime import datetime
 import csv
 import numpy as np
 
-METADATAPATH = "/home/covid19/scibert-kavita/scibert/cord_metadata/metadata.csv"
-MODELPATH = "/home/covid19/scibert-kavita/scibert/JNLPBA_cased_ner_model/model.tar.gz"
-FILEPATH = "/home/covid19/scibert-kavita/scibert/ent_from_scibert_JNLPBA.csv"
+METADATAPATH = "~/web-dir/data/metadata.csv"
+MODELPATH = "~/web-dir/system/scibert_ner_model_JNLPBA/model.tar.gz"
+FILEPATH = "~/web-dir/ent_from_scibert_JNLPBA.csv"
 
 #Load the NER model
 predictor = Predictor.from_path(MODELPATH)
@@ -33,11 +33,12 @@ with open(METADATAPATH, newline="") as read_file:
     f = csv.DictReader(read_file)
     with open(FILEPATH, mode='w') as write_file:
         writer = csv.writer(write_file)
+        print("Extraction start...")
         time_list = []
         j=0
         for row in f:
             j+=1
-            print("on doc "+str(j))
+#             print("on doc "+str(j))
             start = datetime.now()
 
             #check fulltext validity
@@ -86,7 +87,7 @@ with open(METADATAPATH, newline="") as read_file:
 
             end = datetime.now()
             time_taken = end-start
-            print("Time: "+str(time_taken))
+#             print("Time: "+str(time_taken))
             time_list.append(time_taken)
 
         print("Extraction Complete...")
