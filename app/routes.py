@@ -22,9 +22,9 @@ def team():
 def facts():
     return render_template('facts.html')
 
-@app.route('/global', methods=['GET'])
-def global():
-    return render_template('global.html')
+# @app.route('/global', methods=['GET'])
+# def global():
+#     return render_template('global.html')
 
 
 @app.route('/search_all')
