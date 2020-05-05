@@ -22,38 +22,6 @@ def df1():
 #     with zipfile.ZipFile('covid19-in-india.zip', 'r') as zip_ref:
 #         zip_ref.extractall('statistics')
     return
-# def df1():
-#     url='https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vSz8Qs1gE_IYpzlkFkCXGcL_BqR8hZieWVi-rphN1gfrO3H4lDtVZs4kd0C3P8Y9lhsT1rhoB-Q_cP4/pubhtml'
-#     page = requests.get(url)
-#     doc = lh.fromstring(page.content)
-#     tr_elements = doc.xpath('//tr')
-#     # tr_elements = doc.xpath('//tr')
-#     col=[]
-#     i=0
-#     for t in tr_elements[1]:
-#         i+=1
-#         name=t.text_content()
-#         col.append((name,[]))
-
-#     for j in range(3,len(tr_elements)):
-#         T=tr_elements[j]
-#         if len(T)!=len(tr_elements[0]):
-#             continue
-#         i=0
-#         for t in T.iterchildren():
-#             data=t.text_content() 
-#             if i>0:
-#                 try:
-#                     data=int(data)
-#                 except:
-#                     pass
-#             col[i][1].append(data)
-#             i+=1
-#     Dict={title:column for (title,column) in col}
-#     df=pd.DataFrame(Dict)
-#     df.to_csv(r'statistics/states.csv', index = False)
-#     last_updated=datetime.now()
-#     return 
 def df2():
     url="https://www.mohfw.gov.in/"
     page = requests.get(url)
