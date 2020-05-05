@@ -89,6 +89,7 @@ def india(df):
         newday.append(day[i][0:5])
     day_count=[]
     day_count.append(total_count[0])
+    print(total_count)
     for i in range(1,len(total_count)):
         day_count.append(total_count[i]-total_count[i-1])
     # print(day_count,total_count)
