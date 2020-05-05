@@ -4,6 +4,7 @@ import plotly.graph_objs as go
 import pandas as pd
 import json
 import requests
+import lxml.html as lh
 import pandas as pd
 import csv
 import pandas as pd
