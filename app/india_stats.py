@@ -4,7 +4,6 @@ import plotly.graph_objs as go
 import pandas as pd
 import json
 import requests
-import lxml.html as lh
 import pandas as pd
 import csv
 import pandas as pd
@@ -64,10 +63,7 @@ def show_tables():
         except:
             pass
     y=list(df['Cured/Discharged/Migrated'])
-    data = df
-    data.set_index(['S. No.'], inplace=True)
-    data.index.name=None
-    return data.to_html(classes='female'),x,sum(y)
+    return 0,x,sum(y)
     
 def india(df):
     df = df[df['State/UnionTerritory'].notna()]
@@ -227,7 +223,7 @@ def indiastats():
     return render_template('indiacovid.html',plot41=tot_death_graph,plot40=daily_death_graphs,daily=daily_c,last=last_day,plot=line,plot2=line2,plot5=line5,
                             plot9=line9,plot11=line11,plot12=line12,plot14=line14,plot16=line16,plot17=line17,
                             plot20=line20,plot21=line21,plot27=line27,plot28=line28,plot29=line29,plot30=line30,plot32=line32,
-                            plot34=line34,totals=total,tables=tab,dead=deaths,recover=rec,active=acti,close=closed,recper=recper,
+                            plot34=line34,totals=total,dead=deaths,recover=rec,active=acti,close=closed,recper=recper,
                             deadper=deadper)
 
 
