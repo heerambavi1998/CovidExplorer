@@ -90,9 +90,9 @@ def show_tables():
     df = pd.read_csv('statistics/india.csv')
     x=0
     
-    for i in range(len(df['Death'])):
+    for i in range(len(df['Deaths ( more than 70% cases due to comorbidities )'])):
         try :
-            x+=int(df['Death'][i])
+            x+=int(df['Deaths ( more than 70% cases due to comorbidities )'][i])
         except:
             pass
     # x=list(df['Death'])
