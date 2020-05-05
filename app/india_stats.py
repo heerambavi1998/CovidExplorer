@@ -63,7 +63,6 @@ def show_tables():
             x+=int(df['Deaths ( more than 70% cases due to comorbidities )'][i])
         except:
             pass
-    # x=list(df['Death'])
     y=list(df['Cured/Discharged/Migrated'])
     data = df
     data.set_index(['S. No.'], inplace=True)
