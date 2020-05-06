@@ -34,5 +34,9 @@ if __name__ == '__main__':
     if err != '':
         print('Error in extracting entities: %s' %err)
         
+    _, err = run('python3 ~/web-dir/app/merge_ner_csv.py')
+    if err != '':
+        print('Error in merging entity files: %s' %err)
+    
     currtime = datetime.now()
     _, err = run('touch ~/web-dir/system/time.txt; echo "%s" >> ~/web-dir/system/time.txt' %currtime)
