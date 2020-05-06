@@ -43,12 +43,18 @@ if __name__ == '__main__':
     run('rm CORD-19-research-challenge.zip')
 
     #run NER
-    print('Running BERT NER.......')
-    _, err = run('python3 ~/web-dir/system/run_scibertNER.py')
+    print('Running JNLPBA sciBERT NER.......')
+    _, err = run('python3 ~/web-dir/system/run_scibertNER.py JNLPBA')
     if err != '':
         print('Error in extracting entities: %s' %err)
         sys.exit()
-
+        
+    print('Running NCBI-disease sciBERT NER.......')
+    _, err = run('python3 ~/web-dir/system/run_scibertNER.py NCBI')
+    if err != '':
+        print('Error in extracting entities: %s' %err)
+        sys.exit()
+        
     _, err = run('python3 ~/web-dir/app/merge_ner_csv.py')
     if err != '':
         print('Error in merging entity files: %s' %err)
