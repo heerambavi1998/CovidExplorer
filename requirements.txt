@@ -9,3 +9,6 @@ networkx==2.4
 lxml==4.5.0
 dash==1.10.0
 dash-daq==0.4.0
+-e git://github.com/ibeltagy/allennlp@fp16_and_others#egg=allennlp
+jsonlines
+lxml
