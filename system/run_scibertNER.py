@@ -2,10 +2,24 @@ from allennlp.predictors import Predictor
 from datetime import datetime
 import csv
 import numpy as np
+import sys
 
 METADATAPATH = "~/web-dir/data/metadata.csv"
-MODELPATH = "~/web-dir/system/scibert_ner_model_JNLPBA/model.tar.gz"
-FILEPATH = "~/web-dir/ent_from_scibert_JNLPBA.csv"
+
+#different tags: 
+#DNA, RNA, protein, cell_line, cell_type
+#B-begin, I-inside, L-last, U-unit
+
+if sys.argv[1] == 'JNLPBA':
+    MODELPATH = "~/web-dir/system/scibert_ner_model_JNLPBA/model.tar.gz"
+    FILEPATH = "~/web-dir/ent_from_scibert_JNLPBA.csv"
+    all_ents = ["DNA", "RNA", "protein", "cell_line", "cell_type"]
+elif sys.argv[1] == 'NCBI':
+    MODELPATH = "~/web-dir/system/scibert_ner_model_NCBI-disease/model.tar.gz"
+    FILEPATH = "~/web-dir/ent_from_scibert_NCBI-disease.csv"
+    all_ents = ["Disease"]
+else:
+    print("Error in argument")
 
 #Load the NER model
 predictor = Predictor.from_path(MODELPATH)
@@ -22,12 +36,6 @@ def list2text(list_ent):
         return ""
     t = ";".join(ents)
     return t
-
-#different tags: 
-#DNA, RNA, protein, cell_line, cell_type
-#B-begin, I-inside, L-last, U-unit
-
-all_ents = ["DNA", "RNA", "protein", "cell_line", "cell_type"]
 
 with open(METADATAPATH, newline="") as read_file:
     f = csv.DictReader(read_file)
