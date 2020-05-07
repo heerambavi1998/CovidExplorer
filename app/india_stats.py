@@ -18,9 +18,9 @@ import plotly.express as px
 import os
 import zipfile
 def df1():
-#     os.system('cmd /c "kaggle datasets download -d sudalairajkumar/covid19-in-india"')
-#     with zipfile.ZipFile('covid19-in-india.zip', 'r') as zip_ref:
-#         zip_ref.extractall('statistics')
+    os.system("kaggle datasets download -d sudalairajkumar/covid19-in-india"')
+    with zipfile.ZipFile('covid19-in-india.zip', 'r') as zip_ref:
+        zip_ref.extractall('statistics')
     return
 def df2():
     url="https://www.mohfw.gov.in/"
