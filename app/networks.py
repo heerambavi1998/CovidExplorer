@@ -49,7 +49,7 @@ def _get_comentions(gene, max=None):
     })
     pid_list = res['hits']['hits'][0]['_source']['pids']
     co_ment = {'ner_ched':{},'ner_dna':{},'ner_rna':{},
-               'ner_protein':{},'ner_cell_line':{},'ner_cell_type':{}}
+               'ner_protein':{},'ner_cell_line':{},'ner_cell_type':{},'ner_disease':{}}
     for pid in pid_list:
         res = es.search(index="covid19_fulltext", body={
             'from': 0,
@@ -121,7 +121,7 @@ def create_sanky(gene):
     # add colors same as html
     cmap = {'ner_protein': 'rgba(247,129,159, 0.8)', 'ner_dna': 'rgba(129,159,247, 0.8)', 'ner_rna': 'rgba(129,247,129, 0.8)',
             'ner_ched': 'rgba(247,190,129, 0.8)', 'ner_cell_line': 'rgba(243,247,129, 0.8)',
-            'ner_cell_type': 'rgba(129,218,245, 0.8)'}
+            'ner_cell_type': 'rgba(129,218,245, 0.8)', 'ner_disease': 'rgba(117, 30, 158, 0.8)'}
 
     #labled dict for mapping from a gene to its int label
     label_dict = OrderedDict({gene:0})
