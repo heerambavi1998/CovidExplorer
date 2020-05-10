@@ -45,6 +45,10 @@
                             <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/ner_rna/{{ne}}">{{ne}}</a>
                             {% endfor %}
 
+                            {% for ne in item['ner']['ner_disease'] %}
+                            <a type="button" style="color: #751e9e !important;"class="btn btn-light" href="/entity/ner_disease/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+
                             {% for ne in item['ner']['ner_ched'] %}
                             <a type="button" style="color: #F7BE81 !important;"class="btn btn-light" href="/entity/ner_ched/{{ne}}">{{ne}}</a>
                             {% endfor %}
@@ -85,6 +89,10 @@
 
                             {% for ne in item['ner']['ner_rna'] %}
                             <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/ner_rna/{{ne}}">{{ne}}</a>
+                            {% endfor %}
+
+                            {% for ne in item['ner']['ner_disease'] %}
+                            <a type="button" style="color: #751e9e !important;"class="btn btn-light" href="/entity/ner_disease/{{ne}}">{{ne}}</a>
                             {% endfor %}
 
                             {% for ne in item['ner']['ner_ched'] %}

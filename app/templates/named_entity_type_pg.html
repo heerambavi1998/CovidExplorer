@@ -41,7 +41,7 @@
                             <div class="card-body">
                                 <h5>Most frequently mentioned entities:</h5>
                                 {% for ne in top_entities %}
-                                    <a type="button" title="Doc freq: {{ne[0]}}" style="color:00b3bc !important;"class="btn btn-light" href="/entity/ner_protein/{{ne[1]}}">{{ne[1]}}</a>
+                                    <a type="button" title="Doc freq: {{ne[0]}}" style="color:00b3bc !important;"class="btn btn-light" href="/entity/{{ent_type}}/{{ne[1]}}">{{ne[1]}}</a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -82,6 +82,9 @@
                 break;
             case "ner_cell_type":
                 data = data_ner_cell_type;
+                break;
+            case "ner_disease":
+                data = data_ner_disease;
                 break;
         }
 
