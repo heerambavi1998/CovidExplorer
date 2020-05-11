@@ -14,6 +14,7 @@ echo "0 5 * * mon ~/web-dir/system/cronscript.sh" > /var/spool/cron/covid19'''
     os.system(cmd)
 
     #check using crontab -u covid19 -l
+    # check /var/mail/covid19
     return
 
 def run(cmd):
@@ -29,12 +30,12 @@ if __name__ == '__main__':
     _, err = run(kag_cmd)
     if err != '':
         print('Error in downloading dataset: %s' %err)
-        sys.exit()
+        #sys.exit()
 
     _, err = run('unzip -oq CORD-19-research-challenge.zip -d ~/web-dir/data')
     if err != '':
         print('Error in unzipping dataset: %s' %err)
-        sys.exit()
+        #sys.exit()
 
     currtime = datetime.now()
     run('touch ~/web-dir/system/time.txt; echo "last data dwnld: %s" >> ~/web-dir/system/time.txt' % currtime)
@@ -58,7 +59,7 @@ if __name__ == '__main__':
     _, err = run('python3 ~/web-dir/app/merge_ner_csv.py')
     if err != '':
         print('Error in merging entity files: %s' %err)
-        sys.exit()
+        #sys.exit()
 
     # reindex data
     ES_CLIENT = Elasticsearch([{'host': 'localhost', 'port': ES_PORT}])
