@@ -36,17 +36,17 @@ with open('ent_from_scibert_NCBI-disease.csv', newline='') as csvfile:
             else:
                 entities[ne.lower()] = [ne]
                     
-# ched_sha_ent = {}
-# with open('ched_from_abs_comb.csv', newline='') as csvfile:
-#     f = csv.reader(csvfile)
-#     for row in f:
-#         ched_sha_ent[row[0]] = row[1]
-#         nes = _format_ne(row[1])
-#         for ne in nes:
-#             if ne.lower() in entities:
-#                 entities[ne.lower()].append(ne)
-#             else:
-#                 entities[ne.lower()] = [ne]
+ched_sha_ent = {}
+with open('ched_from_abs_comb.csv', newline='') as csvfile:
+    f = csv.reader(csvfile)
+    for row in f:
+        ched_sha_ent[row[0]] = row[1]
+        nes = _format_ne(row[1])
+        for ne in nes:
+            if ne.lower() in entities:
+                entities[ne.lower()].append(ne)
+            else:
+                entities[ne.lower()] = [ne]
 
 for ent in entities:
     mode = max(entities[ent], key=entities[ent].count)
@@ -66,15 +66,15 @@ with open('ent_from_scibert_JNLPBA.csv', newline='') as csvfile:
                 new_nes += entities[ne.lower()]
                 new_nes += ';'
             l.append(new_nes)
-        # if row[0] in ched_sha_ent:
-        #     nes = _format_ne(ched_sha_ent[row[0]])
-        #     new_nes = ''
-        #     for ne in nes:
-        #         new_nes += entities[ne.lower()]
-        #         new_nes += ';'
-        #     l.append(new_nes)
-        # else:
-        #     l.append('')
+        if row[0] in ched_sha_ent:
+            nes = _format_ne(ched_sha_ent[row[0]])
+            new_nes = ''
+            for ne in nes:
+                new_nes += entities[ne.lower()]
+                new_nes += ';'
+            l.append(new_nes)
+        else:
+            l.append('')
         if row[0] in diseases:
             nes = _format_ne(diseases[row[0]])
             new_nes = ''
