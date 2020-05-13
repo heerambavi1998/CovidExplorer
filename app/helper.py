@@ -48,7 +48,9 @@ def get_ent_names(ents):
             'ner_protein':"Proteins",
             'ner_cell_type': "Cell Types",
             'ner_cell_line': "Cell Lines",
-            'ner_ched': "Chemical Entities"}
+            'ner_ched': "Chemical Entities",
+            'ner_disease': "Diseases",
+            }
     formatted_names = []
     for t in ents:
         formatted_names.append(mapp[t[0]])
@@ -66,7 +68,9 @@ def get_ent_type_name(ent_type):
             'ner_protein':"Proteins entities",
             'ner_cell_type': "Cell Types entities",
             'ner_cell_line': "Cell Lines entities",
-            'ner_ched': "Chemical entities"}
+            'ner_ched': "Chemical entities",
+            'ner_disease': "Diseases",
+            }
 
     return mapp[ent_type]
 

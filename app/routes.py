@@ -50,27 +50,7 @@ def search_field(field, text):
         ordered_ents_protein = top_ents_results(papers,'ner_protein')
         ordered_ents_cellline = top_ents_results(papers,'ner_cell_line')
         ordered_ents_celltype = top_ents_results(papers,'ner_cell_type')
-        
-        return render_template('search_paper.html', 
-                                items = paper_data, 
-                                keyword = text, 
-                                field = field,
-                                ched = ordered_ents_ched.keys(),
-                                dna = ordered_ents_dna.keys(),
-                                rna = ordered_ents_rna.keys(),
-                                protein = ordered_ents_protein.keys(),
-                                cellline = ordered_ents_cellline.keys(),
-                                celltype = ordered_ents_celltype.keys())
-
-    if field == 'FullText':
-        papers, pids = fulltextsearch(text)
-        paper_data = return_yearwise_paper(papers)
-        ordered_ents_ched = top_ents_results(papers,'ner_ched')
-        ordered_ents_dna = top_ents_results(papers,'ner_dna')
-        ordered_ents_rna = top_ents_results(papers,'ner_rna')
-        ordered_ents_protein = top_ents_results(papers,'ner_protein')
-        ordered_ents_cellline = top_ents_results(papers,'ner_cell_line')
-        ordered_ents_celltype = top_ents_results(papers,'ner_cell_type')
+        ordered_ents_disease = top_ents_results(papers,'ner_disease')
         
         return render_template('search_paper.html', 
                                 items = paper_data, 
@@ -82,7 +62,30 @@ def search_field(field, text):
                                 protein = ordered_ents_protein.keys(),
                                 cellline = ordered_ents_cellline.keys(),
                                 celltype = ordered_ents_celltype.keys(),
-                                color_map = COLOR_MAP)
+                                disease = ordered_ents_disease.keys())
+
+    if field == 'FullText':
+        papers, pids = fulltextsearch(text)
+        paper_data = return_yearwise_paper(papers)
+        ordered_ents_ched = top_ents_results(papers,'ner_ched')
+        ordered_ents_dna = top_ents_results(papers,'ner_dna')
+        ordered_ents_rna = top_ents_results(papers,'ner_rna')
+        ordered_ents_protein = top_ents_results(papers,'ner_protein')
+        ordered_ents_cellline = top_ents_results(papers,'ner_cell_line')
+        ordered_ents_celltype = top_ents_results(papers,'ner_cell_type')
+        ordered_ents_disease = top_ents_results(papers,'ner_disease')
+        
+        return render_template('search_paper.html', 
+                                items = paper_data, 
+                                keyword = text, 
+                                field = field,
+                                ched = ordered_ents_ched.keys(),
+                                dna = ordered_ents_dna.keys(),
+                                rna = ordered_ents_rna.keys(),
+                                protein = ordered_ents_protein.keys(),
+                                cellline = ordered_ents_cellline.keys(),
+                                celltype = ordered_ents_celltype.keys(),
+                                disease = ordered_ents_disease.keys())
 
     if field == 'Author':
         authors = author_es(text)
@@ -106,6 +109,7 @@ def get_html_year_filter():
         ordered_ents_protein = top_ents_results(papers_filt,'ner_protein')
         ordered_ents_cellline = top_ents_results(papers_filt,'ner_cell_line')
         ordered_ents_celltype = top_ents_results(papers_filt,'ner_cell_type')
+        ordered_ents_disease = top_ents_results(papers,'ner_disease')
         return render_template('filter_results.html', 
                                 items=paper_data,
                                 ched = ordered_ents_ched.keys(),
@@ -113,7 +117,8 @@ def get_html_year_filter():
                                 rna = ordered_ents_rna.keys(),
                                 protein = ordered_ents_protein.keys(),
                                 cellline = ordered_ents_cellline.keys(),
-                                celltype = ordered_ents_celltype.keys())
+                                celltype = ordered_ents_celltype.keys(),
+                                disease = ordered_ents_disease.keys())
     if field == 'FullText':
         papers_filt, pids = fulltextsearch_filteryr(text, int(yr_s), int(yr_e)+1)
         paper_data = return_yearwise_paper(papers_filt)
@@ -124,6 +129,7 @@ def get_html_year_filter():
         ordered_ents_protein = top_ents_results(papers_filt,'ner_protein')
         ordered_ents_cellline = top_ents_results(papers_filt,'ner_cell_line')
         ordered_ents_celltype = top_ents_results(papers_filt,'ner_cell_type')
+        ordered_ents_disease = top_ents_results(papers,'ner_disease')
         return render_template('filter_results.html', 
                                 items=paper_data,
                                 ched = ordered_ents_ched.keys(),
@@ -131,7 +137,8 @@ def get_html_year_filter():
                                 rna = ordered_ents_rna.keys(),
                                 protein = ordered_ents_protein.keys(),
                                 cellline = ordered_ents_cellline.keys(),
-                                celltype = ordered_ents_celltype.keys())
+                                celltype = ordered_ents_celltype.keys(),
+                                disease = ordered_ents_disease.keys())
 
 
 @app.route('/gene_filter')

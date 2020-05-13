@@ -204,27 +204,6 @@ def top_doc_freq_ne(entity_list, n):
         d = OrderedDict(sorted(entity_dict.items(), key=itemgetter(1))[:n])
         return d
 
-def named_entities_es(pid_list):
-
-    ne_list = {'prge':[], 'ched':[]}
-    for pid in pid_list:
-        res = es.search(index="covid19_fulltext", body={
-            'from': 0,
-            'size': 10000,
-            "query": {
-                "match_phrase": {
-                    "paper_id": pid
-                }
-            }
-        })
-        ne_list['prge'].extend(res['hits']['hits'][0]['_source']['named_entities'])
-        ne_list['ched'].extend(res['hits']['hits'][0]['_source']['ched_entities'])
-    ne_list['prge'] = list(set(ne_list['prge']))
-    ne_list['ched'] = list(set(ne_list['ched']))
-    # TODO: currently not returning top genes, but all genes
-    #top_ne = top_doc_freq_ne(ne_list,16)
-    return ne_list
-
 
 def named_entity_filter(pid_list, entity, entity_type):
     index = 'covid19_ner'

@@ -81,11 +81,12 @@ def index_fulltext(es_client, metadatapath, paths, index):
 
             # adding named entities
             b['named_entities'] = named_entity_dict[doc['paper_id']]
+            
 
-            res = es_client.index(index=index,
+            es_client.index(index=index,
                         id=i,
                         body=b)
-            #print(res)
+            
     return
 
 def index_authorsfromMD(es_client, filepath, index):
@@ -127,38 +128,6 @@ def index_authorsfromMD(es_client, filepath, index):
                         body=b)
     return
                     
-
-def index_authors(es_client, paths, index):
-    
-    all_authors = {}
-    for path in paths:
-        print("adding author index...")
-        for file in glob.glob(path):
-            doc = json.load(open(file, 'r'))
-
-            for author in doc["metadata"]["authors"]:
-                a_name = author["first"]
-                for m in author["middle"]:
-                    a_name += " " + m 
-                a_name += " " + author["last"]
-                if a_name not in all_authors:
-                    b = {}
-                    b['author_name'] = a_name
-                    b['paper_ids'] = [doc['paper_id']]
-                    all_authors[a_name] = b
-                else:
-                    all_authors[a_name]['paper_ids'].append(doc['paper_id'])
-    i=0            
-    for author in all_authors.keys():
-        i+=1
-        b = all_authors[author]        
-        es_client.index(index=index,
-                        id=i,
-                        doc_type='authors',
-                        body=b)
-    return
-
-
 def index_named_entities(es_client, index):
     print("adding Named Entity index...")
 
@@ -171,10 +140,8 @@ def index_named_entities(es_client, index):
         b['pids'] = named_ent_dict[item]['pids']
         b['type'] = named_ent_dict[item]['type']
         y_min = datetime.now().date()
-        #first_p = ''
         for pid in b['pids']:
             p = paper_namefromid(pid)
-            # print(p['ptime'])
             try:
                 y = datetime.strptime(p['ptime'], '%Y-%m-%d').date()
             except:
@@ -214,12 +181,13 @@ def _ner_filter():
     sha_to_ent_dict = {}
     ent_to_sha_dict = {}
 
-    mapp = {0: 'ner_ched', 1: 'ner_dna', 2: 'ner_rna', 3: 'ner_protein', 4: 'ner_cell_line', 5: 'ner_cell_type'}
+    mapp = {0: 'ner_ched', 1: 'ner_dna', 2: 'ner_rna', 3: 'ner_protein', 4: 'ner_cell_line', 5: 'ner_cell_type', 6: 'ner_disease'}
 
     # scibert entities
     # first finding the entity type for each entity
     # ched entities have not been included as it is possible that other entities maybe a subset
-    # of ched entities. Hence any entity which is of type ched and Xyz is assigned type Xyz.
+    # of ched/disease entities. Hence any entity which is of type ched/disease and Xyz is assigned type Xyz. 
+    # disease preferred over ched
     ent_type_dict = {}
     with open('ners.csv', newline='') as csvfile:
         f = csv.reader(csvfile)
@@ -231,7 +199,13 @@ def _ner_filter():
                         ent_type_dict[ne].append(i)
                     else:
                         ent_type_dict[ne] = [i]
-                #ched entities
+            #disease entities from scibert
+            nes = _format_ne(row[7])
+            for ne in nes:
+                if ne not in ent_type_dict:
+                    ent_type_dict[ne] = [6]
+            
+            #ched entities
             nes = _format_ne(row[6])
             for ne in nes:
                 if ne not in ent_type_dict:
@@ -250,8 +224,10 @@ def _ner_filter():
                                           'ner_rna':[],
                                           'ner_protein':[],
                                           'ner_cell_line':[],
-                                          'ner_cell_type':[]}
-            for i in range(1,7):
+                                          'ner_cell_type':[],
+                                          'ner_disease':[],
+                                          }
+            for i in range(1,8):
                 if row[i] == '':
                     continue   
                 nes = _format_ne(row[i])
@@ -269,7 +245,9 @@ def _ner_filter():
                                                         'ner_rna':[],
                                                         'ner_protein':[],
                                                         'ner_cell_line':[],
-                                                        'ner_cell_type':[]}
+                                                        'ner_cell_type':[],
+                                                        'ner_disease':[],
+                                                        }
                     ent_to_sha_dict[ne]['type'] = type
 
     # adding comentions to ent_to_sha_dict
@@ -278,7 +256,7 @@ def _ner_filter():
         for row in f:
             # all entities for a row are co-mentions of each other
             nes_for_row = []
-            for i in range(1,7):
+            for i in range(1,8):
                 if row[i] == '':
                     continue
                 nes = _format_ne(row[i])

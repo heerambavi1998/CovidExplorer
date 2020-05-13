@@ -64,6 +64,28 @@
         </div>
     </div>
     {% endif %}
+
+    {% if (disease | length) != 0 %}
+    <!-- Disease Filter Box -->
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-title">FILTER BY DISEASES</h6>
+            <ol class="expandible" style="list-style-type:none;">
+                <br>
+                <br>
+            {% for item in disease %}
+            <li>
+                <div class="mt-1">
+                        <button style="color: #751e9e !important;" type=button id="disease:{{item}}" name="disease:{{item}}" value="disease:{{item}}"
+                                class="btn btn-light btn-sm mr-1 btn-block" onclick="filterby(this)" aria-pressed="true">{{item}}
+                        </button>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+        </div>
+    </div>
+    {% endif %}
     
     {% if (ched | length) != 0 %}
     <!-- CHED Filter Box -->
@@ -169,6 +191,10 @@
                     {% for ne in item['ner']['ner_rna'] %}
                     <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/ner_rna/{{ne}}">{{ne}}</a>
                     {% endfor %}
+
+                    {% for ne in item['ner']['ner_disease'] %}
+                    <a type="button" style="color: #751e9e !important;"class="btn btn-light" href="/entity/ner_disease/{{ne}}">{{ne}}</a>
+                    {% endfor %}
                     
                     {% for ne in item['ner']['ner_ched'] %}
                     <a type="button" style="color: #F7BE81 !important;"class="btn btn-light" href="/entity/ner_ched/{{ne}}">{{ne}}</a>
@@ -210,6 +236,10 @@
                     
                     {% for ne in item['ner']['ner_rna'] %}
                     <a type="button" style="color: #81F781 !important;"class="btn btn-light" href="/entity/ner_rna/{{ne}}">{{ne}}</a>
+                    {% endfor %}
+
+                    {% for ne in item['ner']['ner_disease'] %}
+                    <a type="button" style="color: #751e9e !important;"class="btn btn-light" href="/entity/ner_disease/{{ne}}">{{ne}}</a>
                     {% endfor %}
                     
                     {% for ne in item['ner']['ner_ched'] %}
