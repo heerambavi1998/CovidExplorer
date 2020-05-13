@@ -14,7 +14,9 @@ def top_entities():
         'ner_rna':[],
         'ner_protein':[],
         'ner_cell_line':[],
-        'ner_cell_type':[]}
+        'ner_cell_type':[],
+        'ner_disease':[],
+        }
     named_ent_dict, _ = _ner_filter()
     for item in named_ent_dict:
         freq= len(named_ent_dict[item]['pids'])
@@ -34,10 +36,7 @@ def make_timeline_data_json():
     ent_to_sha, _ = _ner_filter()
     timeline_ents = {}
     first_men = {}
-    # first_men_mon = {}
     ent_type = {}
-    # journal = {}
-    # title = {}
 
     for item in ent_to_sha:
         #to remove noisy case
@@ -56,13 +55,10 @@ def make_timeline_data_json():
                     continue
             if y <= y_min:
                 y_min = y
-                # first_paper = p['title']
-                # journ = p['journ']
+
         first_men[item] = y_min.year
-        # first_men_mon[item] = y_min
         ent_type[item] = ent_to_sha[item]['type']
-        # title[item] = first_paper
-        # journal[item] = journ
+
 
     print("No. of entities after removing noisy cases: "+str(len(first_men.keys())))
 
@@ -75,7 +71,9 @@ def make_timeline_data_json():
                                             'ner_rna':[],
                                             'ner_protein':[],
                                             'ner_cell_line':[],
-                                            'ner_cell_type':[]}
+                                            'ner_cell_type':[],
+                                            'ner_disease':[],
+                                            }
             timeline_ents[first_men[item]][ent_type[item]].append(item)
         
     all_yrs = timeline_ents.keys()
@@ -92,7 +90,9 @@ def make_timeline_data_json():
                 'ner_rna':'RNA',
                 'ner_protein':'Protein', 
                 'ner_cell_line':'Cell Line', 
-                'ner_cell_type':'Cell Type'}
+                'ner_cell_type':'Cell Type',
+                'ner_disease':'Disease',
+                }
 
     for t in types:
         tl_types_dict[t] = {}
@@ -111,7 +111,7 @@ def make_timeline_data_json():
             if len(timeline_ents[dt][t])!=0:
                 type_d = {}
                 type_d["start_date"] = {"year":str(dt)}
-                # type_d["background"] = {"color": "#E6E6FA"}
+
                 text_type = "<p>" #typewise text
                 
                 html_mk += "<li>"
@@ -119,7 +119,11 @@ def make_timeline_data_json():
                 html_mk += "<p>"
                 
                 for ent in timeline_ents[dt][t]:
-                    ent_text = r"<a type=\"button\" style=\"margin-top:5px;margin-left:10px;text-decoration:none;color:"+color_map[t]+r" !important;\" class=\"btn btn-light\" href=\"/entity/"+str(ent_type[ent])+"/"+str(ent)+r"\">"+str(ent)+"</a></div>"
+                    ent_url = re.sub(r"'", r"%20%E2%80%99", ent)
+                    ent_name = re.sub(r"'", r"", ent)
+                    # if ent != ent_nam:
+                    #     print(ent2)
+                    ent_text = r"<a type=\"button\" style=\"margin-top:5px;margin-left:10px;text-decoration:none;color:"+color_map[t]+r" !important;\" class=\"btn btn-light\" href=\"/entity/"+str(ent_type[ent])+"/"+ent_url+r"\">"+ent_name+"</a></div>"
                     html_mk += ent_text
                     text_type += ent_text
                 html_mk += "</p>"
@@ -140,37 +144,10 @@ def make_timeline_data_json():
             "text":html_mk
         }
 
+        # uncomment to add a background color to event slides
         # d["background"] = {"color": "#E6E6FA"}
 
         tl_dict["events"].append(d)
-
-
-
-    # # MAKING DATA FOR SEPARATE ENTITY TYPES
-    
-
-    # for ent in first_men_mon:
-    #     d = {}
-    #     d["start_date"] = {"year": str(first_men_mon[ent].year), "month": str(first_men_mon[ent].month)}
-    #     html_mk = ""
-    #     # html_mk += "Entity Type :" + str(types[ent_type[ent]]) 
-    #     html_mk += r"<br><a type=\"button\" style=\"margin-top:5px;margin-left:10px;color:"+color_map[ent_type[ent]]+r" !important;\" class=\"btn btn-light\" href=\"/entity/"+str(ent_type[ent])+"/"+str(ent)+r"\">Click here for more info on this entity</a>"
-    #     t = str(title[ent]).replace("'",r"\'")        
-    #     t = t.replace('"',r'\"')
-    #     html_mk += r"<h6>Published In \:</h6>" + t
-    #     j = str(journal[ent]).replace("'",r"\'")
-    #     j = j.replace('"',r'\"')
-    #     html_mk += r"<h6>Journal \:</h6>" + j
-
-    #     d["text"] = {
-    #         "headline":str(ent),
-    #         "text":html_mk
-    #     }
-
-        
-        
-    #     tl_types_dict[ent_type[ent]]["events"].append(d)
-
 
 
     #WRITE TO FILES
