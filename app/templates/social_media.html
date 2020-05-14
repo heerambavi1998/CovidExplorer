@@ -1,0 +1,709 @@
+<!DOCTYPE html> 
+<html>
+    {% include 'head.html' %}
+<head>
+  <meta charset="UTF-8">
+<link rel="stylesheet" href="static/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<body>
+  {% include 'navbar.html' %}
+<style>
+  .cloud{
+    border-radius: 10px;
+    background-color: #ffdebb;
+    box-shadow: 10px 10px 10px 0px rgb(199, 176, 176);
+  }
+
+  .w3-button{
+    border-radius: 7px;
+    background-color: #000;
+    color: white;
+  }
+  .btn{
+    background-color: #a8bbf5;
+    border-top: solid 2px black; border-bottom: black solid 2px;
+  }
+  .active{
+    background-color:rgb(175, 170, 170);
+    color: black;
+  }
+</style>
+
+<section class="row" style="margin-bottom: 110px; background-color: rgb(202, 200, 200); border-bottom: black solid;">
+    <div class="col-12 col-sm-5" style="margin-top: 80px; color: white;">
+        <lottie-player src="static\twitter-notification.json" background="transparent" speed="0.8"  style="width: 300px; height: 300px;margin-left: auto;margin-right: auto;" loop  autoplay></lottie-player>
+    </div>
+    <div class="w3-margin-top col-12 col-sm-6" style="text-align: center;">
+      <h1 style="margin-left: 0px; margin-top: 80px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: #1DA1F2; font-size: 6rem;text-shadow:3px 3px rgb(92, 92, 92);">Social Media Discussions</h1>
+      <h3 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-style:italic ;margin-bottom: 100px; word-spacing: 5px; letter-spacing: 1px;">Corona stories from 85 Million Tweets</h3>
+    </div>
+</section>
+<!--------------------------------------------------------------------------------------------------->
+
+<section>
+  
+  <div id="chartdiv" style="height: 500px;"></div>
+</section>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<div class="w3-row-padding w3-center w3-margin-top">
+  <div class="w3-half">  
+    <div class="w3-card btn" style="margin-top: 100px;">
+      <h2>Top Hashtags Every Month</h2>
+    </div>
+    <div class="w3-row-padding"style = "margin-top: 70px">
+      <button class="w3-button" id="hash_jan" onclick="hash_jan()">Jan</button>
+      <button class="w3-button" id="hash_feb" style="display: none;">Feb</button>
+      <button class="w3-button" id="hash_mar" style="display: none;">Mar</button>
+      <button class="w3-button" id="hash_apr" style="display: none;">Apr</button>
+    </div>
+  </div>
+  <div class="w3-half">
+    <div class=" w3-container w3-card cloud" id="hashtags_jan" style="min-height:460px"></div>
+    <div class=" w3-container w3-card cloud" id="hashtags_feb" style="min-height:460px; display: none;"></div>
+    <div class=" w3-container w3-card cloud" id="hashtags_mar" style="min-height:460px; display: none;"></div>
+    <div class=" w3-container w3-card cloud" id="hashtags_apr" style="min-height:460px; display: none;"></div>
+  </div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<div class="w3-row-padding w3-center w3-margin-top">
+  <div class="w3-half w3-right">  
+    <div class="w3-card btn" style="margin-top: 100px;">
+      <h2>Top Mentions Every Month</h2>
+    </div>
+    <div class="w3-row-padding"style = "margin-top: 70px">
+      <button class="w3-button w3-theme" id="ment_jan" onclick="ment_jan()">Jan</button>
+      <button class="w3-button w3-theme" id="ment_feb" style="display: none;">Feb</button>
+      <button class="w3-button w3-theme" id="ment_mar" style="display: none;">Mar</button>
+      <button class="w3-button w3-theme" id="ment_apr" style="display: none;">Apr</button>
+    </div>
+  </div>
+  <div class="w3-half">
+    <div class="w3-card w3-container cloud" id="mentions_jan" style="min-height:460px"></div>
+    <div class="w3-card w3-container cloud" id="mentions_feb" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="mentions_mar" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="mentions_apr" style="min-height:460px; display: none;"></div>
+  </div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<div class="w3-row-padding w3-center w3-margin-top" style="display: none;">
+  <div class="w3-half">  
+    <div class="w3-card btn" style="margin-top: 100px;">
+      <h2>Top Users Every Month</h2>
+    </div>
+    <div class="w3-row-padding"style = "margin-top: 70px">
+      <button class="w3-button w3-theme" id="usr_jan" onclick="users_jan()">Jan</button>
+      <button class="w3-button w3-theme" id="usr_feb" style="display: none;">Feb</button>
+      <button class="w3-button w3-theme" id="usr_mar" style="display: none;">Mar</button>
+      <button class="w3-button w3-theme" id="usr_apr" style="display: none;">Apr</button>
+    </div>
+  </div>
+  <div class="w3-half">
+    <div class="w3-card w3-container cloud" id="users_jan" style="min-height:460px"></div>
+    <div class="w3-card w3-container cloud" id="users_feb" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="users_mar" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="users_apr" style="min-height:460px; display: none;"></div>
+  </div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<div class="w3-row-padding w3-center w3-margin-top">
+  <div class="w3-half">  
+    <div class="w3-card btn" style="margin-top: 100px;">
+      <h2>Top Locations Every Month</h2>
+    </div>
+    <div class="w3-row-padding"style = "margin-top: 70px">
+      <button class="w3-button w3-theme" id="loc_jan" onclick="loc_jan()">Jan</button>
+      <button class="w3-button w3-theme" id="loc_feb" style="display: none;">Feb</button>
+      <button class="w3-button w3-theme" id="loc_mar" style="display: none;">Mar</button>
+      <button class="w3-button w3-theme" id="loc_apr" style="display: none;">Apr</button>
+    </div>
+  </div>
+  <div class="w3-half">
+    <div class="w3-card w3-container cloud" id="locations_jan" style="min-height:460px"></div>
+    <div class="w3-card w3-container cloud" id="locations_feb" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="locations_mar" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="locations_apr" style="min-height:460px; display: none;"></div>
+  </div>
+</div>  
+</body>
+
+</html>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<script src="static\lottie-player.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/plugins/wordCloud.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<!-- DEFAULTS -->
+
+<script>
+  am4core.ready(function(){
+    hash_jan();
+    ment_jan();
+    users_jan();
+    loc_jan();
+  })
+</script>
+
+<!--------------------------------------------------------------------------------------------------->
+
+<!--HASHTAGS-->
+<!--January-->
+<script>
+  function hash_jan(){
+    document.getElementById("hashtags_jan").style.display = "block";
+    document.getElementById("hashtags_feb").style.display = "none";
+    document.getElementById("hashtags_mar").style.display = "none";
+    document.getElementById("hashtags_apr").style.display = "none";
+    document.getElementById("hash_jan").classList.add("active")
+    document.getElementById("hash_feb").classList.remove("active")
+    document.getElementById("hash_mar").classList.remove("active")
+    document.getElementById("hash_apr").classList.remove("active")
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("hashtags_jan", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "#coronavirus",
+      "weight": 65107
+    }, {
+      "tag": "#china",
+      "weight": 11690
+    }, {
+      "tag": "#wuhan",
+      "weight": 8347
+    }, {
+      "tag": "#coronavirusoutbreak",
+      "weight": 6523
+    }, {
+      "tag": "#coronavirusindia",
+      "weight": 3203
+    }, {
+      "tag": "#india",
+      "weight": 3116
+    }, {
+      "tag": "wuhancoronavirus",
+      "weight": 2885
+    }, {
+      "tag": "#coronaoutbreak",
+      "weight": 2242
+    }, {
+      "tag": "#ncov2020",
+      "weight": 1977
+    }, {
+      "tag": "#breaking",
+      "weight": 1888
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
+
+<!--February-->
+<script>  
+  function hash_feb(){
+      document.getElementById("hashtags_jan").style.display = "none";
+      document.getElementById("hashtags_feb").style.display = "block";
+      document.getElementById("hashtags_mar").style.display = "none";
+      document.getElementById("hashtags_apr").style.display = "none";
+      am4core.useTheme(am4themes_animated);              
+      am4core.useTheme(am4themes_animated);
+      var chart = am4core.create("hashtags_feb", am4plugins_wordCloud.WordCloud);
+      var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+
+      series.data = [{
+                        "tag": "Breaking News",
+                        "weight": 60
+                      }, {
+                        "tag": "Environment",
+                        "weight": 80
+                      }, {
+                        "tag": "Politics",
+                        "weight": 90
+                      }, {
+                        "tag": "Business",
+                        "weight": 25
+                      }];
+      series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+      series.dataFields.word = "tag";
+      series.dataFields.value = "weight";
+    }      
+</script>
+
+<!--March-->
+<script>
+  function hash_mar(){
+  document.getElementById("hashtags_jan").style.display = "none";
+  document.getElementById("hashtags_feb").style.display = "none";
+  document.getElementById("hashtags_mar").style.display = "block";
+  document.getElementById("hashtags_apr").style.display = "none";
+  am4core.useTheme(am4themes_animated);
+  am4core.useTheme(am4themes_animated);
+  var chart = am4core.create("hashtags_mar", am4plugins_wordCloud.WordCloud);
+  var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+  series.data = [{
+    "tag": "Paritosh",
+    "weight": 60
+  }, {
+    "tag": "Vyas",
+    "weight": 80
+  }, {
+    "tag": "IITGN",
+    "weight": 90
+  }, {
+    "tag": "Sejal",
+    "weight": 250
+  }];
+  series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+  series.dataFields.word = "tag";
+  series.dataFields.value = "weight";  
+  }
+</script>
+
+<!--April-->
+<script>
+  function hash_apr(){
+    document.getElementById("hashtags_jan").style.display = "none";
+    document.getElementById("hashtags_feb").style.display = "none";
+    document.getElementById("hashtags_mar").style.display = "none";
+    document.getElementById("hashtags_apr").style.display = "block";
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("hashtags_apr", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "Breaking News",
+      "weight": 60
+    }, {
+      "tag": "Environment",
+      "weight": 80
+    }, {
+      "tag": "Politics",
+      "weight": 90
+    }, {
+      "tag": "Business",
+      "weight": 25
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
+
+<!--------------------------------------------------------------------------------------------------->
+
+
+<!--MENTIONS-->
+<!--January-->
+<script>
+  function ment_jan(){
+    document.getElementById("mentions_jan").style.display = "block";
+    document.getElementById("mentions_feb").style.display = "none";
+    document.getElementById("mentions_mar").style.display = "none";
+    document.getElementById("mentions_apr").style.display = "none";
+    document.getElementById("ment_jan").classList.add("active")
+    document.getElementById("ment_feb").classList.remove("active")
+    document.getElementById("ment_mar").classList.remove("active")
+    document.getElementById("ment_apr").classList.remove("active")
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("mentions_jan", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "@spectatorindex",
+      "weight": 12508
+    }, {
+      "tag": "@mohfw_india",
+      "weight": 4464
+    }, {
+      "tag": "@ani",
+      "weight": 4440
+    }, {
+      "tag": "@who",
+      "weight": 3141
+    }, {
+      "tag": "@raksharamaiah",
+      "weight": 2075
+    }, {
+      "tag": "@timesofindia",
+      "weight": 1842
+    }, {
+      "tag": "@pib_india",
+      "weight": 1723
+    }, {
+      "tag": "@cnn",
+      "weight": 1541
+    }, {
+      "tag": "@rahulgandhi",
+      "weight": 1534
+    }, {
+      "tag": "@cgtnofficial",
+      "weight": 1391
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
+
+<!--February-->
+<script>  
+  function ment_feb(){
+      document.getElementById("mentions_jan").style.display = "none";
+      document.getElementById("mentions_feb").style.display = "block";
+      document.getElementById("mentions_mar").style.display = "none";
+      document.getElementById("mentions_apr").style.display = "none";
+      am4core.useTheme(am4themes_animated);              
+      am4core.useTheme(am4themes_animated);
+      var chart = am4core.create("mentions_feb", am4plugins_wordCloud.WordCloud);
+      var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+
+      series.data = [{
+                        "tag": "Breaking News",
+                        "weight": 60
+                      }, {
+                        "tag": "Environment",
+                        "weight": 80
+                      }, {
+                        "tag": "Politics",
+                        "weight": 90
+                      }, {
+                        "tag": "Business",
+                        "weight": 25
+                      }];
+      series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+      series.dataFields.word = "tag";
+      series.dataFields.value = "weight";
+    }      
+</script>
+
+<!--March-->
+<script>
+  function ment_mar(){
+  document.getElementById("mentions_jan").style.display = "none";
+  document.getElementById("mentions_feb").style.display = "none";
+  document.getElementById("mentions_mar").style.display = "block";
+  document.getElementById("mentions_apr").style.display = "none";
+  am4core.useTheme(am4themes_animated);
+  am4core.useTheme(am4themes_animated);
+  var chart = am4core.create("mentions_mar", am4plugins_wordCloud.WordCloud);
+  var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+  series.data = [{
+    "tag": "Paritosh",
+    "weight": 60
+  }, {
+    "tag": "Vyas",
+    "weight": 80
+  }, {
+    "tag": "IITGN",
+    "weight": 90
+  }, {
+    "tag": "Sejal",
+    "weight": 250
+  }];
+  series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+  series.dataFields.word = "tag";
+  series.dataFields.value = "weight";  
+  }
+</script>
+
+<!--April-->
+<script>
+  function ment_apr(){
+    document.getElementById("mentions_jan").style.display = "none";
+    document.getElementById("mentions_feb").style.display = "none";
+    document.getElementById("mentions_mar").style.display = "none";
+    document.getElementById("mentions_apr").style.display = "block";
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("mentions_apr", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "Breaking News",
+      "weight": 60
+    }, {
+      "tag": "Environment",
+      "weight": 80
+    }, {
+      "tag": "Politics",
+      "weight": 90
+    }, {
+      "tag": "Business",
+      "weight": 25
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
+
+
+
+<!--------------------------------------------------------------------------------------------------->
+
+<!-- USERS -->
+<!--January-->
+<script>
+  function users_jan(){
+    document.getElementById("users_jan").style.display = "block";
+    document.getElementById("users_feb").style.display = "none";
+    document.getElementById("users_mar").style.display = "none";
+    document.getElementById("users_apr").style.display = "none";
+    document.getElementById("usr_jan").classList.add("active")
+    document.getElementById("usr_feb").classList.remove("active")
+    document.getElementById("usr_mar").classList.remove("active")
+    document.getElementById("usr_apr").classList.remove("active")
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("users_jan", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "Breaking News",
+      "weight": 60
+    }, {
+      "tag": "Environment",
+      "weight": 80
+    }, {
+      "tag": "Politics",
+      "weight": 90
+    }, {
+      "tag": "Business",
+      "weight": 25
+    }, {
+      "tag": "Lifestyle",
+      "weight": 30
+    }, {
+      "tag": "World",
+      "weight": 45
+    }, {
+      "tag": "Sports",
+      "weight": 160
+    }, {
+      "tag": "Fashion",
+      "weight": 20
+    }, {
+      "tag": "Education",
+      "weight": 78
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
+
+<!--February-->
+<script>  
+  function users_feb(){
+      document.getElementById("users_jan").style.display = "none";
+      document.getElementById("users_feb").style.display = "block";
+      document.getElementById("users_mar").style.display = "none";
+      document.getElementById("users_apr").style.display = "none";
+      am4core.useTheme(am4themes_animated);              
+      am4core.useTheme(am4themes_animated);
+      var chart = am4core.create("users_feb", am4plugins_wordCloud.WordCloud);
+      var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+
+      series.data = [{
+                        "tag": "Breaking News",
+                        "weight": 60
+                      }, {
+                        "tag": "Environment",
+                        "weight": 80
+                      }, {
+                        "tag": "Politics",
+                        "weight": 90
+                      }, {
+                        "tag": "Business",
+                        "weight": 25
+                      }];
+      series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+      series.dataFields.word = "tag";
+      series.dataFields.value = "weight";
+    }      
+</script>
+
+<!--March-->
+<script>
+  function users_mar(){
+  document.getElementById("users_jan").style.display = "none";
+  document.getElementById("users_feb").style.display = "none";
+  document.getElementById("users_mar").style.display = "block";
+  document.getElementById("users_apr").style.display = "none";
+  am4core.useTheme(am4themes_animated);
+  am4core.useTheme(am4themes_animated);
+  var chart = am4core.create("users_mar", am4plugins_wordCloud.WordCloud);
+  var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+  series.data = [{
+    "tag": "Paritosh",
+    "weight": 60
+  }, {
+    "tag": "Vyas",
+    "weight": 80
+  }, {
+    "tag": "IITGN",
+    "weight": 90
+  }, {
+    "tag": "Sejal",
+    "weight": 250
+  }];
+  series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+  series.dataFields.word = "tag";
+  series.dataFields.value = "weight";  
+  }
+</script>
+
+<!--April-->
+<script>
+  function users_apr(){
+    document.getElementById("users_jan").style.display = "none";
+    document.getElementById("users_feb").style.display = "none";
+    document.getElementById("users_mar").style.display = "none";
+    document.getElementById("users_apr").style.display = "block";
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("users_apr", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "Delhi",
+      "weight": 15550
+    }, {
+      "tag": "Mumbai",
+      "weight": 10087
+    }, {
+      "tag": "Bengaluru",
+      "weight": 7713
+    }, {
+      "tag": "Chennai",
+      "weight": 4875
+    }, {
+      "tag": "Hyderabad",
+      "weight": 4491
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
+<!------------------------------------------------------------------------------------------------------------------>
+
+<!--LOCATIONS-->
+<!--January-->
+<script>
+  function loc_jan(){
+    document.getElementById("locations_jan").style.display = "block";
+    document.getElementById("locations_feb").style.display = "none";
+    document.getElementById("locations_mar").style.display = "none";
+    document.getElementById("locations_apr").style.display = "none";
+    document.getElementById("loc_jan").classList.add("active")
+    document.getElementById("loc_feb").classList.remove("active")
+    document.getElementById("loc_mar").classList.remove("active")
+    document.getElementById("loc_apr").classList.remove("active")
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("locations_jan", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "Delhi",
+      "weight": 15550
+    }, {
+      "tag": "Mumbai",
+      "weight": 10087
+    }, {
+      "tag": "Bengaluru",
+      "weight": 7713
+    }, {
+      "tag": "Chennai",
+      "weight": 4875
+    }, {
+      "tag": "Hyderabad",
+      "weight": 4491
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
+
+
+<!------------------------------------------------------------------------------------------------------------------>
+<!--TIMELINE GRAPH-->
+<script>
+  am4core.ready(function() {
+  am4core.useTheme(am4themes_animated);
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.data = [
+{"date": "2020-1-21",
+"value":3},
+{"date": "2020-1-22",
+"value":505},
+{"date": "2020-1-23",
+"value":5173},
+{"date": "2020-1-24",
+"value":16214},
+{"date": "2020-1-25",
+"value":24903},
+{"date": "2020-1-26",
+"value":25583},
+{"date": "2020-1-27",
+"value":25041},
+{"date": "2020-1-28",
+"value":31696},
+{"date": "2020-1-29",
+"value":48064},
+{"date": "2020-1-30",
+"value":70818},
+{"date": "2020-1-31",
+"value":21246},];
+  chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  var series = chart.series.push(new am4charts.LineSeries());
+  series.dataFields.valueY = "value";
+  series.dataFields.dateX = "date";
+  series.tooltipText = "{value}"
+  series.strokeWidth = 2;
+  series.minBulletDistance = 15;
+  series.tooltip.background.cornerRadius = 20;
+  series.tooltip.background.strokeOpacity = 0;
+  series.tooltip.pointerOrientation = "vertical";
+  series.tooltip.label.minWidth = 40;
+  series.tooltip.label.minHeight = 40;
+  series.tooltip.label.textAlign = "middle";
+  series.tooltip.label.textValign = "middle";
+  var bullet = series.bullets.push(new am4charts.CircleBullet());
+  bullet.circle.strokeWidth = 2;
+  bullet.circle.radius = 4;
+  bullet.circle.fill = am4core.color("#fff");
+  var bullethover = bullet.states.create("hover");
+  bullethover.properties.scale = 1.3;
+  chart.cursor = new am4charts.XYCursor();
+  chart.cursor.behavior = "panXY";
+  chart.cursor.xAxis = dateAxis;
+  chart.cursor.snapToSeries = series;
+  chart.scrollbarY = new am4core.Scrollbar();
+  chart.scrollbarY.parent = chart.leftAxesContainer;
+  chart.scrollbarY.toBack();
+  chart.scrollbarX = new am4charts.XYChartScrollbar();
+  chart.scrollbarX.series.push(series);
+  chart.scrollbarX.parent = chart.bottomAxesContainer;
+  dateAxis.start = 0.79;
+  dateAxis.keepSelection = true;
+  }); // end am4core.ready()
+  </script>
