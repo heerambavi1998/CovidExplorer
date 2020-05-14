@@ -22,6 +22,10 @@ def team():
 def facts():
     return render_template('facts.html')
 
+@app.route('/social_media', methods=['GET'])
+def social_media():
+    return render_template('social_media.html')
+
 # @app.route('/global', methods=['GET'])
 # def global():
 #     return render_template('global.html')
