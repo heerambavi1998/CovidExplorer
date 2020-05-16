@@ -54,17 +54,36 @@ def df2():
     last_updated=datetime.now()
     return 
 
+# def show_tables():
+#     df = pd.read_csv('statistics/india.csv')
+#     x=0
+    
+#     for i in range(len(df['Deaths**'])):
+#         try :
+#             x+=int(df['Deaths**'][i])
+#         except:
+#             pass
+#     y=list(df['Cured/Discharged/Migrated'])
+#     return 0,x,sum(y)
+
 def show_tables():
     df = pd.read_csv('statistics/india.csv')
     x=0
-    
-    for i in range(len(df['Deaths**'])):
+    for i in range(len(df[df.keys()[4]])):
         try :
-            x+=int(df['Deaths**'][i])
+            x+=int(df[df.keys()[4]][i])
         except:
             pass
-    y=list(df['Cured/Discharged/Migrated'])
-    return 0,x,sum(y)
+    # x=list(df['Death'])
+    y=0
+    for i in range(len(df[df.keys()[3]])):
+        try :
+            y+=int(df[df.keys()[3]][i])
+        except:
+            pass
+    # y=list(df['Cured/Discharged/Migrated'])
+    # print(y)
+    return 0,x,y
     
 def india(df):
     df = df[df['State/UnionTerritory'].notna()]
@@ -86,7 +105,7 @@ def india(df):
         newday.append(day[i][0:5])
     day_count=[]
     day_count.append(total_count[0])
-    print(total_count)
+#     print(total_count)
     for i in range(1,len(total_count)):
         day_count.append(total_count[i]-total_count[i-1])
     # print(day_count,total_count)
