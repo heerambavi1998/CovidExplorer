@@ -61,7 +61,7 @@
     <div class="w3-row-padding"style = "margin-top: 70px">
       <button class="w3-button" id="hash_jan" onclick="hash_jan()">Jan</button>
       <button class="w3-button" id="hash_feb" onclick="hash_feb();">Feb</button>
-      <button class="w3-button" id="hash_mar" style="display: none;">Mar</button>
+      <button class="w3-button" id="hash_mar" onclick="hash_mar();">Mar</button>
       <button class="w3-button" id="hash_apr" style="display: none;">Apr</button>
     </div>
   </div>
@@ -83,7 +83,7 @@
     <div class="w3-row-padding"style = "margin-top: 70px">
       <button class="w3-button w3-theme" id="ment_jan" onclick="ment_jan()">Jan</button>
       <button class="w3-button w3-theme" id="ment_feb" onclick="ment_feb();">Feb</button>
-      <button class="w3-button w3-theme" id="ment_mar" style="display: none;">Mar</button>
+      <button class="w3-button w3-theme" id="ment_mar" onclick="ment_mar();">Mar</button>
       <button class="w3-button w3-theme" id="ment_apr" style="display: none;">Apr</button>
     </div>
   </div>
@@ -97,28 +97,6 @@
 
 <!--------------------------------------------------------------------------------------------------->
 
-<div class="w3-row-padding w3-center w3-margin-top" style="display: none;">
-  <div class="w3-half">  
-    <div class="w3-card btn" style="margin-top: 100px;">
-      <h2>Top Users Every Month</h2>
-    </div>
-    <div class="w3-row-padding"style = "margin-top: 70px">
-      <button class="w3-button w3-theme" id="usr_jan" onclick="users_jan()">Jan</button>
-      <button class="w3-button w3-theme" id="usr_feb" onclick="users_feb();">Feb</button>
-      <button class="w3-button w3-theme" id="usr_mar" style="display: none;">Mar</button>
-      <button class="w3-button w3-theme" id="usr_apr" style="display: none;">Apr</button>
-    </div>
-  </div>
-  <div class="w3-half">
-    <div class="w3-card w3-container cloud" id="users_jan" style="min-height:460px"></div>
-    <div class="w3-card w3-container cloud" id="users_feb" style="min-height:460px; display: none;"></div>
-    <div class="w3-card w3-container cloud" id="users_mar" style="min-height:460px; display: none;"></div>
-    <div class="w3-card w3-container cloud" id="users_apr" style="min-height:460px; display: none;"></div>
-  </div>
-</div>
-
-<!--------------------------------------------------------------------------------------------------->
-
 <div class="w3-row-padding w3-center w3-margin-top">
   <div class="w3-half">  
     <div class="w3-card btn" style="margin-top: 100px;">
@@ -126,8 +104,8 @@
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
       <button class="w3-button w3-theme" id="loc_jan" onclick="loc_jan()">Jan</button>
-      <button class="w3-button w3-theme" id="loc_feb" onclick="loc_feb();">Feb</button>
-      <button class="w3-button w3-theme" id="loc_mar" style="display: none;">Mar</button>
+      <button class="w3-button w3-theme" id="loc_feb" onclick="loc_feb()">Feb</button>
+      <button class="w3-button w3-theme" id="loc_mar" onclick="loc_mar()">Mar</button>
       <button class="w3-button w3-theme" id="loc_apr" style="display: none;">Apr</button>
     </div>
   </div>
@@ -148,8 +126,8 @@
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
       <button class="w3-button w3-theme" id="dom_jan" onclick="domain_jan()">Jan</button>
-      <button class="w3-button w3-theme" id="dom_feb" onclick="domain_feb();">Feb</button>
-      <button class="w3-button w3-theme" id="dom_mar" style="display: none;">Mar</button>
+      <button class="w3-button w3-theme" id="dom_feb" onclick="domain_feb()">Feb</button>
+      <button class="w3-button w3-theme" id="dom_mar" onclick="domain_mar()">Mar</button>
       <button class="w3-button w3-theme" id="dom_apr" style="display: none;">Apr</button>
     </div>
   </div>
@@ -260,31 +238,31 @@
       var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
 
       series.data = [{
-                        "tag": "coronavirus",
+                        "tag": "#coronavirus",
                         "weight": 50672
                       }, {
-                        "tag": "nomeat_nocoronavirus",
+                        "tag": "#nomeat_nocoronavirus",
                         "weight": 18041
                       }, {
-                        "tag": "wuhan",
+                        "tag": "#wuhan",
                         "weight": 14111
                       }, {
-                        "tag": "china",
+                        "tag": "#china",
                         "weight": 11624
                       }, {
-                        "tag": "coronavirusoutbreak",
+                        "tag": "#coronavirusoutbreak",
                         "weight": 5316
                       }, {
-                        "tag": "india",
+                        "tag": "#india",
                         "weight": 3734
                       }, {
-                        "tag": "coronavirusindia",
+                        "tag": "#coronavirusindia",
                         "weight": 2767
                       }, {
-                        "tag": "airindia",
+                        "tag": "#airindia",
                         "weight": 2565
                       }, {
-                        "tag": "coronaviruschina",
+                        "tag": "#coronaviruschina",
                         "weight": 1928
                       }];
       series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
@@ -309,17 +287,38 @@
   var chart = am4core.create("hashtags_mar", am4plugins_wordCloud.WordCloud);
   var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
   series.data = [{
-    "tag": "Paritosh",
-    "weight": 60
+    "tag": "#coronavirus",
+    "weight": 111548
   }, {
-    "tag": "Vyas",
-    "weight": 80
+    "tag": "#covid19",
+    "weight": 39852
   }, {
-    "tag": "IITGN",
-    "weight": 90
+    "tag": "#coronavirusindia",
+    "weight": 15896
   }, {
-    "tag": "Sejal",
-    "weight": 250
+    "tag": "#coronaalert",
+    "weight": 8234
+  }, {
+    "tag": "#india",
+    "weight": 8232
+  }, {
+    "tag": "#corona",
+    "weight": 7871
+  }, {
+    "tag": "#coronavirusoutbreak",
+    "weight": 7557
+  }, {
+    "tag": "#coronaoutbreak",
+    "weight": 7503
+  }, {
+    "tag": "#coronavirusupdate",
+    "weight": 7082
+  }, {
+    "tag": "#coronavirusinindia",
+    "weight": 7073
+  }, {
+    "tag": "#namaste",
+    "weight": 6999
   }];
   series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
   series.dataFields.word = "tag";
@@ -434,37 +433,37 @@
       var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
 
       series.data = [{
-                        "tag": "askanshul",
+                        "tag": "@askanshul",
                         "weight": 6306
                       }, {
-                        "tag": "ani",
+                        "tag": "@ani",
                         "weight": 5621
                       }, {
-                        "tag": "narendramodi",
+                        "tag": "@narendramodi",
                         "weight": 5007
                       }, {
-                        "tag": "majorgauravarya",
+                        "tag": "@majorgauravarya",
                         "weight": 4038
                       }, {
-                        "tag": "drsjaishankar",
+                        "tag": "@drsjaishankar",
                         "weight": 4018
                       }, {
-                        "tag": "majorpoonia",
+                        "tag": "@majorpoonia",
                         "weight": 3692
                       }, {
-                        "tag": "shefvaidya",
+                        "tag": "@shefvaidya",
                         "weight": 3493
                       }, {
-                        "tag": "imrankhanpti",
+                        "tag": "@imrankhanpti",
                         "weight": 3332
                       }, {
-                        "tag": "sneheshphilip",
+                        "tag": "@sneheshphilip",
                         "weight": 3324
                       }, {
-                        "tag": "ashoswai",
+                        "tag": "@ashoswai",
                         "weight": 3315
                       }, {
-                        "tag": "who",
+                        "tag": "@who",
                         "weight": 3189
                       }];
       series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
@@ -489,17 +488,35 @@
   var chart = am4core.create("mentions_mar", am4plugins_wordCloud.WordCloud);
   var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
   series.data = [{
-    "tag": "Paritosh",
-    "weight": 60
+    "tag": "@narendramodi",
+    "weight": 39786
   }, {
-    "tag": "Vyas",
-    "weight": 80
+    "tag": "@rahulgandhi",
+    "weight": 15796
   }, {
-    "tag": "IITGN",
-    "weight": 90
+    "tag": "@pmoindia",
+    "weight": 14960
   }, {
-    "tag": "Sejal",
-    "weight": 250
+    "tag": "@amitshah",
+    "weight": 12109
+  }, {
+    "tag": "@ipspankajnain",
+    "weight": 11981
+  }, {
+    "tag": "@ani",
+    "weight": 8872
+  }, {
+    "tag": "@realdonaldtrump",
+    "weight": 7445
+  }, {
+    "tag": "@netanyahu",
+    "weight": 6423
+  }, {
+    "tag": "@mohfw_india",
+    "weight": 6041
+  }, {
+    "tag": "@spectator_index",
+    "weight": 5940
   }];
   series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
   series.dataFields.word = "tag";
@@ -642,22 +659,22 @@
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
     series.data = [{
       "tag": "Delhi",
-      "weight": 19350
+      "weight": 43477
     }, {
       "tag": "Mumbai",
-      "weight": 12568
+      "weight": 28550
     }, {
       "tag": "Bengaluru",
-      "weight": 8753
+      "weight": 20904
     }, {
       "tag": "Chennai",
-      "weight": 5874
+      "weight": 9588
     }, {
       "tag": "Hyderabad",
-      "weight": 5470
+      "weight": 15466
     }, {
       "tag": "Pune",
-      "weight": 2707
+      "weight": 7137
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
@@ -809,25 +826,28 @@
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
     series.data = [{
       "tag": "toi",
-      "weight": 1924
+      "weight": 2823
     }, {
-      "tag": "cnn",
-      "weight": 1886
+      "tag": "hindustantimes",
+      "weight": 2351
     }, {
       "tag": "youtube",
-      "weight": 1791
+      "weight": 2060
     }, {
       "tag": "dlvr.it",
-      "weight": 1783
-    }, {
-      "tag": "reuters",
-      "weight": 1448
-    }, {
-      "tag": "ndtv",
-      "weight": 1195
+      "weight": 1747
     }, {
       "tag": "indiatimes",
-      "weight": 1166
+      "weight": 1712
+    }, {
+      "tag": "indiatoday",
+      "weight": 1610
+    }, {
+      "tag": "ndtv",
+      "weight": 1557
+    }, {
+      "tag": "bbc",
+      "weight": 1484
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
