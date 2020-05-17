@@ -137,7 +137,30 @@
     <div class="w3-card w3-container cloud" id="locations_mar" style="min-height:460px; display: none;"></div>
     <div class="w3-card w3-container cloud" id="locations_apr" style="min-height:460px; display: none;"></div>
   </div>
-</div>  
+</div> 
+
+<!--------------------------------------------------------------------------------------------------->
+
+<div class="w3-row-padding w3-center w3-margin-top">
+  <div class="w3-half w3-right">  
+    <div class="w3-card btn" style="margin-top: 100px;">
+      <h2>Top Domains Every Month</h2>
+    </div>
+    <div class="w3-row-padding"style = "margin-top: 70px">
+      <button class="w3-button w3-theme" id="dom_jan" onclick="domain_jan()">Jan</button>
+      <button class="w3-button w3-theme" id="dom_feb" style="display: none;">Feb</button>
+      <button class="w3-button w3-theme" id="dom_mar" style="display: none;">Mar</button>
+      <button class="w3-button w3-theme" id="dom_apr" style="display: none;">Apr</button>
+    </div>
+  </div>
+  <div class="w3-half">
+    <div class="w3-card w3-container cloud" id="domains_jan" style="min-height:460px"></div>
+    <div class="w3-card w3-container cloud" id="domains_feb" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="domains_mar" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="domains_apr" style="min-height:460px; display: none;"></div>
+  </div>
+</div>
+
 </body>
 
 </html>
@@ -160,6 +183,7 @@
     ment_jan();
     users_jan();
     loc_jan();
+    domain_jan();
   })
 </script>
 
@@ -642,7 +666,45 @@
     series.dataFields.value = "weight";
   }
 </script>
+<!------------------------------------------------------------------------------------------------------------------>
 
+<!--Domains-->
+<!--January-->
+<script>
+  function domain_jan(){
+    document.getElementById("domains_jan").style.display = "block";
+    document.getElementById("domains_feb").style.display = "none";
+    document.getElementById("domains_mar").style.display = "none";
+    document.getElementById("domains_apr").style.display = "none";
+    document.getElementById("dom_jan").classList.add("active")
+    document.getElementById("dom_feb").classList.remove("active")
+    document.getElementById("dom_mar").classList.remove("active")
+    document.getElementById("dom_apr").classList.remove("active")
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("domains_jan", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [{
+      "tag": "Delhi",
+      "weight": 15550
+    }, {
+      "tag": "Mumbai",
+      "weight": 10087
+    }, {
+      "tag": "Bengaluru",
+      "weight": 7713
+    }, {
+      "tag": "Chennai",
+      "weight": 4875
+    }, {
+      "tag": "Hyderabad",
+      "weight": 4491
+    }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+</script>
 
 <!------------------------------------------------------------------------------------------------------------------>
 <!--TIMELINE GRAPH-->
@@ -672,7 +734,63 @@
 {"date": "2020-1-30",
 "value":70818},
 {"date": "2020-1-31",
-"value":21246},];
+"value":21246},
+{"date": "2020-2-01",
+"value":38189},
+{"date": "2020-2-02",
+"value":65190},
+{"date": "2020-2-03",
+"value":35300},
+{"date": "2020-2-04",
+"value":34733},
+{"date": "2020-2-05",
+"value":22416},
+{"date": "2020-2-06",
+"value":28331},
+{"date": "2020-2-07",
+"value":29148},
+{"date": "2020-2-08",
+"value":25317},
+{"date": "2020-2-09",
+"value":23241},
+{"date": "2020-2-10",
+"value":25753},
+{"date": "2020-2-11",
+"value":25129},
+{"date": "2020-3-01",
+"value":67106},
+{"date": "2020-3-02",
+"value":14201},
+{"date": "2020-3-03",
+"value":125281},
+{"date": "2020-3-04",
+"value":215537},
+{"date": "2020-3-05",
+"value":35070},
+{"date": "2020-3-06",
+"value":28357},
+{"date": "2020-3-07",
+"value":23741},
+{"date": "2020-3-08",
+"value":18398},
+{"date": "2020-3-09",
+"value":20474},
+{"date": "2020-3-10",
+"value":15432},
+{"date": "2020-3-11",
+"value":17667},
+{"date": "2020-3-12",
+"value":19146},
+{"date": "2020-3-13",
+"value":20928},
+{"date": "2020-3-14",
+"value":21384},
+{"date": "2020-3-15",
+"value":22693},
+{"date": "2020-3-16",
+"value":20603},
+{"date": "2020-3-17",
+"value":132}];
   chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
   var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
