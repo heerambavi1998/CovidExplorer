@@ -60,9 +60,9 @@
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
       <button class="w3-button" id="hash_jan" onclick="hash_jan()">Jan</button>
-      <button class="w3-button" id="hash_feb" onclick="hash_feb();">Feb</button>
-      <button class="w3-button" id="hash_mar" onclick="hash_mar();">Mar</button>
-      <button class="w3-button" id="hash_apr" style="display: none;">Apr</button>
+      <button class="w3-button" id="hash_feb" onclick="hash_feb()">Feb</button>
+      <button class="w3-button" id="hash_mar" onclick="hash_mar()">Mar</button>
+      <button class="w3-button" id="hash_apr" onclick="hash_apr()">Apr</button>
     </div>
   </div>
   <div class="w3-half">
@@ -82,9 +82,9 @@
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
       <button class="w3-button w3-theme" id="ment_jan" onclick="ment_jan()">Jan</button>
-      <button class="w3-button w3-theme" id="ment_feb" onclick="ment_feb();">Feb</button>
-      <button class="w3-button w3-theme" id="ment_mar" onclick="ment_mar();">Mar</button>
-      <button class="w3-button w3-theme" id="ment_apr" style="display: none;">Apr</button>
+      <button class="w3-button w3-theme" id="ment_feb" onclick="ment_feb()">Feb</button>
+      <button class="w3-button w3-theme" id="ment_mar" onclick="ment_mar()">Mar</button>
+      <button class="w3-button w3-theme" id="ment_apr" onclick="ment_apr()">Apr</button>
     </div>
   </div>
   <div class="w3-half">
@@ -106,7 +106,7 @@
       <button class="w3-button w3-theme" id="loc_jan" onclick="loc_jan()">Jan</button>
       <button class="w3-button w3-theme" id="loc_feb" onclick="loc_feb()">Feb</button>
       <button class="w3-button w3-theme" id="loc_mar" onclick="loc_mar()">Mar</button>
-      <button class="w3-button w3-theme" id="loc_apr" style="display: none;">Apr</button>
+      <button class="w3-button w3-theme" id="loc_apr" onclick="loc_apr()">Apr</button>
     </div>
   </div>
   <div class="w3-half">
@@ -128,7 +128,7 @@
       <button class="w3-button w3-theme" id="dom_jan" onclick="domain_jan()">Jan</button>
       <button class="w3-button w3-theme" id="dom_feb" onclick="domain_feb()">Feb</button>
       <button class="w3-button w3-theme" id="dom_mar" onclick="domain_mar()">Mar</button>
-      <button class="w3-button w3-theme" id="dom_apr" style="display: none;">Apr</button>
+      <button class="w3-button w3-theme" id="dom_apr" onclick="domain_apr()">Apr</button>
     </div>
   </div>
   <div class="w3-half">
@@ -159,7 +159,7 @@
   am4core.ready(function(){
     hash_jan();
     ment_jan();
-    loc_feb();
+    loc_jan();
     domain_jan();
   })
 </script>
@@ -342,17 +342,35 @@
     var chart = am4core.create("hashtags_apr", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
     series.data = [{
-      "tag": "Breaking News",
-      "weight": 60
+      "tag": "#covid19",
+      "weight": 125521
     }, {
-      "tag": "Environment",
-      "weight": 80
+      "tag": "#coronavirus",
+      "weight": 51186
     }, {
-      "tag": "Politics",
-      "weight": 90
+      "tag": "#lockdown",
+      "weight": 24054
     }, {
-      "tag": "Business",
-      "weight": 25
+      "tag": "#indiafightscorona",
+      "weight": 17958
+    }, {
+      "tag": "#stayhome",
+      "weight": 12324
+    }, {
+      "tag": "#india",
+      "weight": 11355
+    }, {
+      "tag": "#corona",
+      "weight": 10832
+    }, {
+      "tag": "#hydroxychloroquine",
+      "weight": 10375
+    }, {
+      "tag": "#tablighijamaat",
+      "weight": 6463
+    }, {
+      "tag": "#breaking",
+      "weight": 5239
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
@@ -540,17 +558,35 @@
     var chart = am4core.create("mentions_apr", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
     series.data = [{
-      "tag": "Breaking News",
-      "weight": 60
+      "tag": "@narendramodi",
+      "weight": 84735
     }, {
-      "tag": "Environment",
-      "weight": 80
+      "tag": "@ani",
+      "weight": 25952
     }, {
-      "tag": "Politics",
-      "weight": 90
+      "tag": "@pmoindia",
+      "weight": 23676
     }, {
-      "tag": "Business",
-      "weight": 25
+      "tag": "@realdonaldtrump",
+      "weight": 17124
+    }, {
+      "tag": "opindia_com",
+      "weight": 12659
+    }, {
+      "tag": "@rahulgandhi",
+      "weight": 12523
+    }, {
+      "tag": "@askanshul",
+      "weight": 8038
+    }, {
+      "tag": "@norbertelekes",
+      "weight": 7981
+    }, {
+      "tag": "@who",
+      "weight": 7921
+    }, {
+      "tag": "@sardesairajdeep",
+      "weight": 7680
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
@@ -699,22 +735,22 @@
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
     series.data = [{
       "tag": "Delhi",
-      "weight": 19350
+      "weight": 72374
     }, {
       "tag": "Mumbai",
-      "weight": 12568
+      "weight": 52639
     }, {
       "tag": "Bengaluru",
-      "weight": 8753
+      "weight": 34592
     }, {
       "tag": "Chennai",
-      "weight": 5874
+      "weight": 18539
     }, {
       "tag": "Hyderabad",
-      "weight": 5470
+      "weight": 25468
     }, {
       "tag": "Pune",
-      "weight": 2707
+      "weight": 14003
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
@@ -871,26 +907,32 @@
     var chart = am4core.create("domains_apr", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
     series.data = [{
-      "tag": "toi",
-      "weight": 1924
-    }, {
-      "tag": "cnn",
-      "weight": 1886
-    }, {
       "tag": "youtube",
-      "weight": 1791
-    }, {
-      "tag": "dlvr.it",
-      "weight": 1783
-    }, {
-      "tag": "reuters",
-      "weight": 1448
+      "weight": 5623
     }, {
       "tag": "ndtv",
-      "weight": 1195
+      "weight": 3795
     }, {
       "tag": "indiatimes",
-      "weight": 1166
+      "weight": 3282
+    }, {
+      "tag": "instagram",
+      "weight": 2935
+    }, {
+      "tag": "toi",
+      "weight": 2339
+    }, {
+      "tag": "hindustantimes",
+      "weight": 2301
+    }, {
+      "tag": "indianexpress",
+      "weight": 2011
+    }, {
+      "tag": "ift",
+      "weight": 1952
+    }, {
+      "tag": "republicworld",
+      "weight": 1869
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
