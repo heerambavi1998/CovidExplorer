@@ -50,43 +50,42 @@ with open(METADATAPATH, newline="") as read_file:
             start = datetime.now()
 
             #check fulltext validity
-            if row['full_text_file']=='custom_license' or row['full_text_file']=='comm_use_subset' or row['full_text_file']=='noncomm_use_subset' or row['full_text_file']=='biorxiv_medrxiv':
-                if row['sha'] != "" and row['has_pdf_parse'] == 'True':
-                    pids = row['sha']
-                elif row['pmcid'] != "" and row['has_pmc_xml_parse'] == 'True':
-                    pids = row['pmcid']
-                else:
-                    continue
+            if row['pdf_json_files'] != '':
+                pids = row['sha']
+            elif row['pmc_json_files'] != '':
+                pids = row['pmcid']
+            else:
+                continue
 
-                #Extract entities 
-                try:
-                    res = predictor.predict(sentence=row['abstract'])
-                    ents = {}
-                    for ent in all_ents:
-                        ents[ent] = []
-                    words = res["words"]
-                    tags = res["tags"]
-                    i = 0
-                    while i < len(tags):
-                        if tags[i] == "O":
+            #Extract entities
+            try:
+                res = predictor.predict(sentence=row['abstract'])
+                ents = {}
+                for ent in all_ents:
+                    ents[ent] = []
+                words = res["words"]
+                tags = res["tags"]
+                i = 0
+                while i < len(tags):
+                    if tags[i] == "O":
+                        i += 1
+                        continue
+                    if tags[i][0] == "U":
+                        ents[tags[i][2:]].append(words[i])
+                        i += 1
+                        continue
+                    if tags[i][0] == "B":
+                        ent = words[i]
+                        while (tags[i][0] != "L"):
                             i += 1
-                            continue
-                        if tags[i][0] == "U":
-                            ents[tags[i][2:]].append(words[i])
-                            i += 1
-                            continue
-                        if tags[i][0] == "B":
-                            ent = words[i]
-                            while (tags[i][0] != "L"):
-                                i += 1
-                                ent+=" " + words[i]
-                            ents[tags[i][2:]].append(ent)
-                            i += 1
-                            continue
-                    ent_texts = [list2text(ents[t]) for t in all_ents]
-                except:
-                    ent_texts = ["" for t in all_ents]
-                    print("Error in doc "+str(j)+" of "+str(pids))
+                            ent+=" " + words[i]
+                        ents[tags[i][2:]].append(ent)
+                        i += 1
+                        continue
+                ent_texts = [list2text(ents[t]) for t in all_ents]
+            except:
+                ent_texts = ["" for t in all_ents]
+                print("Error in doc "+str(j)+" of "+str(pids))
 
                 #write to csv
                 for pid in _format_pid(pids):

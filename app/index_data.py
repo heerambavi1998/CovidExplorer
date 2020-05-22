@@ -4,7 +4,7 @@ import csv
 from datetime import datetime
 from .elasticSearch import paper_namefromid
 
-def index_fulltext(es_client, metadatapath, paths, index):
+def index_fulltext(es_client, metadatapath, index):
     print("creating full-text index mapping...")
     mapping = json.load(open('app/static/json/es_fulltext_mapping.json','r'))
     response = es_client.indices.create(
@@ -21,37 +21,28 @@ def index_fulltext(es_client, metadatapath, paths, index):
         print("TYPE:", response['error']['type'])
 
     print("adding full-text index...")
-    
-    metadata_dict = {}
+
+    _, named_entity_dict = _ner_filter()
+    i = 0
+    sha_tillnow = {}
+
     with open(metadatapath, newline='') as csvfile:
         f = csv.DictReader(csvfile)
         for row in f:
-            if row['full_text_file']=='custom_license' or row['full_text_file']=='comm_use_subset' or row['full_text_file']=='noncomm_use_subset' or row['full_text_file']=='biorxiv_medrxiv':
-                if row['sha'] != '' and row['has_pdf_parse'] == 'True':
-                    for sha in _format_sha(row['sha']):
-                        metadata_dict[sha] = row
-                elif row['pmcid'] != "" and row['has_pmc_xml_parse'] == 'True':
-                    for pmc in _format_sha(row['pmcid']):
-                        metadata_dict[pmc] = row
-    _, named_entity_dict = _ner_filter()
-    i = 0
-    sha_tillnow={}
-    for path in paths:
-        print("indexing path %s" %path)
+            if row['pdf_json_files'] != '':
+                file = row['pdf_json_files']
+            elif row['pmc_json_files'] != '':
+                file = row['pmc_json_files']
+            else:
+                continue
 
-        for file in glob.glob(path):
-            doc = json.load(open(file, 'r'))
+            doc = json.load(open('data/'+file, 'r'))
             
             if doc['paper_id'] in sha_tillnow:
                 continue
 
-            try:
-                # find the paper in metadatadict
-                metadata = metadata_dict[doc['paper_id']]
-            except:
-                # error due to missing paper ID in metadatadict
-                # paper already accounted for via different format
-                continue
+            metadata = row
+
             i += 1
             # start building index doc
             b = {}
@@ -97,7 +88,7 @@ def index_authorsfromMD(es_client, filepath, index):
         f = csv.DictReader(csvfile)
         #print("csv opened")
         for row in f:
-            if row['full_text_file']=='custom_license' or row['full_text_file']=='comm_use_subset' or row['full_text_file']=='noncomm_use_subset' or row['full_text_file']=='biorxiv_medrxiv':
+            if row['pdf_json_files'] != '' or row['pmc_json_files'] != '':
                 #print("found file")
                 authors = row['authors'].split(";")
                 for a_name in authors:

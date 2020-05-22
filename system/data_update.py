@@ -68,7 +68,7 @@ if __name__ == '__main__':
     if err != '':
         print('Error in deleting fulltext index: %s' %err)
     print('Adding new fulltext index.......')
-    index_data.index_fulltext(ES_CLIENT, METADATAPATH, DATAPATHS, 'covid19_fulltext')
+    index_data.index_fulltext(ES_CLIENT, METADATAPATH, 'covid19_fulltext')
 
     print('Deleting current authors index.......')
     _, err = run('curl -XDELETE localhost:9210/covid19_authors')
