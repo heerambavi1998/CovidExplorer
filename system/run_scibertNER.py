@@ -87,16 +87,16 @@ with open(METADATAPATH, newline="") as read_file:
                 ent_texts = ["" for t in all_ents]
                 print("Error in doc "+str(j)+" of "+str(pids))
 
-                #write to csv
-                for pid in _format_pid(pids):
-                    row = [pid] + ent_texts
-                    writer.writerow(row)
+            #write to csv
+            for pid in _format_pid(pids):
+                row = [pid] + ent_texts
+                writer.writerow(row)
 
-            end = datetime.now()
-            time_taken = end-start
+        end = datetime.now()
+        time_taken = end-start
 #             print("Time: "+str(time_taken))
-            time_list.append(time_taken)
+        time_list.append(time_taken)
 
-        print("Extraction Complete...")
-        print("Average time per doc: "+str(np.mean(time_list)))
+    print("Extraction Complete...")
+    print("Average time per doc: "+str(np.mean(time_list)))
                 
