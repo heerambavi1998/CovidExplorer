@@ -149,7 +149,7 @@ def india_deaths(df):
                 labels={'Daily Cases in India'}, height=450)
     graphJSON1=json.dumps(fig,cls=plotly.utils.PlotlyJSONEncoder)                   
     graphJSON=json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
-    print(graphJSON)
+    
     return graphJSON,graphJSON1
 
 def generate_graph(df,state):
