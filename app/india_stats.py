@@ -68,21 +68,13 @@ def df2():
 
 def show_tables():
     df = pd.read_csv('statistics/india.csv')
-    x=0
-    for i in range(len(df[df.keys()[4]])):
-        try :
-            x+=int(df[df.keys()[4]][i])
-        except:
-            pass
-    # x=list(df['Death'])
-    y=0
-    for i in range(len(df[df.keys()[3]])):
-        try :
-            y+=int(df[df.keys()[3]][i])
-        except:
-            pass
-    # y=list(df['Cured/Discharged/Migrated'])
-    # print(y)
+
+    temp = list(df[df.keys()[4]])
+    x = temp[-1]
+
+    temp = list(df[df.keys()[3]])
+    y = temp[-1]
+
     return 0,x,y
     
 def india(df):
@@ -140,12 +132,12 @@ def india_deaths(df):
     newday=[]
     for i in range(len(day)):
         newday.append(day[i][0:5])
-#     print(total_count)
+    # print(total_count)
     day_count=[]
     day_count.append(total_count[0])
     for i in range(1,len(total_count)-1):
         day_count.append(total_count[i]-total_count[i-1])
-#     print(day_count,total_count)
+    # print(day_count,total_count)
     data=[go.Scatter(x=newday, y=total_count,fill='tozeroy',
                     mode='lines+ markers',
                     name='lineplot',
@@ -157,6 +149,7 @@ def india_deaths(df):
                 labels={'Daily Cases in India'}, height=450)
     graphJSON1=json.dumps(fig,cls=plotly.utils.PlotlyJSONEncoder)                   
     graphJSON=json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
+    print(graphJSON)
     return graphJSON,graphJSON1
 
 def generate_graph(df,state):
@@ -218,8 +211,8 @@ def indiastats():
     daily_c=temp[3]
     temp2=show_tables()
     tab=temp2[0]
-    deaths=temp2[1]
-    rec=temp2[2]
+    deaths=int(temp2[1])
+    rec=int(temp2[2])
     acti=total-deaths-rec
     closed=rec+deaths
     recper=math.ceil(rec/closed*100)
@@ -245,5 +238,3 @@ def indiastats():
                             plot20=line20,plot21=line21,plot27=line27,plot28=line28,plot29=line29,plot30=line30,plot32=line32,
                             plot34=line34,totals=total,dead=deaths,recover=rec,active=acti,close=closed,recper=recper,
                             deadper=deadper)
-
-
