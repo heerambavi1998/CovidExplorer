@@ -30,53 +30,53 @@ def index_fulltext(es_client, metadatapath, index):
         f = csv.DictReader(csvfile)
         for row in f:
             if row['pdf_json_files'] != '':
-                file = row['pdf_json_files']
+                files = row['pdf_json_files']
             elif row['pmc_json_files'] != '':
-                file = row['pmc_json_files']
+                files = row['pmc_json_files']
             else:
                 continue
+            for file in _format_sha(files):
+                doc = json.load(open('data/'+file, 'r'))
 
-            doc = json.load(open('data/'+file, 'r'))
-            
-            if doc['paper_id'] in sha_tillnow:
-                continue
+                if doc['paper_id'] in sha_tillnow:
+                    continue
 
-            metadata = row
+                metadata = row
 
-            i += 1
-            # start building index doc
-            b = {}
-            b['paper_id'] = doc['paper_id']
-            sha_tillnow[doc['paper_id']] = 1
-            b['title'] = doc["metadata"]["title"]
+                i += 1
+                # start building index doc
+                b = {}
+                b['paper_id'] = doc['paper_id']
+                sha_tillnow[doc['paper_id']] = 1
+                b['title'] = doc["metadata"]["title"]
 
-            # abst = ""
-            # for para in doc['abstract']:
-            #     abst += para['text']
-            #     abst += '\n'
-            # b['abstract'] = abst
+                # abst = ""
+                # for para in doc['abstract']:
+                #     abst += para['text']
+                #     abst += '\n'
+                # b['abstract'] = abst
 
-            body = ""
-            for para in doc['body_text']:
-                body += para['text']
-                body += '\n'
-            b['body_text'] = body
+                body = ""
+                for para in doc['body_text']:
+                    body += para['text']
+                    body += '\n'
+                b['body_text'] = body
 
-            # adding metadata to doc
-            b['abstract'] = metadata['abstract']
-            b['doi'] = metadata['doi']
-            b['url'] = metadata['url']
-            b['publish_time'] = metadata['publish_time']
-            b['journal'] = metadata['journal']
-            b['authors'] = _format_sha(metadata['authors'])
+                # adding metadata to doc
+                b['abstract'] = metadata['abstract']
+                b['doi'] = metadata['doi']
+                b['url'] = metadata['url']
+                b['publish_time'] = metadata['publish_time']
+                b['journal'] = metadata['journal']
+                b['authors'] = _format_sha(metadata['authors'])
 
-            # adding named entities
-            b['named_entities'] = named_entity_dict[doc['paper_id']]
-            
+                # adding named entities
+                b['named_entities'] = named_entity_dict[doc['paper_id']]
 
-            es_client.index(index=index,
-                        id=i,
-                        body=b)
+
+                es_client.index(index=index,
+                            id=i,
+                            body=b)
             
     return
 
