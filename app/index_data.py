@@ -4,7 +4,7 @@ import csv
 from datetime import datetime
 from .elasticSearch import paper_namefromid
 
-def index_fulltext(es_client, metadatapath, paths, index):
+def index_fulltext(es_client, metadatapath, index):
     print("creating full-text index mapping...")
     mapping = json.load(open('app/static/json/es_fulltext_mapping.json','r'))
     response = es_client.indices.create(
@@ -21,71 +21,62 @@ def index_fulltext(es_client, metadatapath, paths, index):
         print("TYPE:", response['error']['type'])
 
     print("adding full-text index...")
-    
-    metadata_dict = {}
+
+    _, named_entity_dict = _ner_filter()
+    i = 0
+    sha_tillnow = {}
+
     with open(metadatapath, newline='') as csvfile:
         f = csv.DictReader(csvfile)
         for row in f:
-            if row['full_text_file']=='custom_license' or row['full_text_file']=='comm_use_subset' or row['full_text_file']=='noncomm_use_subset' or row['full_text_file']=='biorxiv_medrxiv':
-                if row['sha'] != '' and row['has_pdf_parse'] == 'True':
-                    for sha in _format_sha(row['sha']):
-                        metadata_dict[sha] = row
-                elif row['pmcid'] != "" and row['has_pmc_xml_parse'] == 'True':
-                    for pmc in _format_sha(row['pmcid']):
-                        metadata_dict[pmc] = row
-    _, named_entity_dict = _ner_filter()
-    i = 0
-    sha_tillnow={}
-    for path in paths:
-        print("indexing path %s" %path)
-
-        for file in glob.glob(path):
-            doc = json.load(open(file, 'r'))
-            
-            if doc['paper_id'] in sha_tillnow:
+            if row['pdf_json_files'] != '':
+                files = row['pdf_json_files']
+            elif row['pmc_json_files'] != '':
+                files = row['pmc_json_files']
+            else:
                 continue
+            for file in _format_sha(files):
+                doc = json.load(open('data/'+file, 'r'))
 
-            try:
-                # find the paper in metadatadict
-                metadata = metadata_dict[doc['paper_id']]
-            except:
-                # error due to missing paper ID in metadatadict
-                # paper already accounted for via different format
-                continue
-            i += 1
-            # start building index doc
-            b = {}
-            b['paper_id'] = doc['paper_id']
-            sha_tillnow[doc['paper_id']] = 1
-            b['title'] = doc["metadata"]["title"]
+                if doc['paper_id'] in sha_tillnow:
+                    continue
 
-            # abst = ""
-            # for para in doc['abstract']:
-            #     abst += para['text']
-            #     abst += '\n'
-            # b['abstract'] = abst
+                metadata = row
 
-            body = ""
-            for para in doc['body_text']:
-                body += para['text']
-                body += '\n'
-            b['body_text'] = body
+                i += 1
+                # start building index doc
+                b = {}
+                b['paper_id'] = doc['paper_id']
+                sha_tillnow[doc['paper_id']] = 1
+                b['title'] = doc["metadata"]["title"]
 
-            # adding metadata to doc
-            b['abstract'] = metadata['abstract']
-            b['doi'] = metadata['doi']
-            b['url'] = metadata['url']
-            b['publish_time'] = metadata['publish_time']
-            b['journal'] = metadata['journal']
-            b['authors'] = _format_sha(metadata['authors'])
+                # abst = ""
+                # for para in doc['abstract']:
+                #     abst += para['text']
+                #     abst += '\n'
+                # b['abstract'] = abst
 
-            # adding named entities
-            b['named_entities'] = named_entity_dict[doc['paper_id']]
-            
+                body = ""
+                for para in doc['body_text']:
+                    body += para['text']
+                    body += '\n'
+                b['body_text'] = body
 
-            es_client.index(index=index,
-                        id=i,
-                        body=b)
+                # adding metadata to doc
+                b['abstract'] = metadata['abstract']
+                b['doi'] = metadata['doi']
+                b['url'] = metadata['url']
+                b['publish_time'] = metadata['publish_time']
+                b['journal'] = metadata['journal']
+                b['authors'] = _format_sha(metadata['authors'])
+
+                # adding named entities
+                b['named_entities'] = named_entity_dict[doc['paper_id']]
+
+
+                es_client.index(index=index,
+                            id=i,
+                            body=b)
             
     return
 
@@ -97,7 +88,7 @@ def index_authorsfromMD(es_client, filepath, index):
         f = csv.DictReader(csvfile)
         #print("csv opened")
         for row in f:
-            if row['full_text_file']=='custom_license' or row['full_text_file']=='comm_use_subset' or row['full_text_file']=='noncomm_use_subset' or row['full_text_file']=='biorxiv_medrxiv':
+            if row['pdf_json_files'] != '' or row['pmc_json_files'] != '':
                 #print("found file")
                 authors = row['authors'].split(";")
                 for a_name in authors:
