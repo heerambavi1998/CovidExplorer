@@ -14,13 +14,14 @@
                 <div class="row">
 
                     <div class="col-lg-10 author-info offset-lg-1">
-                        <h2 style="margin-left: 0px; margin-top: 50px; text-align: center">Named Entities</h2>
+                        <h2 style="margin-left: 0px; margin-top: 50px; text-align: center">Bio Entities</h2>
 
                         <div style="margin-top: 50px;" class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                            <a href="/ner_all" type="button" class="btn btn-outline-secondary mr-1">All Entities
+                            <a href="/ner_all" style="padding-top: 5px;" type="button" class="btn btn-outline-secondary mr-1">All Entities
                             </a>
+                            <br>
                             {% for key,value in ent_types.items() %}
-                            <a href="/ner_all/{{key}}" type="button" class="btn btn-outline-secondary mr-1" onclick="filterby(this)">{{value}}
+                            <a href="/ner_all/{{key}}" style="padding-top: 5px;" type="button" class="btn btn-outline-secondary mr-1" onclick="filterby(this)">{{value}}
                             </a>
                             {% endfor %}
                         </div>
