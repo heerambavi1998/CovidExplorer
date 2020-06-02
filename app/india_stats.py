@@ -36,7 +36,7 @@ def df2():
         col.append((name,[]))
     for j in range(1,len(tr_elements)):
         T=tr_elements[j]
-        if len(T)!=5:
+        if len(T)!=6:
             continue
         i=0
         for t in T.iterchildren():
@@ -69,12 +69,21 @@ def df2():
 def show_tables():
     df = pd.read_csv('statistics/india.csv')
 
-    temp = list(df[df.keys()[4]])
-    x = temp[-1]
-
-    temp = list(df[df.keys()[3]])
-    y = temp[-1]
-
+    x=0
+    for i in range(len(df[df.keys()[4]])-2):
+        try :
+            x+=int(df[df.keys()[4]][i])
+        except:
+            pass
+    # x=list(df['Death'])
+    y=0
+    for i in range(len(df[df.keys()[3]])-2):
+        try :
+            y+=int(df[df.keys()[3]][i])
+        except:
+            pass
+    # y=list(df['Cured/Discharged/Migrated'])
+    # print(y)
     return 0,x,y
     
 def india(df):
