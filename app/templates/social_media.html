@@ -239,31 +239,31 @@
 
       series.data = [{
                         "tag": "#coronavirus",
-                        "weight": 50672
-                      }, {
-                        "tag": "#nomeat_nocoronavirus",
-                        "weight": 18041
-                      }, {
-                        "tag": "#wuhan",
-                        "weight": 14111
+                        "weight": 106411
                       }, {
                         "tag": "#china",
-                        "weight": 11624
+                        "weight": 25677
+                      }, {
+                        "tag": "#wuhan",
+                        "weight": 18814
+                      }, {
+                        "tag": "#nomeat_nocoronavirus",
+                        "weight": 18519
+                      }, {
+                        "tag": "#covid19",
+                        "weight": 14442
                       }, {
                         "tag": "#coronavirusoutbreak",
-                        "weight": 5316
+                        "weight": 4194
                       }, {
                         "tag": "#india",
-                        "weight": 3734
+                        "weight": 9670
                       }, {
                         "tag": "#coronavirusindia",
-                        "weight": 2767
-                      }, {
-                        "tag": "#airindia",
-                        "weight": 2565
+                        "weight": 4194
                       }, {
                         "tag": "#coronaviruschina",
-                        "weight": 1928
+                        "weight": 3278
                       }];
       series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
       series.dataFields.word = "tag";
@@ -456,39 +456,45 @@
       var chart = am4core.create("mentions_feb", am4plugins_wordCloud.WordCloud);
       var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
 
-      series.data = [{
-                        "tag": "@askanshul",
-                        "weight": 6306
+      series.data = [    {
+                        "tag": "@realdonaldtrump",
+                        "weight": 12892
                       }, {
-                        "tag": "@ani",
-                        "weight": 5621
+                        "tag": "@spectatorindex",
+                        "weight": 10768
                       }, {
                         "tag": "@narendramodi",
-                        "weight": 5007
+                        "weight": 9385
                       }, {
-                        "tag": "@majorgauravarya",
-                        "weight": 4038
-                      }, {
-                        "tag": "@drsjaishankar",
-                        "weight": 4018
-                      }, {
-                        "tag": "@majorpoonia",
-                        "weight": 3692
-                      }, {
-                        "tag": "@shefvaidya",
-                        "weight": 3493
-                      }, {
-                        "tag": "@imrankhanpti",
-                        "weight": 3332
-                      }, {
-                        "tag": "@sneheshphilip",
-                        "weight": 3324
-                      }, {
-                        "tag": "@ashoswai",
-                        "weight": 3315
+                        "tag": "@ani",
+                        "weight": 9378
                       }, {
                         "tag": "@who",
-                        "weight": 3189
+                        "weight": 8166
+                      }, {
+                        "tag": "@askanshul",
+                        "weight": 6639
+                      }, {
+                        "tag": "@majorgauravarya",
+                        "weight": 6636
+                      }, {
+                        "tag": "@drsjaishankar",
+                        "weight": 5742
+                      }, {
+                        "tag": "@rahulgandhi",
+                        "weight": 5114
+                      }, {
+                        "tag": "@imrankhanpti",
+                        "weight": 4779
+                      }, {
+                        "tag": "@swamy39",
+                        "weight": 4714
+                      }, {
+                        "tag": "@timesofindia",
+                        "weight": 4604
+                      }, {
+                        "tag": "@pmoindia",
+                        "weight": 4516
                       }];
       series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
       series.dataFields.word = "tag";
@@ -679,22 +685,22 @@
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
     series.data = [{
       "tag": "Delhi",
-      "weight": 22441
+      "weight": 45417
     }, {
       "tag": "Mumbai",
-      "weight": 13479
+      "weight": 28827
     }, {
       "tag": "Bengaluru",
-      "weight": 10293
-    }, {
-      "tag": "Chennai",
-      "weight": 5220
+      "weight": 21560
     }, {
       "tag": "Hyderabad",
-      "weight": 5851
+      "weight": 11916
+    }, {
+      "tag": "Chennai",
+      "weight": 10690
     }, {
       "tag": "Pune",
-      "weight": 3495
+      "weight": 7116
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
@@ -850,24 +856,31 @@
     am4core.useTheme(am4themes_animated);
     var chart = am4core.create("domains_feb", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
-    series.data = [{
+    series.data = [
+    {
+      "tag": "dlvr.it",
+      "weight": 4177
+    }, {
       "tag": "toi",
-      "weight": 1744
+      "weight": 3691
     }, {
       "tag": "youtube",
-      "weight": 1455
-    }, {
-      "tag": "dlvr.it",
-      "weight": 1620
-    }, {
-      "tag": "ndtv",
-      "weight": 1195
+      "weight": 3634
     }, {
       "tag": "indiatimes",
-      "weight": 1349
+      "weight": 3333
+    }, {
+      "tag": "ift",
+      "weight": 2443
+    }, {
+      "tag": "reut",
+      "weight": 2414
     }, {
       "tag": "hindustantimes",
-      "weight": 1119
+      "weight": 2410
+    }, {
+      "tag": "ndtv",
+      "weight": 2112
     }];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
