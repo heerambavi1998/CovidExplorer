@@ -88,7 +88,7 @@ def get_metadata_numbers():
         if 'SUMMARY' in lines[line]:
             i = line
     last_update = lines[i:]
-    papers = ['biorxiv_medrxiv', 'comm_use_subset', 'custom_license', 'noncomm_use_subset']
+    papers = ['biorxiv_medrxiv', 'comm_use_subset', 'custom_license', 'noncomm_use_subset','Full text']
     d = {}
     for paper in papers:
         for line in range(len(last_update)):
