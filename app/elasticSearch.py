@@ -5,7 +5,7 @@ from operator import itemgetter
 def paper_es(paper_name):
     res =es.search(index="covid19_fulltext",body={
         "from":0,
-        "size":100,
+        "size":10000,
         "query":{
             "match":{
                 "title":{
@@ -31,7 +31,7 @@ def paper_es(paper_name):
 def paper_filteryr(paper_name,yr_s,yr_e):
     res = es.search(index="covid19_fulltext", body={
         "from":0,
-        "size":100,
+        "size":10000,
         "query":{
             "bool":{
                 "must":[{
@@ -123,7 +123,7 @@ def paper_namefromid(pid):
 def fulltextsearch(search_item):
     res = es.search(index='covid19_fulltext', body={
         'from': 0,
-        'size': 100,
+        'size': 10000,
         'query': {
             'multi_match': {
                 'query': search_item,
@@ -148,7 +148,7 @@ def fulltextsearch(search_item):
 def fulltextsearch_filteryr(search_item, yr_s, yr_e):
     res = es.search(index="covid19_fulltext", body={
         'from':0,
-        'size':100,
+        'size':10000,
         'query':{
             'bool':{
                 'must':[
