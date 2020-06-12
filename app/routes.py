@@ -113,7 +113,7 @@ def get_html_year_filter():
         ordered_ents_protein = top_ents_results(papers_filt,'ner_protein')
         ordered_ents_cellline = top_ents_results(papers_filt,'ner_cell_line')
         ordered_ents_celltype = top_ents_results(papers_filt,'ner_cell_type')
-        ordered_ents_disease = top_ents_results(papers,'ner_disease')
+        ordered_ents_disease = top_ents_results(papers_filt,'ner_disease')
         return render_template('filter_results.html', 
                                 items=paper_data,
                                 ched = ordered_ents_ched.keys(),
@@ -133,7 +133,7 @@ def get_html_year_filter():
         ordered_ents_protein = top_ents_results(papers_filt,'ner_protein')
         ordered_ents_cellline = top_ents_results(papers_filt,'ner_cell_line')
         ordered_ents_celltype = top_ents_results(papers_filt,'ner_cell_type')
-        ordered_ents_disease = top_ents_results(papers,'ner_disease')
+        ordered_ents_disease = top_ents_results(papers_filt,'ner_disease')
         return render_template('filter_results.html', 
                                 items=paper_data,
                                 ched = ordered_ents_ched.keys(),
