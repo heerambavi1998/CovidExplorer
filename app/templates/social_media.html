@@ -99,7 +99,7 @@
 
 <div class="w3-row-padding w3-center w3-margin-top">
   <div class="w3-half">  
-    <div class="w3-card btn" style="margin-top: 100px;">
+    <div class="w3-card btn" style="margin-top: 2s00px;">
       <h2>Top Locations Every Month</h2>
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
@@ -110,10 +110,10 @@
     </div>
   </div>
   <div class="w3-half">
-    <div class="w3-card w3-container cloud" id="locations_jan" style="min-height:460px"></div>
-    <div class="w3-card w3-container cloud" id="locations_feb" style="min-height:460px; display: none;"></div>
-    <div class="w3-card w3-container cloud" id="locations_mar" style="min-height:460px; display: none;"></div>
-    <div class="w3-card w3-container cloud" id="locations_apr" style="min-height:460px; display: none;"></div>
+    <div class="w3-card w3-container cloud" id="locations_jan" style="min-height:460px; height: 600px; width: 600px;"></div>
+    <div class="w3-card w3-container cloud" id="locations_feb" style="min-height:460px; height: 600px; width: 600px;display: none;"></div>
+    <div class="w3-card w3-container cloud" id="locations_mar" style="min-height:460px; height: 600px; width: 600px;display: none;"></div>
+    <div class="w3-card w3-container cloud" id="locations_apr" style="min-height:460px; height: 600px; width: 600px;display: none;"></div>
   </div>
 </div> 
 
@@ -132,7 +132,7 @@
     </div>
   </div>
   <div class="w3-half">
-    <div class="w3-card w3-container cloud" id="domains_jan" style="min-height:460px"></div>
+    <div class="w3-card w3-container cloud" id="domains_jan" style="min-height:460px;"></div>
     <div class="w3-card w3-container cloud" id="domains_feb" style="min-height:460px; display: none;"></div>
     <div class="w3-card w3-container cloud" id="domains_mar" style="min-height:460px; display: none;"></div>
     <div class="w3-card w3-container cloud" id="domains_apr" style="min-height:460px; display: none;"></div>
@@ -150,6 +150,9 @@
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
 <script src="https://www.amcharts.com/lib/4/plugins/wordCloud.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://www.amcharts.com/lib/4/maps.js"></script>
+<script src="https://www.amcharts.com/lib/4/geodata/indiaLow.js"></script>
+
 
 <!--------------------------------------------------------------------------------------------------->
 
@@ -630,7 +633,7 @@
 <!--LOCATIONS-->
 <!--January-->
 <script>
-  function loc_jan(){
+    function loc_jan(){
     document.getElementById("locations_jan").style.display = "block";
     document.getElementById("locations_feb").style.display = "none";
     document.getElementById("locations_mar").style.display = "none";
@@ -639,33 +642,88 @@
     document.getElementById("loc_feb").classList.remove("active")
     document.getElementById("loc_mar").classList.remove("active")
     document.getElementById("loc_apr").classList.remove("active")
-    am4core.useTheme(am4themes_animated);
-    am4core.useTheme(am4themes_animated);
-    var chart = am4core.create("locations_jan", am4plugins_wordCloud.WordCloud);
-    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
-    series.data = [{
-      "tag": "Delhi",
-      "weight": 19350
-    }, {
-      "tag": "Mumbai",
-      "weight": 12568
-    }, {
-      "tag": "Bengaluru",
-      "weight": 8753
-    }, {
-      "tag": "Chennai",
-      "weight": 5874
-    }, {
-      "tag": "Hyderabad",
-      "weight": 5470
-    }, {
-      "tag": "Pune",
-      "weight": 2707
-    }];
-    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
-    series.dataFields.word = "tag";
-    series.dataFields.value = "weight";
-  }
+am4core.useTheme(am4themes_animated);
+var chart = am4core.create("locations_jan", am4maps.MapChart);
+var title = chart.titles.create();
+title.text = "[bold font-size: 20]Twitter Activity Distrubtion in India[/]";
+title.textAlign = "middle";
+
+var mapData = [
+{ "id":"IN-MH", "name":"Maharashtra", "value":5243, "color":chart.colors.getIndex(11) },
+  { "id":"IN-UP", "name":"Uttar Pradesh", "value":4423, "color":chart.colors.getIndex(13) },
+  { "id":"IN-GJ", "name":"Gujarat", "value":2558, "color": chart.colors.getIndex(10) },
+  { "id":"IN-TG", "name":"Telangana", "value":5967, "color":chart.colors.getIndex(12) },
+  { "id":"IN-JH", "name":"Jharkhand", "value":615, "color":chart.colors.getIndex(11) },
+  { "id":"IN-AS", "name":"Assam", "value":811, "color": chart.colors.getIndex(10) },
+  { "id":"IN-AP", "name":"Andhra Pradesh", "value":1476, "color":chart.colors.getIndex(11) },
+  { "id":"IN-AR", "name":"Arunachal Pradesh", "value":34, "color":chart.colors.getIndex(12) },
+  { "id":"IN-AN", "name":"Andaman and Nicobar Islands", "value":24, "color":chart.colors.getIndex(12) },
+  { "id":"IN-BR", "name":"Bihar", "value":1627, "color":chart.colors.getIndex(12) },
+  { "id":"IN-CH", "name":"Chandigarh", "value":2377, "color":chart.colors.getIndex(13) },
+  { "id":"IN-CT", "name":"Chhattisgarh", "value":452, "color":chart.colors.getIndex(11) },
+  //{ "id":"IN-DD", "name":"Daman and Diu", "value":22605732, "color":"#8aabb0" },
+  { "id":"IN-DN", "name":"Dadra and Nagar Haveli", "value":16, "color":"#8aabb0" },
+  { "id":"IN-DL", "name":"Delhi", "value":23778, "color":chart.colors.getIndex(11) },
+  { "id":"IN-GA", "name":"Goa", "value":685, "color":chart.colors.getIndex(11) },
+  { "id":"IN-HP", "name":"Himachal Pradesh", "value":261, "color": chart.colors.getIndex(10) },
+  { "id":"IN-HR", "name":"Haryana", "value":1885, "color":chart.colors.getIndex(11) },
+  { "id":"IN-JK", "name":"Jammu and Kashmir", "value":582, "color":chart.colors.getIndex(12) },
+  { "id":"IN-KA", "name":"Karnataka", "value":6622, "color": chart.colors.getIndex(10) },
+  { "id":"IN-KL", "name":"Kerela", "value":1747, "color":chart.colors.getIndex(13) },
+  { "id":"IN-ML", "name":"Meghalaya", "value":88, "color":chart.colors.getIndex(12) },
+  { "id":"IN-MN", "name":"Manipur", "value":142, "color":chart.colors.getIndex(13) },
+  { "id":"IN-MP", "name":"Madhya Pradesh", "value":1570, "color": chart.colors.getIndex(10) },
+  { "id":"IN-MZ", "name":"Mizoram", "value":127, "color":chart.colors.getIndex(11) },
+  { "id":"IN-NL", "name":"Nagaland", "value":182, "color":chart.colors.getIndex(12) },
+  { "id":"IN-OR", "name":"Odisha", "value":434, "color":chart.colors.getIndex(12) },
+  { "id":"IN-PB", "name":"Punjab", "value":914, "color": chart.colors.getIndex(10) },
+  { "id":"IN-PY", "name":"Puducherry", "value":174, "color": chart.colors.getIndex(10) },
+  { "id":"IN-RJ", "name":"Rajasthan", "value":1659, "color":chart.colors.getIndex(12) },
+  //{ "id":"IN-SK", "name":"Sikkim", "value":34349561, "color":chart.colors.getIndex(14) },
+  { "id":"IN-TN", "name":"Tamil Nadu", "value":9530, "color":chart.colors.getIndex(12) },
+  { "id":"IN-TR", "name":"Tripura", "value":200, "color":chart.colors.getIndex(12) },
+  { "id":"IN-UT", "name":"Uttarakhand", "value":492, "color": chart.colors.getIndex(10) },
+  { "id":"IN-WB", "name":"West Bengal", "value":3216, "color": chart.colors.getIndex(10) },
+];
+
+chart.geodata = am4geodata_indiaLow;
+chart.projection = new am4maps.projections.Miller();
+var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+polygonSeries.useGeodata = true;
+polygonSeries.nonScalingStroke = true;
+polygonSeries.strokeWidth = 0.5;
+polygonSeries.calculateVisualCenter = true;
+var imageSeries = chart.series.push(new am4maps.MapImageSeries());
+imageSeries.data = mapData;
+imageSeries.dataFields.value = "value";
+var imageTemplate = imageSeries.mapImages.template;
+imageTemplate.nonScaling = true
+var circle = imageTemplate.createChild(am4core.Circle);
+circle.fillOpacity = 0.7;
+circle.propertyFields.fill = "color";
+circle.tooltipText = "{name}: [bold]{value}[/]";
+imageSeries.heatRules.push({
+  "target": circle,
+  "property": "radius",
+  "min": 8,
+  "max": 30,
+  "dataField": "value",
+})
+imageTemplate.adapter.add("latitude", function(latitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLatitude;
+   }
+   return latitude;
+})
+imageTemplate.adapter.add("longitude", function(longitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLongitude;
+   }
+   return longitude;
+})
+}
 </script>
 
 <!--February-->
@@ -680,31 +738,86 @@
     document.getElementById("loc_mar").classList.remove("active")
     document.getElementById("loc_apr").classList.remove("active")
     am4core.useTheme(am4themes_animated);
-    am4core.useTheme(am4themes_animated);
-    var chart = am4core.create("locations_feb", am4plugins_wordCloud.WordCloud);
-    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
-    series.data = [{
-      "tag": "Delhi",
-      "weight": 45417
-    }, {
-      "tag": "Mumbai",
-      "weight": 28827
-    }, {
-      "tag": "Bengaluru",
-      "weight": 21560
-    }, {
-      "tag": "Hyderabad",
-      "weight": 11916
-    }, {
-      "tag": "Chennai",
-      "weight": 10690
-    }, {
-      "tag": "Pune",
-      "weight": 7116
-    }];
-    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
-    series.dataFields.word = "tag";
-    series.dataFields.value = "weight";
+var chart = am4core.create("locations_feb", am4maps.MapChart);
+var title = chart.titles.create();
+title.text = "[bold font-size: 20]Twitter Activity Distrubtion in India[/]";
+title.textAlign = "middle";
+
+var mapData = [
+  { "id":"IN-AS", "name":"Assam", "value":104, "color": chart.colors.getIndex(10) },
+  { "id":"IN-AP", "name":"Andhra Pradesh", "value":2340, "color":chart.colors.getIndex(11) },
+  { "id":"IN-AR", "name":"Arunachal Pradesh", "value":104, "color":chart.colors.getIndex(12) },
+  { "id":"IN-AN", "name":"Andaman and Nicobar Islands", "value":20, "color":chart.colors.getIndex(12) },
+  { "id":"IN-BR", "name":"Bihar", "value":4279, "color":chart.colors.getIndex(12) },
+  { "id":"IN-CH", "name":"Chandigarh", "value":5619, "color":chart.colors.getIndex(13) },
+  { "id":"IN-CT", "name":"Chhattisgarh", "value":1668, "color":chart.colors.getIndex(11) },
+  { "id":"IN-DN", "name":"Dadra and Nagar Haveli", "value":55, "color":"#8aabb0" },
+  //{ "id":"IN-DD", "name":"Daman and Diu", "value":22605732, "color":"#8aabb0" },
+  { "id":"IN-DL", "name":"Delhi", "value":56160, "color":chart.colors.getIndex(11) },
+  { "id":"IN-GA", "name":"Goa", "value":1584, "color":chart.colors.getIndex(11) },
+  { "id":"IN-HP", "name":"Himachal Pradesh", "value":1423, "color": chart.colors.getIndex(10) },
+  { "id":"IN-GJ", "name":"Gujarat", "value":6720, "color": chart.colors.getIndex(10) },
+  { "id":"IN-HR", "name":"Haryana", "value":12206, "color":chart.colors.getIndex(11) },
+  { "id":"IN-JH", "name":"Jharkhand", "value":1563, "color":chart.colors.getIndex(11) },
+  { "id":"IN-JK", "name":"Jammu and Kashmir", "value":1405, "color":chart.colors.getIndex(12) },
+  { "id":"IN-KA", "name":"Karnataka", "value":15487, "color": chart.colors.getIndex(10) },
+  { "id":"IN-KL", "name":"Kerela", "value":3061, "color":chart.colors.getIndex(13) },
+  { "id":"IN-MH", "name":"Maharashtra", "value":13729, "color":chart.colors.getIndex(11) },
+  { "id":"IN-ML", "name":"Meghalaya", "value":109, "color":chart.colors.getIndex(12) },
+  { "id":"IN-MN", "name":"Manipur", "value":301, "color":chart.colors.getIndex(13) },
+  { "id":"IN-MP", "name":"Madhya Pradesh", "value":5919, "color": chart.colors.getIndex(10) },
+  { "id":"IN-MZ", "name":"Mizoram", "value":271, "color":chart.colors.getIndex(11) },
+  { "id":"IN-NL", "name":"Nagaland", "value":332, "color":chart.colors.getIndex(12) },
+  { "id":"IN-OR", "name":"Odisha", "value":1088, "color":chart.colors.getIndex(12) },
+  { "id":"IN-PB", "name":"Punjab", "value":2451, "color": chart.colors.getIndex(10) },
+  { "id":"IN-PY", "name":"Puducherry", "value":325, "color": chart.colors.getIndex(10) },
+  { "id":"IN-RJ", "name":"Rajasthan", "value":5334, "color":chart.colors.getIndex(12) },
+  //{ "id":"IN-SK", "name":"Sikkim", "value":34349561, "color":chart.colors.getIndex(14) },
+  { "id":"IN-TG", "name":"Telangana", "value":12798, "color":chart.colors.getIndex(12) },
+  { "id":"IN-TN", "name":"Tamil Nadu", "value":17762, "color":chart.colors.getIndex(12) },
+  { "id":"IN-TR", "name":"Tripura", "value":624, "color":chart.colors.getIndex(12) },
+  { "id":"IN-UP", "name":"Uttar Pradesh", "value":11419, "color":chart.colors.getIndex(13) },
+  { "id":"IN-UT", "name":"Uttarakhand", "value":1671, "color": chart.colors.getIndex(10) },
+  { "id":"IN-WB", "name":"West Bengal", "value":7387, "color": chart.colors.getIndex(10) },
+];
+
+chart.geodata = am4geodata_indiaLow;
+chart.projection = new am4maps.projections.Miller();
+var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+polygonSeries.useGeodata = true;
+polygonSeries.nonScalingStroke = true;
+polygonSeries.strokeWidth = 0.5;
+polygonSeries.calculateVisualCenter = true;
+var imageSeries = chart.series.push(new am4maps.MapImageSeries());
+imageSeries.data = mapData;
+imageSeries.dataFields.value = "value";
+var imageTemplate = imageSeries.mapImages.template;
+imageTemplate.nonScaling = true
+var circle = imageTemplate.createChild(am4core.Circle);
+circle.fillOpacity = 0.7;
+circle.propertyFields.fill = "color";
+circle.tooltipText = "{name}: [bold]{value}[/]";
+imageSeries.heatRules.push({
+  "target": circle,
+  "property": "radius",
+  "min": 8,
+  "max": 30,
+  "dataField": "value",
+})
+imageTemplate.adapter.add("latitude", function(latitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLatitude;
+   }
+   return latitude;
+})
+imageTemplate.adapter.add("longitude", function(longitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLongitude;
+   }
+   return longitude;
+})
   }
 </script>
 
@@ -720,34 +833,86 @@
     document.getElementById("loc_mar").classList.add("active")
     document.getElementById("loc_apr").classList.remove("active")
     am4core.useTheme(am4themes_animated);
-    am4core.useTheme(am4themes_animated);
-    var chart = am4core.create("locations_mar", am4plugins_wordCloud.WordCloud);
-    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
-    series.data = [{
-      "tag": "Delhi",
-      "weight": 87713
-    }, {
-      "tag": "Mumbai",
-      "weight": 58655
-    }, {
-      "tag": "Bengaluru",
-      "weight": 39538
-    }, {
-      "tag": "Hyderabad",
-      "weight": 31139
-    }, {
-      "tag": "Chennai",
-      "weight": 21508
-    }, {
-      "tag": "Pune",
-      "weight": 15264
-    }, {
-      "tag": "Kolkata",
-      "weight": 7419
-    }];
-    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
-    series.dataFields.word = "tag";
-    series.dataFields.value = "weight";
+var chart = am4core.create("locations_mar", am4maps.MapChart);
+var title = chart.titles.create();
+title.text = "[bold font-size: 20]Twitter Activity Distrubtion in India[/]";
+title.textAlign = "middle";
+
+var mapData = [
+  { "id":"IN-AS", "name":"Assam", "value":3833, "color": chart.colors.getIndex(10) },
+  { "id":"IN-AP", "name":"Andhra Pradesh", "value":10713, "color":chart.colors.getIndex(11) },
+  { "id":"IN-AR", "name":"Arunachal Pradesh", "value":121, "color":chart.colors.getIndex(12) },
+  { "id":"IN-AN", "name":"Andaman and Nicobar Islands", "value":67, "color":chart.colors.getIndex(12) },
+  { "id":"IN-BR", "name":"Bihar", "value":10932, "color":chart.colors.getIndex(12) },
+  { "id":"IN-CH", "name":"Chandigarh", "value":9185, "color":chart.colors.getIndex(13) },
+  { "id":"IN-CT", "name":"Chhattisgarh", "value":2478, "color":chart.colors.getIndex(11) },
+  { "id":"IN-DN", "name":"Dadra and Nagar Haveli", "value":123, "color":"#8aabb0" },
+  //{ "id":"IN-DD", "name":"Daman and Diu", "value":22605732, "color":"#8aabb0" },
+  { "id":"IN-DL", "name":"Delhi", "value":109463, "color":chart.colors.getIndex(11) },
+  { "id":"IN-GA", "name":"Goa", "value":2827, "color":chart.colors.getIndex(11) },
+  { "id":"IN-HP", "name":"Himachal Pradesh", "value":1786, "color": chart.colors.getIndex(10) },
+  { "id":"IN-GJ", "name":"Gujarat", "value":16498, "color": chart.colors.getIndex(10) },
+  { "id":"IN-HR", "name":"Haryana", "value":14499, "color":chart.colors.getIndex(11) },
+  { "id":"IN-JH", "name":"Jharkhand", "value":3553, "color":chart.colors.getIndex(11) },
+  { "id":"IN-JK", "name":"Jammu and Kashmir", "value":5009, "color":chart.colors.getIndex(12) },
+  { "id":"IN-KA", "name":"Karnataka", "value":31929, "color": chart.colors.getIndex(10) },
+  { "id":"IN-KL", "name":"Kerela", "value":4926, "color":chart.colors.getIndex(13) },
+  { "id":"IN-MH", "name":"Maharashtra", "value":29842, "color":chart.colors.getIndex(11) },
+  { "id":"IN-ML", "name":"Meghalaya", "value":194, "color":chart.colors.getIndex(12) },
+  { "id":"IN-MN", "name":"Manipur", "value":416, "color":chart.colors.getIndex(13) },
+  { "id":"IN-MP", "name":"Madhya Pradesh", "value":10444, "color": chart.colors.getIndex(10) },
+  { "id":"IN-MZ", "name":"Mizoram", "value":286, "color":chart.colors.getIndex(11) },
+  { "id":"IN-NL", "name":"Nagaland", "value":495, "color":chart.colors.getIndex(12) },
+  { "id":"IN-OR", "name":"Odisha", "value":2779, "color":chart.colors.getIndex(12) },
+  { "id":"IN-PB", "name":"Punjab", "value":5934, "color": chart.colors.getIndex(10) },
+  { "id":"IN-PY", "name":"Puducherry", "value":906, "color": chart.colors.getIndex(10) },
+  { "id":"IN-RJ", "name":"Rajasthan", "value":12575, "color":chart.colors.getIndex(12) },
+  //{ "id":"IN-SK", "name":"Sikkim", "value":34349561, "color":chart.colors.getIndex(14) },
+  { "id":"IN-TG", "name":"Telangana", "value":34366, "color":chart.colors.getIndex(12) },
+  { "id":"IN-TN", "name":"Tamil Nadu", "value":33705, "color":chart.colors.getIndex(12) },
+  { "id":"IN-TR", "name":"Tripura", "value":1145, "color":chart.colors.getIndex(12) },
+  { "id":"IN-UP", "name":"Uttar Pradesh", "value":26384, "color":chart.colors.getIndex(13) },
+  { "id":"IN-UT", "name":"Uttarakhand", "value":4296, "color": chart.colors.getIndex(10) },
+  { "id":"IN-WB", "name":"West Bengal", "value":14607, "color": chart.colors.getIndex(10) },
+];
+
+chart.geodata = am4geodata_indiaLow;
+chart.projection = new am4maps.projections.Miller();
+var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+polygonSeries.useGeodata = true;
+polygonSeries.nonScalingStroke = true;
+polygonSeries.strokeWidth = 0.5;
+polygonSeries.calculateVisualCenter = true;
+var imageSeries = chart.series.push(new am4maps.MapImageSeries());
+imageSeries.data = mapData;
+imageSeries.dataFields.value = "value";
+var imageTemplate = imageSeries.mapImages.template;
+imageTemplate.nonScaling = true
+var circle = imageTemplate.createChild(am4core.Circle);
+circle.fillOpacity = 0.7;
+circle.propertyFields.fill = "color";
+circle.tooltipText = "{name}: [bold]{value}[/]";
+imageSeries.heatRules.push({
+  "target": circle,
+  "property": "radius",
+  "min": 8,
+  "max": 30,
+  "dataField": "value",
+})
+imageTemplate.adapter.add("latitude", function(latitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLatitude;
+   }
+   return latitude;
+})
+imageTemplate.adapter.add("longitude", function(longitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLongitude;
+   }
+   return longitude;
+})
   }
 </script>
 
@@ -763,34 +928,86 @@
     document.getElementById("loc_mar").classList.remove("active")
     document.getElementById("loc_apr").classList.add("active")
     am4core.useTheme(am4themes_animated);
-    am4core.useTheme(am4themes_animated);
-    var chart = am4core.create("locations_apr", am4plugins_wordCloud.WordCloud);
-    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
-    series.data = [{
-      "tag": "Delhi",
-      "weight": 104786
-    }, {
-      "tag": "Mumbai",
-      "weight": 69099
-    }, {
-      "tag": "Bengaluru",
-      "weight": 45003
-    }, {
-      "tag": "Hyderabad",
-      "weight": 33930
-    }, {
-      "tag": "Chennai",
-      "weight": 25001
-    }, {
-      "tag": "Pune",
-      "weight": 18332
-    }, {
-      "tag": "Kolkata",
-      "weight": 10859
-    }];
-    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
-    series.dataFields.word = "tag";
-    series.dataFields.value = "weight";
+var chart = am4core.create("locations_apr", am4maps.MapChart);
+var title = chart.titles.create();
+title.text = "[bold font-size: 20]Twitter Activity Distrubtion in India[/]";
+title.textAlign = "middle";
+
+var mapData = [
+  { "id":"IN-AS", "name":"Assam", "value":6541, "color": chart.colors.getIndex(10) },
+  { "id":"IN-AP", "name":"Andhra Pradesh", "value":10852, "color":chart.colors.getIndex(11) },
+  { "id":"IN-AR", "name":"Arunachal Pradesh", "value":82, "color":chart.colors.getIndex(12) },
+  { "id":"IN-AN", "name":"Andaman and Nicobar Islands", "value":20, "color":chart.colors.getIndex(12) },
+  { "id":"IN-BR", "name":"Bihar", "value":16020, "color":chart.colors.getIndex(12) },
+  { "id":"IN-CH", "name":"Chandigarh", "value":13087, "color":chart.colors.getIndex(13) },
+  { "id":"IN-CT", "name":"Chhattisgarh", "value":4282, "color":chart.colors.getIndex(11) },
+  { "id":"IN-DN", "name":"Dadra and Nagar Haveli", "value":112, "color":"#8aabb0" },
+  //{ "id":"IN-DD", "name":"Daman and Diu", "value":22605732, "color":"#8aabb0" },
+  { "id":"IN-DL", "name":"Delhi", "value":131945, "color":chart.colors.getIndex(11) },
+  { "id":"IN-GA", "name":"Goa", "value":3400, "color":chart.colors.getIndex(11) },
+  { "id":"IN-HP", "name":"Himachal Pradesh", "value":2164, "color": chart.colors.getIndex(10) },
+  { "id":"IN-GJ", "name":"Gujarat", "value":22264, "color": chart.colors.getIndex(10) },
+  { "id":"IN-HR", "name":"Haryana", "value":17684, "color":chart.colors.getIndex(11) },
+  { "id":"IN-JH", "name":"Jharkhand", "value":5873, "color":chart.colors.getIndex(11) },
+  { "id":"IN-JK", "name":"Jammu and Kashmir", "value":7258, "color":chart.colors.getIndex(12) },
+  { "id":"IN-KA", "name":"Karnataka", "value":36575, "color": chart.colors.getIndex(10) },
+  { "id":"IN-KL", "name":"Kerela", "value":5793, "color":chart.colors.getIndex(13) },
+  { "id":"IN-MH", "name":"Maharashtra", "value":39050, "color":chart.colors.getIndex(11) },
+  { "id":"IN-ML", "name":"Meghalaya", "value":384, "color":chart.colors.getIndex(12) },
+  { "id":"IN-MN", "name":"Manipur", "value":510, "color":chart.colors.getIndex(13) },
+  { "id":"IN-MP", "name":"Madhya Pradesh", "value":14238, "color": chart.colors.getIndex(10) },
+  { "id":"IN-MZ", "name":"Mizoram", "value":278, "color":chart.colors.getIndex(11) },
+  { "id":"IN-NL", "name":"Nagaland", "value":717, "color":chart.colors.getIndex(12) },
+  { "id":"IN-OR", "name":"Odisha", "value":4805, "color":chart.colors.getIndex(12) },
+  { "id":"IN-PB", "name":"Punjab", "value":9235, "color": chart.colors.getIndex(10) },
+  { "id":"IN-PY", "name":"Puducherry", "value":1574, "color": chart.colors.getIndex(10) },
+  { "id":"IN-RJ", "name":"Rajasthan", "value":17865, "color":chart.colors.getIndex(12) },
+  //{ "id":"IN-SK", "name":"Sikkim", "value":34349561, "color":chart.colors.getIndex(14) },
+  { "id":"IN-TG", "name":"Telangana", "value":37763, "color":chart.colors.getIndex(12) },
+  { "id":"IN-TN", "name":"Tamil Nadu", "value":42070, "color":chart.colors.getIndex(12) },
+  { "id":"IN-TR", "name":"Tripura", "value":1742, "color":chart.colors.getIndex(12) },
+  { "id":"IN-UP", "name":"Uttar Pradesh", "value":37034, "color":chart.colors.getIndex(13) },
+  { "id":"IN-UT", "name":"Uttarakhand", "value":5714, "color": chart.colors.getIndex(10) },
+  { "id":"IN-WB", "name":"West Bengal", "value":21031, "color": chart.colors.getIndex(10) },
+];
+
+chart.geodata = am4geodata_indiaLow;
+chart.projection = new am4maps.projections.Miller();
+var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+polygonSeries.useGeodata = true;
+polygonSeries.nonScalingStroke = true;
+polygonSeries.strokeWidth = 0.5;
+polygonSeries.calculateVisualCenter = true;
+var imageSeries = chart.series.push(new am4maps.MapImageSeries());
+imageSeries.data = mapData;
+imageSeries.dataFields.value = "value";
+var imageTemplate = imageSeries.mapImages.template;
+imageTemplate.nonScaling = true
+var circle = imageTemplate.createChild(am4core.Circle);
+circle.fillOpacity = 0.7;
+circle.propertyFields.fill = "color";
+circle.tooltipText = "{name}: [bold]{value}[/]";
+imageSeries.heatRules.push({
+  "target": circle,
+  "property": "radius",
+  "min": 8,
+  "max": 30,
+  "dataField": "value",
+})
+imageTemplate.adapter.add("latitude", function(latitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLatitude;
+   }
+   return latitude;
+})
+imageTemplate.adapter.add("longitude", function(longitude, target) {
+  var polygon = polygonSeries.getPolygonById(target.dataItem.dataContext.id);
+  if(polygon){
+    return polygon.visualLongitude;
+   }
+   return longitude;
+})
   }
 </script>
 
