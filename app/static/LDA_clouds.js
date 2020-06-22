@@ -1,4 +1,16 @@
 function jan_cloud(topic){
+
+}
+
+function feb_cloud(topic){
+    
+}
+
+function mar_cloud(topic){
+    
+}
+
+function apr_cloud(topic){
     var chart = am4core.create("LDA_cloud", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
 data0 = [{"weight": 0.008, "term": "best"},{"weight" :0.007, "term": "ramadan"},{"weight" :0.006, "term": "karen"},{"weight" :0.006, "term": "easter"},{"weight" :0.006, "term": "thought"},{"weight" :0.005, "term": "lockdown"},{"weight" :0.005, "term": "remember"},{"weight" :0.005, "term": "suffering"},{"weight" :0.005, "term": "pandemic"},{"weight" :0.005, "term": "occasion"},{"weight" :0.005, "term": "lord"},{"weight" :0.004, "term": "people"},{"weight" :0.004, "term": "wish"},{"weight" :0.004, "term": "gonna"},{"weight" :0.004, "term": "especially"}];
@@ -28,19 +40,7 @@ console.log(address)
 series.data = window[address]
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "term";
-    series.dataFields.value = "weight";
-}
-
-function feb_cloud(topic){
-    
-}
-
-function mar_cloud(topic){
-    
-}
-
-function apr_cloud(topic){
-    
+    series.dataFields.value = "weight";    
 }
 
 function may_cloud(topic){
