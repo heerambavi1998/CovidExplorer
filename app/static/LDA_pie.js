@@ -1,5 +1,10 @@
 function LDA_jan(){
-    am4core.useTheme(am4themes_animated);
+  document.getElementById("LDA_jan").classList.add("active")
+  document.getElementById("LDA_feb").classList.remove("active")
+  document.getElementById("LDA_mar").classList.remove("active")
+  document.getElementById("LDA_apr").classList.remove("active")  
+  document.getElementById("LDA_apr").classList.remove("active")
+  am4core.useTheme(am4themes_animated);
   
   // Create chart instance
   var chart = am4core.create("LDA", am4charts.PieChart);
@@ -12,18 +17,19 @@ function LDA_jan(){
   {'topic': 3,'occurance': 14714},{'topic': 2,'occurance': 14588},{'topic': 14,'occurance': 13304},{'topic': 13,'occurance': 11820},{'topic': 18,'occurance': 8616},
 ];
 
-  
   // Add and configure Series
   var pieSeries = chart.series.push(new am4charts.PieSeries());
   pieSeries.dataFields.value = "occurance";
   pieSeries.dataFields.category = "topic";
-  chart.innerRadius = am4core.percent(20);
   pieSeries.slices.template.stroke = am4core.color("#4a2abb");
-pieSeries.slices.template.strokeWidth = 2;
-pieSeries.slices.template.strokeOpacity = 1;
+  pieSeries.slices.template.strokeWidth = 2;
+  pieSeries.slices.template.strokeOpacity = 1;
+  chart.innerRadius = am4core.percent(20);
   
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
+    var topic = ev.target.dataItem.dataContext.topic;
+    jan_cloud(topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -34,6 +40,11 @@ pieSeries.slices.template.strokeOpacity = 1;
 
 
   function LDA_feb(){
+    document.getElementById("LDA_jan").classList.remove("active")
+    document.getElementById("LDA_feb").classList.add("active")
+    document.getElementById("LDA_mar").classList.remove("active")
+    document.getElementById("LDA_apr").classList.remove("active")  
+    document.getElementById("LDA_apr").classList.remove("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -51,9 +62,15 @@ pieSeries.slices.template.strokeOpacity = 1;
   var pieSeries = chart.series.push(new am4charts.PieSeries());
   pieSeries.dataFields.value = "occurance";
   pieSeries.dataFields.category = "topic";
-  
+  pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+  pieSeries.slices.template.strokeWidth = 2;
+  pieSeries.slices.template.strokeOpacity = 1;
+  chart.innerRadius = am4core.percent(20);
+
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
+    var topic = ev.target.dataItem.dataContext.topic;
+    feb_cloud(topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -64,6 +81,11 @@ pieSeries.slices.template.strokeOpacity = 1;
 
 
   function LDA_mar(){
+    document.getElementById("LDA_jan").classList.remove("active")
+    document.getElementById("LDA_feb").classList.remove("active")
+    document.getElementById("LDA_mar").classList.add("active")
+    document.getElementById("LDA_apr").classList.remove("active")  
+    document.getElementById("LDA_apr").classList.remove("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -81,9 +103,15 @@ pieSeries.slices.template.strokeOpacity = 1;
   var pieSeries = chart.series.push(new am4charts.PieSeries());
   pieSeries.dataFields.value = "occurance";
   pieSeries.dataFields.category = "topic";
-  
+  pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+  pieSeries.slices.template.strokeWidth = 2;
+  pieSeries.slices.template.strokeOpacity = 1;
+  chart.innerRadius = am4core.percent(20);
+
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
+    var topic = ev.target.dataItem.dataContext.topic;
+    mar_cloud(topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -94,6 +122,11 @@ pieSeries.slices.template.strokeOpacity = 1;
 
 
   function LDA_apr(){
+    document.getElementById("LDA_jan").classList.remove("active")
+    document.getElementById("LDA_feb").classList.remove("active")
+    document.getElementById("LDA_mar").classList.remove("active")
+    document.getElementById("LDA_apr").classList.add("active")  
+    document.getElementById("LDA_apr").classList.remove("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -111,9 +144,15 @@ pieSeries.slices.template.strokeOpacity = 1;
   var pieSeries = chart.series.push(new am4charts.PieSeries());
   pieSeries.dataFields.value = "occurance";
   pieSeries.dataFields.category = "topic";
-  
+  pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+  pieSeries.slices.template.strokeWidth = 2;
+  pieSeries.slices.template.strokeOpacity = 1;
+  chart.innerRadius = am4core.percent(20);
+
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
+    var topic = ev.target.dataItem.dataContext.topic;
+    apr_cloud(topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -124,6 +163,11 @@ pieSeries.slices.template.strokeOpacity = 1;
 
 
   function LDA_may(){
+    document.getElementById("LDA_jan").classList.remove("active")
+    document.getElementById("LDA_feb").classList.remove("active")
+    document.getElementById("LDA_mar").classList.remove("active")
+    document.getElementById("LDA_apr").classList.remove("active")  
+    document.getElementById("LDA_apr").classList.add("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -141,9 +185,15 @@ pieSeries.slices.template.strokeOpacity = 1;
   var pieSeries = chart.series.push(new am4charts.PieSeries());
   pieSeries.dataFields.value = "occurance";
   pieSeries.dataFields.category = "topic";
+  pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+  pieSeries.slices.template.strokeWidth = 2;
+  pieSeries.slices.template.strokeOpacity = 1;
+  chart.innerRadius = am4core.percent(20);
   
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
+    var topic = ev.target.dataItem.dataContext.topic;
+    may_cloud(topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
