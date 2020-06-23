@@ -1,9 +1,10 @@
 function LDA_jan(){
+  LDA_cloud("jan","0");
   document.getElementById("LDA_jan").classList.add("active")
   document.getElementById("LDA_feb").classList.remove("active")
   document.getElementById("LDA_mar").classList.remove("active")
   document.getElementById("LDA_apr").classList.remove("active")  
-  document.getElementById("LDA_apr").classList.remove("active")
+  document.getElementById("LDA_may").classList.remove("active")
   am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -25,11 +26,16 @@ function LDA_jan(){
   pieSeries.slices.template.strokeWidth = 2;
   pieSeries.slices.template.strokeOpacity = 1;
   chart.innerRadius = am4core.percent(20);
+  var hs = pieSeries.slices.template.states.create("enable");
+  
   
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
     var topic = ev.target.dataItem.dataContext.topic;
-    jan_cloud(topic);
+    var month = "jan"
+    //var info = document.getElementById("info");
+    //info.innerHTML = "<h3>" + "Jan" + ": " + topic  + "</h3>";
+    LDA_cloud(month,topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -40,11 +46,12 @@ function LDA_jan(){
 
 
   function LDA_feb(){
+    LDA_cloud("feb","0");
     document.getElementById("LDA_jan").classList.remove("active")
     document.getElementById("LDA_feb").classList.add("active")
     document.getElementById("LDA_mar").classList.remove("active")
     document.getElementById("LDA_apr").classList.remove("active")  
-    document.getElementById("LDA_apr").classList.remove("active")
+    document.getElementById("LDA_may").classList.remove("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -70,7 +77,8 @@ function LDA_jan(){
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
     var topic = ev.target.dataItem.dataContext.topic;
-    feb_cloud(topic);
+    var month = "feb"
+    LDA_cloud(month,topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -81,11 +89,12 @@ function LDA_jan(){
 
 
   function LDA_mar(){
+    LDA_cloud("mar","0");
     document.getElementById("LDA_jan").classList.remove("active")
     document.getElementById("LDA_feb").classList.remove("active")
     document.getElementById("LDA_mar").classList.add("active")
     document.getElementById("LDA_apr").classList.remove("active")  
-    document.getElementById("LDA_apr").classList.remove("active")
+    document.getElementById("LDA_may").classList.remove("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -111,7 +120,8 @@ function LDA_jan(){
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
     var topic = ev.target.dataItem.dataContext.topic;
-    mar_cloud(topic);
+    var month = "mar"
+    LDA_cloud(month,topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -122,11 +132,12 @@ function LDA_jan(){
 
 
   function LDA_apr(){
+    LDA_cloud("apr","0");
     document.getElementById("LDA_jan").classList.remove("active")
     document.getElementById("LDA_feb").classList.remove("active")
     document.getElementById("LDA_mar").classList.remove("active")
     document.getElementById("LDA_apr").classList.add("active")  
-    document.getElementById("LDA_apr").classList.remove("active")
+    document.getElementById("LDA_may").classList.remove("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -152,7 +163,8 @@ function LDA_jan(){
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
     var topic = ev.target.dataItem.dataContext.topic;
-    apr_cloud(topic);
+    var month = "apr"
+    LDA_cloud(month,topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
@@ -163,11 +175,12 @@ function LDA_jan(){
 
 
   function LDA_may(){
+    LDA_cloud("may","0");
     document.getElementById("LDA_jan").classList.remove("active")
     document.getElementById("LDA_feb").classList.remove("active")
     document.getElementById("LDA_mar").classList.remove("active")
     document.getElementById("LDA_apr").classList.remove("active")  
-    document.getElementById("LDA_apr").classList.add("active")
+    document.getElementById("LDA_may").classList.add("active")
     am4core.useTheme(am4themes_animated);
   
   // Create chart instance
@@ -193,7 +206,8 @@ function LDA_jan(){
   pieSeries.slices.template.events.on("hit", function(ev) {
     var series = ev.target.dataItem.component;
     var topic = ev.target.dataItem.dataContext.topic;
-    may_cloud(topic);
+    var month = "may"
+    LDA_cloud(month,topic);
     series.slices.each(function(item) {
       if (item.isActive && item != ev.target) {
         item.isActive = false;
