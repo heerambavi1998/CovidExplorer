@@ -3,6 +3,7 @@ function ment_jan(){
     document.getElementById("ment_feb").classList.remove("active")
     document.getElementById("ment_mar").classList.remove("active")
     document.getElementById("ment_apr").classList.remove("active")
+    document.getElementById("ment_may").classList.remove("active")
     am4core.useTheme(am4themes_animated);
     var chart = am4core.create("mentions", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -47,6 +48,7 @@ function ment_feb(){
       document.getElementById("ment_feb").classList.add("active")
       document.getElementById("ment_mar").classList.remove("active")
       document.getElementById("ment_apr").classList.remove("active")
+      document.getElementById("ment_may").classList.remove("active")
       am4core.useTheme(am4themes_animated);
       var chart = am4core.create("mentions", am4plugins_wordCloud.WordCloud);
       var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -101,6 +103,7 @@ function ment_mar(){
   document.getElementById("ment_feb").classList.remove("active")
   document.getElementById("ment_mar").classList.add("active")
   document.getElementById("ment_apr").classList.remove("active")
+  document.getElementById("ment_may").classList.remove("active")
   am4core.useTheme(am4themes_animated);
   var chart = am4core.create("mentions", am4plugins_wordCloud.WordCloud);
   var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -154,6 +157,7 @@ function ment_apr(){
     document.getElementById("ment_feb").classList.remove("active")
     document.getElementById("ment_mar").classList.remove("active")
     document.getElementById("ment_apr").classList.add("active")
+    document.getElementById("ment_may").classList.remove("active")
     am4core.useTheme(am4themes_animated);
     var chart = am4core.create("mentions", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -197,6 +201,38 @@ function ment_apr(){
       "tag": "@amitshah",
       "weight": 9160
     }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+
+  function ment_may(){
+    document.getElementById("ment_jan").classList.remove("active")
+    document.getElementById("ment_feb").classList.remove("active")
+    document.getElementById("ment_mar").classList.remove("active")
+    document.getElementById("ment_apr").classList.remove("active")
+    document.getElementById("ment_may").classList.add("active")
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("mentions", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [
+      {"tag": "@narendramodi", "weight": 55449},
+      {"tag": "@pmoindia", "weight": 28954},
+      {"tag": "@realdonaldtrump", "weight": 24661},
+      {"tag": "@rahulgandhi", "weight": 20796},
+      {"tag": "@ani", "weight": 17418},
+      {"tag": "@opindia_com", "weight": 13400},
+      {"tag": "@incindia", "weight": 13198},
+      {"tag": "@norbertelekes", "weight": 11356},
+      {"tag": "@arvindkejriwal", "weight": 10777},
+      {"tag": "@amitshah", "weight": 10559},
+      {"tag": "@drharshvardhan", "weight": 9435},
+      {"tag": "@cmomaharashtra", "weight": 8680},
+      {"tag": "@bjp4india", "weight": 8551},
+      {"tag": "@ndtv", "weight": 8191},
+      {"tag": "@mohfw_india", "weight": 8029},
+      {"tag": "@sardesairajdeep", "weight": 7192}
+      ];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
     series.dataFields.value = "weight";

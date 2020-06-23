@@ -3,6 +3,7 @@ function hash_jan(){
     document.getElementById("hash_feb").classList.remove("active")
     document.getElementById("hash_mar").classList.remove("active")
     document.getElementById("hash_apr").classList.remove("active")
+    document.getElementById("hash_may").classList.remove("active")
     am4core.useTheme(am4themes_animated);
     var chart = am4core.create("hashtags", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -50,6 +51,7 @@ function hash_feb(){
       document.getElementById("hash_feb").classList.add("active")
       document.getElementById("hash_mar").classList.remove("active")
       document.getElementById("hash_apr").classList.remove("active")
+      document.getElementById("hash_may").classList.remove("active")
       am4core.useTheme(am4themes_animated);
       var chart = am4core.create("hashtags", am4plugins_wordCloud.WordCloud);
       var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -92,6 +94,7 @@ function hash_mar(){
   document.getElementById("hash_feb").classList.remove("active")
   document.getElementById("hash_mar").classList.add("active")
   document.getElementById("hash_apr").classList.remove("active")
+  document.getElementById("hash_may").classList.remove("active")
   am4core.useTheme(am4themes_animated);
   var chart = am4core.create("hashtags", am4plugins_wordCloud.WordCloud);
   var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -136,6 +139,7 @@ function hash_apr(){
     document.getElementById("hash_feb").classList.remove("active")
     document.getElementById("hash_mar").classList.remove("active")
     document.getElementById("hash_apr").classList.add("active")
+    document.getElementById("hash_may").classList.remove("active")
     am4core.useTheme(am4themes_animated);
     var chart = am4core.create("hashtags", am4plugins_wordCloud.WordCloud);
     var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
@@ -179,6 +183,36 @@ function hash_apr(){
       "tag": "#socialdistancing",
       "weight": 5322
     }];
+    series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
+    series.dataFields.word = "tag";
+    series.dataFields.value = "weight";
+  }
+
+
+  function hash_may(){
+    document.getElementById("hash_jan").classList.remove("active")
+    document.getElementById("hash_feb").classList.remove("active")
+    document.getElementById("hash_mar").classList.remove("active")
+    document.getElementById("hash_apr").classList.remove("active")
+    document.getElementById("hash_may").classList.add("active")
+    am4core.useTheme(am4themes_animated);
+    var chart = am4core.create("hashtags", am4plugins_wordCloud.WordCloud);
+    var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+    series.data = [
+      {"tag": "#covid19", "weight": 135615},
+      {"tag": "#coronavirus", "weight": 46268},
+      {"tag": "#lockdown", "weight": 30725},
+      {"tag": "#covid", "weight": 17448},
+      {"tag": "#indiafightscorona", "weight": 16261},
+      {"tag": "#india", "weight": 16014},
+      {"tag": "#stayhome", "weight": 12842},
+      {"tag": "#hydroxychloroquine", "weight": 11698},
+      {"tag": "#corona", "weight": 11152},
+      {"tag": "#staysafe", "weight": 5667},
+      {"tag": "#breaking", "weight": 4774},
+      {"tag": "#socialdistancing", "weight": 4080},
+      {"tag": "#iforindia", "weight": 4026},
+      ];
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "tag";
     series.dataFields.value = "weight";
