@@ -114,6 +114,9 @@ may19 = [{"weight": 0.015, "term": "monkey"}, {"weight": 0.015, "term": "volunte
 var address = month+topic
 console.log(address)
 
+document.getElementById("info");
+info.innerHTML = "<h3>Token Probability <b>" + month.charAt(0).toUpperCase() + month.slice(1) + " Topic: " + topic  + "</h3>";
+
 series.data = window[address]
     series.labels.template.tooltipText = "{word}:\n[bold]{value}[/]";
     series.dataFields.word = "term";
