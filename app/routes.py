@@ -1,4 +1,5 @@
-from flask import render_template, request, redirect, session, flash, jsonify
+import os
+from flask import render_template, request, redirect, session, Response, jsonify
 from datetime import datetime
 from app import app
 from .elasticSearch import *
@@ -41,6 +42,21 @@ def overall_search():
     field = request.form.get("field")
     text = request.form.get("search-text")
     return redirect('/search/%s/%s' %(field,text))
+
+
+@app.route("/getBioEntitiesCSV")
+def getPlotCSV():
+    with open("ners.csv") as fp:
+       csv = fp.read()
+    stat = os.stat("ners.csv")
+    modif_time = stat.st_mtime
+    date = str(datetime.fromtimestamp(modif_time)).split()[0]
+    return Response(
+        csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=covidexplorer_bioentities_%s.csv" %date})
+
 
 @app.route('/search/<field>/<text>', methods=["GET", "POST"])
 def search_field(field, text):
