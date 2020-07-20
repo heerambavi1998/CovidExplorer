@@ -94,9 +94,10 @@ def get_metadata_numbers():
         for line in range(len(last_update)):
             if last_update[line].startswith(paper):
                 c = 0
-                if 'PDF' in last_update[line + 1]:
-                    c += int(last_update[line + 1].split('-')[1].split()[0])
-                if 'PMC' in last_update[line + 2]:
-                    c += int(last_update[line + 2].split('-')[1].split()[0])
+                c += int(last_update[line].split(':')[1].split()[0])
+                # if 'PDF' in last_update[line + 1]:
+                #     c += int(last_update[line + 1].split('-')[1].split()[0])
+                # if 'PMC' in last_update[line + 2]:
+                #     c += int(last_update[line + 2].split('-')[1].split()[0])
                 d[paper] = c
     return d
