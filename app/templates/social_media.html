@@ -59,15 +59,15 @@
       <h2>Top Hashtags Every Month</h2>
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
-      <button class="w3-button" id="hash_jan" onclick="hash_jan()">Jan</button>
-      <button class="w3-button" id="hash_feb" onclick="hash_feb()">Feb</button>
-      <button class="w3-button" id="hash_mar" onclick="hash_mar()">Mar</button>
-			<button class="w3-button" id="hash_apr" onclick="hash_apr()">Apr</button>
-			<button class="w3-button" id="hash_may" onclick="hash_may()">May</button>
+      <button class="w3-button" id="hash_jan" onclick="hash_month('jan')">Jan</button>
+      <button class="w3-button" id="hash_feb" onclick="hash_month('feb')">Feb</button>
+      <button class="w3-button" id="hash_mar" onclick="hash_month('mar')">Mar</button>
+			<button class="w3-button" id="hash_apr" onclick="hash_month('apr')">Apr</button>
+			<button class="w3-button" id="hash_may" onclick="hash_month('may')">May</button>
     </div>
   </div>
   <div class="w3-half">
-    <div class=" w3-container w3-card cloud" id="hashtags" style="min-height:460px"></div>
+    <div class=" w3-container w3-card cloud" id="hash_cloud" style="min-height:460px"></div>
   </div>
 </div>
 
@@ -79,15 +79,15 @@
       <h2>Top Mentions Every Month</h2>
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
-      <button class="w3-button w3-theme" id="ment_jan" onclick="ment_jan()">Jan</button>
-      <button class="w3-button w3-theme" id="ment_feb" onclick="ment_feb()">Feb</button>
-      <button class="w3-button w3-theme" id="ment_mar" onclick="ment_mar()">Mar</button>
-			<button class="w3-button w3-theme" id="ment_apr" onclick="ment_apr()">Apr</button>
-			<button class="w3-button w3-theme" id="ment_may" onclick="ment_may()">May</button>
+      <button class="w3-button w3-theme" id="ment_jan" onclick="ment_month('jan')">Jan</button>
+      <button class="w3-button w3-theme" id="ment_feb" onclick="ment_month('feb')">Feb</button>
+      <button class="w3-button w3-theme" id="ment_mar" onclick="ment_month('mar')">Mar</button>
+			<button class="w3-button w3-theme" id="ment_apr" onclick="ment_month('apr')">Apr</button>
+			<button class="w3-button w3-theme" id="ment_may" onclick="ment_month('may')">May</button>
     </div>
   </div>
   <div class="w3-half">
-    <div class="w3-card w3-container cloud" id="mentions" style="min-height:460px"></div>
+    <div class="w3-card w3-container cloud" id="ment_cloud" style="min-height:460px"></div>
   </div>
 </div>
 
@@ -99,11 +99,11 @@
       <h2>Top Locations Every Month</h2>
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
-      <button class="w3-button w3-theme" id="loc_jan" onclick="loc_jan()">Jan</button>
-      <button class="w3-button w3-theme" id="loc_feb" onclick="loc_feb()">Feb</button>
-      <button class="w3-button w3-theme" id="loc_mar" onclick="loc_mar()">Mar</button>
-			<button class="w3-button w3-theme" id="loc_apr" onclick="loc_apr()">Apr</button>
-			<button class="w3-button w3-theme" id="loc_may" onclick="loc_may()">May</button>
+      <button class="w3-button w3-theme" id="loc_jan" onclick="locate('jan')">Jan</button>
+      <button class="w3-button w3-theme" id="loc_feb" onclick="locate('feb')">Feb</button>
+      <button class="w3-button w3-theme" id="loc_mar" onclick="locate('mar')">Mar</button>
+			<button class="w3-button w3-theme" id="loc_apr" onclick="locate('apr')">Apr</button>
+			<button class="w3-button w3-theme" id="loc_may" onclick="locate('may')">May</button>
     </div>
   </div>
   <div class="w3-half">
@@ -119,15 +119,15 @@
       <h2>Top Domains Every Month</h2>
     </div>
     <div class="w3-row-padding"style = "margin-top: 70px">
-      <button class="w3-button w3-theme" id="dom_jan" onclick="domain_jan()">Jan</button>
-      <button class="w3-button w3-theme" id="dom_feb" onclick="domain_feb()">Feb</button>
-      <button class="w3-button w3-theme" id="dom_mar" onclick="domain_mar()">Mar</button>
-			<button class="w3-button w3-theme" id="dom_apr" onclick="domain_apr()">Apr</button>
-			<button class="w3-button w3-theme" id="dom_may" onclick="domain_may()">May</button>
+      <button class="w3-button w3-theme" id="dom_jan" onclick="domain_month('jan')">Jan</button>
+      <button class="w3-button w3-theme" id="dom_feb" onclick="domain_month('feb')">Feb</button>
+      <button class="w3-button w3-theme" id="dom_mar" onclick="domain_month('mar')">Mar</button>
+			<button class="w3-button w3-theme" id="dom_apr" onclick="domain_month('apr')">Apr</button>
+			<button class="w3-button w3-theme" id="dom_may" onclick="domain_month('may')">May</button>
     </div>
   </div>
   <div class="w3-half">
-    <div class="w3-card w3-container cloud" id="domains" style="min-height:460px;"></div>
+    <div class="w3-card w3-container cloud" id="domain_cloud" style="min-height:460px;"></div>
   </div>
 </div>
 
@@ -135,11 +135,11 @@
 	<h2>Temporal Topical Distribution</h2>
 </div>
 <div class="w3-row-padding w3-center">
-	<button class="w3-button w3-theme" id="LDA_jan" onclick="LDA_jan()">Jan</button>
-	<button class="w3-button w3-theme" id="LDA_feb" onclick="LDA_feb()">Feb</button>
-	<button class="w3-button w3-theme" id="LDA_mar" onclick="LDA_mar()">Mar</button>
-	<button class="w3-button w3-theme" id="LDA_apr" onclick="LDA_apr()">Apr</button>
-	<button class="w3-button w3-theme" id="LDA_may" onclick="LDA_may()">May</button>
+	<button class="w3-button w3-theme" id="LDA_jan" onclick="LDA_pie('jan')">Jan</button>
+	<button class="w3-button w3-theme" id="LDA_feb" onclick="LDA_pie('feb')">Feb</button>
+	<button class="w3-button w3-theme" id="LDA_mar" onclick="LDA_pie('mar')">Mar</button>
+	<button class="w3-button w3-theme" id="LDA_apr" onclick="LDA_pie('apr')">Apr</button>
+	<button class="w3-button w3-theme" id="LDA_may" onclick="LDA_pie('may')">May</button>
 </div>
 <div class="w3-row-padding w3-center w3-margin-top w3-half">
   <div class="w3-card btn" style="width: 100%;"><h3>Topic Frequency</h3></div>  
@@ -169,12 +169,11 @@
 
 <script>
   am4core.ready(function(){
-    hash_jan();
-    ment_jan();
-    loc_jan();
-    domain_jan();
-    LDA_jan();
-    LDA_cloud("jan","0");
+    hash_month('jan');
+    ment_month('jan');
+    locate('jan');
+    domain_month('jan');
+    LDA_pie('jan');
   })
 </script>
 
