@@ -22,37 +22,37 @@ def df1():
     with zipfile.ZipFile('covid19-in-india.zip', 'r') as zip_ref:
         zip_ref.extractall('statistics')
     return
-def df2():
-    url="https://www.mohfw.gov.in/"
-    page = requests.get(url)
-    doc = lh.fromstring(page.content)
-    tr_elements = doc.xpath('//tr')
-    # tr_elements = doc.xpath('//tr')
-    col=[]
-    i=0
-    for t in tr_elements[0]:
-        i+=1
-        name=t.text_content()
-        col.append((name,[]))
-    for j in range(1,len(tr_elements)):
-        T=tr_elements[j]
-        if len(T)!=6:
-            continue
-        i=0
-        for t in T.iterchildren():
-            data=t.text_content() 
-            if i>0:
-                try:
-                    data=int(data)
-                except:
-                    pass
-            col[i][1].append(data)
-            i+=1
-    Dict={title:column for (title,column) in col}
-    df=pd.DataFrame(Dict)
-    df.to_csv(r'statistics/india.csv', index = False)
-    last_updated=datetime.now()
-    return 
+# def df2():
+#     url="https://www.mohfw.gov.in/"
+#     page = requests.get(url)
+#     doc = lh.fromstring(page.content)
+#     tr_elements = doc.xpath('//tr')
+#     # tr_elements = doc.xpath('//tr')
+#     col=[]
+#     i=0
+#     for t in tr_elements[0]:
+#         i+=1
+#         name=t.text_content()
+#         col.append((name,[]))
+#     for j in range(1,len(tr_elements)):
+#         T=tr_elements[j]
+#         if len(T)!=6:
+#             continue
+#         i=0
+#         for t in T.iterchildren():
+#             data=t.text_content() 
+#             if i>0:
+#                 try:
+#                     data=int(data)
+#                 except:
+#                     pass
+#             col[i][1].append(data)
+#             i+=1
+#     Dict={title:column for (title,column) in col}
+#     df=pd.DataFrame(Dict)
+#     df.to_csv(r'statistics/india.csv', index = False)
+#     last_updated=datetime.now()
+#     return 
 
 # def show_tables():
 #     df = pd.read_csv('statistics/india.csv')
@@ -66,25 +66,10 @@ def df2():
 #     y=list(df['Cured/Discharged/Migrated'])
 #     return 0,x,sum(y)
 
-def show_tables():
-    df = pd.read_csv('statistics/india.csv')
-
-    x=0
-    for i in range(len(df[df.keys()[4]])-2):
-        try :
-            x+=int(df[df.keys()[4]][i])
-        except:
-            pass
-    # x=list(df['Death'])
-    y=0
-    for i in range(len(df[df.keys()[3]])-2):
-        try :
-            y+=int(df[df.keys()[3]][i])
-        except:
-            pass
-    # y=list(df['Cured/Discharged/Migrated'])
-    # print(y)
-    return 0,x,y
+def show_tables(df):
+    x=sum(list(df['Deaths'][-35:]))
+    y=sum(list(df['Cured'][-35:]))
+    return x,y
     
 def india(df):
     df = df[df['State/UnionTerritory'].notna()]
@@ -201,7 +186,6 @@ def indiastats():
     file1.close()
     if datetime.now()>last_updated + timedelta(days=0,minutes=60):
         df1()
-        df2()
         file1 = open("statistics/last_updated.txt","w")
         file1.truncate(0)
         l=datetime.now()
@@ -218,10 +202,9 @@ def indiastats():
     total=temp[1]
     last_day=temp[2]
     daily_c=temp[3]
-    temp2=show_tables()
-    tab=temp2[0]
-    deaths=int(temp2[1])
-    rec=int(temp2[2])
+    temp2=show_tables(df)
+    deaths=int(temp2[0])
+    rec=int(temp2[1])
     acti=total-deaths-rec
     closed=rec+deaths
     recper=math.ceil(rec/closed*100)
