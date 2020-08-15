@@ -84,7 +84,7 @@ def india(df):
             dic[df['Date'][i]]=df['Confirmed'][i]
         else:
             dic[df['Date'][i]]+=df['Confirmed'][i]
-    total_count=list(dic.values())
+    total_count=list(dic.values())[0:-1]
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
@@ -121,7 +121,7 @@ def india_deaths(df):
                 dic[df['Date'][i]]+=int(df['Deaths'][i])
     except:
         pass
-    total_count=list(dic.values())
+    total_count=list(dic.values())[0:-1]
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
@@ -160,7 +160,7 @@ def generate_graph(df,state):
                 dic[df['Date'][i]]=df['Confirmed'][i]
             else:
                 dic[df['Date'][i]]+=df['Confirmed'][i]
-    total_count=list(dic.values())
+    total_count=list(dic.values())[0:-1]
     day=list(dic.keys())
     newday=[]
     for i in range(len(day)):
