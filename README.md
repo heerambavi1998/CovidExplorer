@@ -6,4 +6,4 @@
 * **Tweet Dataset** : ~5.7 million tweets relevant to the COVID-19 pandemic, filtered for an Indian domain. We periodically collect relevant tweet IDs from a publicly available [COVID-19 TweetID corpus](https://github.com/echen102/COVID-19-TweetIDs). The tweet IDs are hydrated using the [DocNow Hydrator tool](https://github.com/docnow/hydrator). We only explore India-specific tweets by using location metadata or the presence of Indian locations (states, cities, towns, and village names) in the tweet text. We also include tweets that are either posted as a reply to the India-specific tweets and tweets for which India-specific tweets were posted as a reply.
 
 ## Architecture
-![Architecture of CovidExplorer](/figs/architecture.png)
+![Architecture of CovidExplorer](/fig/architecture.png)
